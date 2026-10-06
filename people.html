@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اعضای مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)</title>
+  <meta name="description" content="Faculty, Postdocs, and Researchers at RCHEP Sharif">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
+</head>
+<body>
+  <div class="cosmic-bg"></div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9 9 9 0 0 0-9 9 9 9 0 0 0 9 9Z"></path>
+            <path d="M3.6 9h16.8"></path>
+            <path d="M3.6 15h16.8"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 data-fa="مرکز پژوهشی فیزیک انرژی بالا" data-en="RCHEP">مرکز پژوهشی فیزیک انرژی بالا</h1>
+          <span data-fa="دانشگاه صنعتی شریف" data-en="Sharif University of Technology">دانشگاه صنعتی شریف</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link" data-fa="صفحه اصلی" data-en="Home">صفحه اصلی</a></li>
+          <li><a href="research.html" class="nav-link" data-fa="محورهای پژوهشی" data-en="Research">محورهای پژوهشی</a></li>
+          <li><a href="people.html" class="nav-link active" data-fa="اعضای مرکز" data-en="People">اعضای مرکز</a></li>
+          <li><a href="events.html" class="nav-link" data-fa="رویدادها و سمینارها" data-en="Events">رویدادها و سمینارها</a></li>
+          <li><a href="publications.html" class="nav-link" data-fa="مقالات" data-en="Publications">مقالات</a></li>
+          <li><a href="contact.html" class="nav-link" data-fa="ارتباط با ما" data-en="Contact">ارتباط با ما</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </button>
+        <button id="lang-toggle" class="lang-switch">English</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+      <div class="container subpage-hero-grid">
+        <div class="subpage-hero-content">
+          <span class="section-tag" data-fa="تیم علمی" data-en="Our Members">تیم علمی</span>
+          <h2 class="section-title" data-fa="اعضا و پژوهشگران مرکز" data-en="Faculty & Researchers">اعضا و پژوهشگران مرکز</h2>
+          <p class="section-desc" data-fa="پژوهشگران مرکز شامل اساتید هیأت علمی، محققان پسادکتری و دانشجویان دکتری دانشکده فیزیک دانشگاه صنعتی شریف." data-en="RCHEP researchers encompass faculty members, postdoctoral fellows, and PhD researchers at Sharif University.">
+            پژوهشگران مرکز شامل اساتید هیأت علمی، محققان پسادکتری و دانشجویان دکتری دانشکده فیزیک دانشگاه صنعتی شریف.
+          </p>
+        </div>
+        <div class="subpage-hero-img-wrapper">
+          <div class="subpage-hero-img-inner">
+            <img src="rchep-people.jpg" alt="عکس دسته‌جمعی اعضای مرکز فیزیک انرژی بالا شریف">
+            <div class="subpage-hero-badge" data-fa="تیم پژوهشی RCHEP" data-en="RCHEP Research Team">تیم پژوهشی RCHEP</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container section">
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all" data-fa="همه اعضا" data-en="All Members">همه اعضا</button>
+        <button class="tab-btn" data-filter="faculty" data-fa="استادان و هیأت علمی" data-en="Faculty">استادان و هیأت علمی</button>
+        <button class="tab-btn" data-filter="postdoc" data-fa="پژوهشگران پسادکتری" data-en="Postdocs">پژوهشگران پسادکتری</button>
+        <button class="tab-btn" data-filter="phd" data-fa="دانشجویان دکتری" data-en="PhD Students">دانشجویان دکتری</button>
+      </div>
+
+      <!-- People Grid -->
+      <div class="cards-grid">
+        <!-- Faculty 1 -->
+        <div class="card person-card" data-category="faculty">
+          <div class="avatar">👨‍🏫</div>
+          <h3 class="person-name" data-fa="دکتر امین فرجی آستانه" data-en="Dr. Amin Faraji Astaneh">دکتر امین فرجی آستانه</h3>
+          <div class="person-role" data-fa="دانشیار فیزیک / فیزیک ذرات نظری" data-en="Associate Professor / Theoretical HEP">دانشیار فیزیک / فیزیک ذرات نظری</div>
+          <p class="person-interests" data-fa="نظریه میدان‌های کوانتومی، دوگانگی‌های هولوگرافی، $T\bar{T}$-deformation، اطلاعات کوانتومی" data-en="Quantum Field Theory, Holography, TT-bar deformation, Quantum Information">
+            نظریه میدان‌های کوانتومی، دوگانگی‌های هولوگرافی، $T\bar{T}$-deformation، اطلاعات کوانتومی
+          </p>
+          <div class="person-links">
+            <span class="badge badge-blue">Sharif Faculty</span>
+            <span class="badge badge-purple">Theory</span>
+          </div>
+        </div>
+
+        <!-- Faculty 2 -->
+        <div class="card person-card" data-category="faculty">
+          <div class="avatar">👨‍🔬</div>
+          <h3 class="person-name" data-fa="اعضای هیأت علمی همکار" data-en="Affiliated Faculty Members">اعضای هیأت علمی همکار</h3>
+          <div class="person-role" data-fa="گروه فیزیک انرژی بالا و کیهان‌شناسی" data-en="HEP & Cosmology Faculty">گروه فیزیک انرژی بالا و کیهان‌شناسی</div>
+          <p class="person-interests" data-fa="آزمایش‌های سرن، پدیده‌شناسی ذرات، گرانش کلاسیک و کوانتومی، مدل‌های ساختار کیهانی" data-en="CERN Experiments, Particle Phenomenology, Classical & Quantum Gravity, Large Scale Structure">
+            آزمایش‌های سرن، پدیده‌شناسی ذرات، گرانش کلاسیک و کوانتومی، مدل‌های ساختار کیهانی
+          </p>
+          <div class="person-links">
+            <span class="badge badge-blue">Sharif University</span>
+          </div>
+        </div>
+
+        <!-- Postdoc 1 -->
+        <div class="card person-card" data-category="postdoc">
+          <div class="avatar">👩‍🔬</div>
+          <h3 class="person-name" data-fa="دکتر زینب کلانتری" data-en="Dr. Zeinab Kalantari">دکتر زینب کلانتری</h3>
+          <div class="person-role" data-fa="پژوهشگر پسادکتری" data-en="Postdoctoral Fellow">پژوهشگر پسادکتری</div>
+          <p class="person-interests" data-fa="کیهان‌شناسی، فوران‌های پرتو گاما (GRBs)، مدل‌های انرژی تاریک و کوینتسنس" data-en="Cosmology, Gamma-Ray Bursts (GRBs), Quintessence and Dark Energy Models">
+            کیهان‌شناسی، فوران‌های پرتو گاما (GRBs)، مدل‌های انرژی تاریک و کوینتسنس
+          </p>
+          <div class="person-links">
+            <span class="badge badge-green">Cosmology</span>
+          </div>
+        </div>
+
+        <!-- Postdoc 2 -->
+        <div class="card person-card" data-category="postdoc">
+          <div class="avatar">👩‍💻</div>
+          <h3 class="person-name" data-fa="دکتر نیلوفر وردیان" data-en="Dr. Niloofar Vardian">دکتر نیلوفر وردیان</h3>
+          <div class="person-role" data-fa="پژوهشگر پسادکتری" data-en="Postdoctoral Fellow">پژوهشگر پسادکتری</div>
+          <p class="person-interests" data-fa="فیزیک سیاهچاله‌ها، بازیابی درون افق رویداد، نگاشت پتز (Petz Map)، اطلاعات کوانتومی" data-en="Black Hole Physics, Interior Reconstruction, Petz Map, Quantum Information">
+            فیزیک سیاهچاله‌ها، بازیابی درون افق رویداد، نگاشت پتز (Petz Map)، اطلاعات کوانتومی
+          </p>
+          <div class="person-links">
+            <span class="badge badge-purple">Quantum Gravity</span>
+          </div>
+        </div>
+
+        <!-- PhD 1 -->
+        <div class="card person-card" data-category="phd">
+          <div class="avatar">👨‍🎓</div>
+          <h3 class="person-name" data-fa="ابراهیم سیری" data-en="Ebrahim Siri">ابراهیم سیری</h3>
+          <div class="person-role" data-fa="دانشجوی دکتری" data-en="PhD Researcher">دانشجوی دکتری</div>
+          <p class="person-interests" data-fa="میعان بوز-انیشتین، نظریه گازهای بوزونی و سیستم‌های آماری بس‌ذره‌ای" data-en="Bose-Einstein Condensation, Non-interacting Bosonic Gas, Many-body statistical physics">
+            میعان بوز-انیشتین، نظریه گازهای بوزونی و سیستم‌های آماری بس‌ذره‌ای
+          </p>
+          <div class="person-links">
+            <span class="badge badge-blue">Statistical & QFT</span>
+          </div>
+        </div>
+
+        <!-- PhD 2 -->
+        <div class="card person-card" data-category="phd">
+          <div class="avatar">🎓</div>
+          <h3 class="person-name" data-fa="دانشجویان دکتری و ارشد مرکز" data-en="Graduate Researchers">دانشجویان دکتری و ارشد مرکز</h3>
+          <div class="person-role" data-fa="دانشکده فیزیک شریف" data-en="Physics Dept, Sharif">دانشکده فیزیک شریف</div>
+          <p class="person-interests" data-fa="پژوهش در پروژه‌های CMS سرن، آنالیز داده‌های برخورددهنده، کیهان‌شناسی محاسباتی" data-en="CMS CERN research projects, collider data analysis, computational cosmology">
+            پژوهش در پروژه‌های CMS سرن، آنالیز داده‌های برخورددهنده، کیهان‌شناسی محاسباتی
+          </p>
+          <div class="person-links">
+            <span class="badge badge-green">Graduate Fellows</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <div>© 2024–2026 مرکز پژوهشی فیزیک انرژی بالا (RCHEP) - دانشگاه صنعتی شریف</div>
+      <div><a href="index.html" style="color: var(--accent);">بازگشت به صفحه اصلی</a></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
