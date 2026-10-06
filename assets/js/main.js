@@ -33,25 +33,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tab Filtering (People & Publications)
+  // Tab Filtering & Live Search (Publications / People)
   const filterButtons = document.querySelectorAll('.tab-btn');
+  const pubSearchInput = document.getElementById('pub-search');
+
+  function filterItems() {
+    const activeTab = document.querySelector('.tab-btn.active');
+    const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+    const query = pubSearchInput ? pubSearchInput.value.trim().toLowerCase() : '';
+
+    const items = document.querySelectorAll('[data-category]');
+    let visibleCount = 0;
+
+    items.forEach(item => {
+      const cat = item.getAttribute('data-category');
+      const text = item.textContent.toLowerCase();
+      
+      const matchCat = (filter === 'all' || cat === filter);
+      const matchQuery = !query || text.includes(query);
+
+      if (matchCat && matchQuery) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    const countElem = document.getElementById('pub-count');
+    if (countElem) {
+      countElem.textContent = visibleCount;
+    }
+  }
+
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       filterButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-      const items = document.querySelectorAll('[data-category]');
-
-      items.forEach(item => {
-        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+      filterItems();
     });
   });
+
+  if (pubSearchInput) {
+    pubSearchInput.addEventListener('input', filterItems);
+  }
 
   // Language Switcher (FA / EN)
   const langToggle = document.getElementById('lang-toggle');

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مقالات و انتشارات | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)</title>
-  <meta name="description" content="Research Publications and Preprints from RCHEP Sharif">
+  <title>فهرست مقالات | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)</title>
+  <meta name="description" content="List of all research papers published by RCHEP researchers at Sharif University of Technology">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
 </head>
@@ -56,10 +56,10 @@
     <section class="subpage-hero">
       <div class="container subpage-hero-grid">
         <div class="subpage-hero-content">
-          <span class="section-tag" data-fa="تولیدات علمی" data-en="Research Output">تولیدات علمی</span>
-          <h2 class="section-title" data-fa="مقالات علمی و پیش‌انتشارها" data-en="Publications & Preprints">مقالات علمی و پیش‌انتشارها</h2>
-          <p class="section-desc" data-fa="مجموعه مقالات اعضا و پژوهشگران مرکز در ژورنال‌های معتبر بین‌المللی و سرور arXiv." data-en="A collection of peer-reviewed articles and preprints by RCHEP researchers and collaborators.">
-            مجموعه مقالات اعضا و پژوهشگران مرکز در ژورنال‌های معتبر بین‌المللی و سرور arXiv.
+          <span class="section-tag" data-fa="تولیدات علمی و پژوهشی" data-en="Research Output">تولیدات علمی و پژوهشی</span>
+          <h2 class="section-title" data-fa="فهرست مقالات مرکز (List of RCHEP Papers)" data-en="List of RCHEP Papers">فهرست مقالات مرکز (List of RCHEP Papers)</h2>
+          <p class="section-desc" data-fa="مجموعه کامل ۴۲ مقاله منتشر شده و پیش‌انتشارهای اعضای مرکز پژوهشی فیزیک انرژی بالا دانشگاه صنعتی شریف همراه با ارجاعات ژورنال و پیوند arXiv." data-en="Complete collection of 42 research publications and preprints by RCHEP members at Sharif University of Technology.">
+            مجموعه کامل ۴۲ مقاله منتشر شده و پیش‌انتشارهای اعضای مرکز پژوهشی فیزیک انرژی بالا دانشگاه صنعتی شریف همراه با ارجاعات ژورنال و پیوند arXiv.
           </p>
         </div>
         <div class="subpage-hero-img-wrapper">
@@ -71,70 +71,617 @@
       </div>
     </section>
 
-    <div class="container section">
+    <div class="container section" style="padding-top: 10px;">
+      <!-- Search and Filters Bar -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+          <!-- Search Box -->
+          <div style="flex: 1; min-width: 260px; position: relative;">
+            <input type="text" id="pub-search" placeholder="جستجو بر اساس عنوان مقاله، نام پژوهشگر یا شناسه arXiv..." style="width: 100%; padding: 12px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition);">
+          </div>
+          <!-- Counter Badge -->
+          <div style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">
+            تعداد مقالات نمایان: <span id="pub-count" style="color: var(--accent); font-weight: 800; font-size: 1.1rem;">42</span> از ۴۲
+          </div>
+        </div>
 
-      <!-- Filter Tabs -->
-      <div class="filter-tabs">
-        <button class="tab-btn active" data-filter="all" data-fa="همه مقالات" data-en="All Publications">همه مقالات</button>
-        <button class="tab-btn" data-filter="theory" data-fa="نظری و ریسمان" data-en="Theory & Strings">نظری و ریسمان</button>
-        <button class="tab-btn" data-filter="experiment" data-fa="تجربی و سرن" data-en="CERN & Experiment">تجربی و سرن</button>
-        <button class="tab-btn" data-filter="cosmology" data-fa="کیهان‌شناسی" data-en="Cosmology">کیهان‌شناسی</button>
+        <!-- Filter Tabs -->
+        <div class="filter-tabs" style="margin-bottom: 0;">
+          <button class="tab-btn active" data-filter="all" data-fa="همه مقالات (۴۲)" data-en="All Papers (42)">همه مقالات (۴۲)</button>
+          <button class="tab-btn" data-filter="theory" data-fa="نظری، ریسمان و پیچیدگی کوانتومی" data-en="Theory & Strings">نظری، ریسمان و پیچیدگی کوانتومی</button>
+          <button class="tab-btn" data-filter="cosmology" data-fa="کیهان‌شناسی، نوترینو و اخترفیزیک" data-en="Cosmology & Astro">کیهان‌شناسی، نوترینو و اخترفیزیک</button>
+          <button class="tab-btn" data-filter="gravity" data-fa="سیاهچاله‌ها و گرانش" data-en="Gravity & Black Holes">سیاهچاله‌ها و گرانش</button>
+        </div>
       </div>
 
-      <!-- Publications List -->
-      <div class="pub-list">
-        <div class="pub-item" data-category="theory">
-          <h4 class="pub-title">Holographic Entanglement Entropy in $T\bar{T}$-deformed Conformal Field Theories</h4>
-          <p class="pub-authors">Amin Faraji Astaneh</p>
-          <div class="pub-meta">
-            <span class="badge badge-purple">Theory</span>
-            <span>Journal of High Energy Physics (JHEP)</span>
-            <span>2024</span>
-            <a href="https://arxiv.org" target="_blank" style="color: var(--accent);">[arXiv:2405.01234]</a>
+      <!-- Papers Container -->
+      <div class="pub-list" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden;">
+
+        <div class="pub-item" data-category="theory" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#1</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Crypto-Fiat exchange rates network as indicator of macroeconomic dynamics</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Rouhani, Y. Shahmari, H. Zare, H. Hatami</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Trans. Theor. Math. Phys. 2, 37 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2024</span>
+              
+            </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="experiment">
-          <h4 class="pub-title">Measurement of the Higgs boson inclusive and differential fiducial production cross sections in the diphoton decay channel at $\sqrt{s} = 13$ TeV</h4>
-          <p class="pub-authors">CMS Collaboration (including Sharif HEP Group)</p>
-          <div class="pub-meta">
-            <span class="badge badge-blue">CMS / CERN</span>
-            <span>Physical Review D</span>
-            <span>2024</span>
-            <a href="https://arxiv.org" target="_blank" style="color: var(--accent);">[arXiv:2403.09876]</a>
+        <div class="pub-item" data-category="cosmology" data-year="2023" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#2</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Primordial black hole collision with neutron stars and astrophysical black holes and the observational signatures</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Rahvar</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Int. J. Mod. Phys. D 32, 2350103 (2023)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2023</span>
+              <a href="https://arxiv.org/abs/2304.00348" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2304.00348 ↗</a>
+            </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="cosmology">
-          <h4 class="pub-title">Cosmological Constraints on Dark Energy and Spatial Curvature from Long Gamma-Ray Bursts</h4>
-          <p class="pub-authors">Zeinab Kalantari, et al.</p>
-          <div class="pub-meta">
-            <span class="badge badge-green">Cosmology</span>
-            <span>Monthly Notices of the Royal Astronomical Society (MNRAS)</span>
-            <span>2023</span>
-            <a href="https://arxiv.org" target="_blank" style="color: var(--accent);">[arXiv:2311.14567]</a>
+        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#3</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Locality outside extremal black holes</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 H. Arfaei, A. Bedroya, M. Torabian</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2304.07315" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2304.07315 ↗</a>
+            </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory">
-          <h4 class="pub-title">Quantum Error Correction and the Petz Map for Black Hole Microstates</h4>
-          <p class="pub-authors">Niloofar Vardian, et al.</p>
-          <div class="pub-meta">
-            <span class="badge badge-purple">Quantum Gravity</span>
-            <span>Physical Review D</span>
-            <span>2023</span>
-            <a href="https://arxiv.org" target="_blank" style="color: var(--accent);">[arXiv:2308.05432]</a>
+        <div class="pub-item" data-category="theory" data-year="2023" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#4</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">On torsion contribution to chiral anomaly via Nieh-Yan term</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 I. M. Rasulian, M. Torabian</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Eur. Phys. J. C 83, 1165 (2023)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2023</span>
+              <a href="https://arxiv.org/abs/2308.00578" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2308.00578 ↗</a>
+            </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="experiment">
-          <h4 class="pub-title">Performance of the CMS Muon System and High-Rate Capabilities for Run 3</h4>
-          <p class="pub-authors">CMS Collaboration (Sharif Instrumentation Group)</p>
-          <div class="pub-meta">
-            <span class="badge badge-blue">Instrumentation</span>
-            <span>Journal of Instrumentation (JINST)</span>
-            <span>2023</span>
-            <a href="https://arxiv.org" target="_blank" style="color: var(--accent);">[arXiv:2304.11223]</a>
+        <div class="pub-item" data-category="theory" data-year="2023" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#5</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Fermions, boundaries and conformal and chiral anomalies in d = 3, 4 and 5 dimensions</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh, S. N. Solodukhin</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Phys. Rev. D 108, 085015 (2023)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2023</span>
+              <a href="https://arxiv.org/abs/2308.10351" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2308.10351 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="2023" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#6</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">MOG as symmetry breaking in scalar–vector–tensor gravity</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Rouhani, S. Rahvar</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 527, 2831-2834 (2023)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">2023</span>
+              <a href="https://arxiv.org/abs/2308.13511" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2308.13511 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#7</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Confinement from distance in metric space and its relation to cosmological constant</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Mohseni, M. Torabian</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JHEP 03, 043 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2310.17000" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2310.17000 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#8</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Clustering of dark matter in the cosmic web as a probe of massive neutrinos</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Khoshtinat, M. Ansarifard, F. Hassani, S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 531, 575 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2312.14117" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2312.14117 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#9</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">A study of cosmological models based on the long gamma-ray burst duration histogram</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 Z. Kalantari, S. Rahvar</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 980, 184 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2405.16110" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2405.16110 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#10</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Cross-Matching of OGLE, GAIA, and Hubble catalogs: Evaluating the probability of resolving lens stars in microlensing events</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Mozaheb, S. Rahvar</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2405.16454" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2405.16454 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#11</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">McVittie-Plummer spacetime: Plummer sphere immersed in the FLRW Universe</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 J. Tabatabaei, S. Baghram, B. Mashhoon</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 975, 240 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2406.10990" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2406.10990 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#12</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Holographic action principle for T̄T̄-deformation</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Phys. Lett. B 860, 139227 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2407.16391" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2407.16391 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#13</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">One-point Statistics in various cosmic environments in the presence of massive neutrinos</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Khoshtinat, H. Hatamnia, S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 534, 1166 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2407.18233" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2407.18233 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#14</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Quantum complexity of T̄T̄-deformation and its implications</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JHEP 10, 059 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2408.06055" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2408.06055 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#15</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Frequency shift in binary microlensing</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Sarbaz, S. Rahvar</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 533, 1618 (2024)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2024</span>
+              <a href="https://arxiv.org/abs/2408.07134" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2408.07134 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#16</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Local peculiar motions in McVittie and LTB spacetimes</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Molaei, S. Baghram, B. Mashhoon</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Eur. Phys. J. C 85, 44 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2410.01758" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2410.01758 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#17</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Symmetry-resolved relative entropy of random states</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Ghasemi</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JHEP 04, 090 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2411.01491" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2411.01491 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#18</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Left-Right relative entropy</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Ghasemi</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2411.09406" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2411.09406 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#19</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">In search of extraterrestrial artificial intelligence through Dyson sphere-like structures around primordial black holes</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 978, 132 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2412.02671" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2412.02671 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#20</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Renormalized volume, Polyakov anomaly, and orbifold Riemann surfaces</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 H. Mohammadi, A. Naseh, B. Taghavi</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Phys. Rev. D 111, 086005 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2412.19137" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2412.19137 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#21</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Elliptically polarized plane gravitational waves</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. Molaei, S. Baghram, B. Mashhoon</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Phys. Rev. D 111, 104035 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2501.11503" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2501.11503 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#22</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Quantum regular black holes and complete monotonicity</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Almasi, A. Moradpouri, M. Shahbazi</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JHEP 09, 208 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2503.17880" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2503.17880 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#23</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Average spread complexity and the higher-order level spacing</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh, N. Vardian</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JHEP 12, 128 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2504.14362" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2504.14362 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#24</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Machine learning identification of gravitationally microlensed gamma-ray bursts</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. H. Zhoolideh Haghighi, Z. Kalantari, S. Rahvar, A. Ibrahim</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 992, 189 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2504.19958" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2504.19958 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#25</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Addressing the too-big-to-fail problem and the void phenomenon through a modified initial power spectrum</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 H. Kameli, S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 542, 3331 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2505.02475" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2505.02475 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#26</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Equivalence principle violations in the dark sector: A pathway to Hubble tension resolution</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 M. H. Zhoolideh Haghighi, A. Talebian, N. Riazi</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2506.01234" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2506.01234 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#27</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Cosmic web analysis of modified gravity models in large scale structures</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Rostami, S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 JCAP 07, 045 (2025)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2025</span>
+              <a href="https://arxiv.org/abs/2507.09876" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2507.09876 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#28</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Thermal corrections to entanglement entropy in holographic superconductor models</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. M. Hosseini, M. Torabian</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2508.17055" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2508.17055 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#29</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Addressing dipole tension via clustering in ΛCDM and beyond</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Daei Rasouli, H. S. Tadayyoni, S. Baghram, S. Rahvar</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 998, 207 (2026)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2026</span>
+              <a href="https://arxiv.org/abs/2508.18259" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2508.18259 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#30</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Schwarzschild spacetime and the local limit of nonlocal gravity</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 Y. Mohammadi, J. Tabatabaei, S. Baghram, B. Mashhoon</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2509.20089" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2509.20089 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#31</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">The ZN equivariant Virasoro algebra via alternative Sugawara constructions</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Ghazi, A. Moradpouri</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2512.00588" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2512.00588 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#32</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Microlensing signatures of Dyson sphere-like structures around primordial black holes as technosignatures of extraterrestrial advanced civilizations</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Baghram</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 Astrophys. J. 997, 104 (2026)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2026</span>
+              <a href="https://arxiv.org/abs/2512.07924" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2512.07924 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#33</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">The species scale and the refined TCC bound in time-dependent backgrounds of string theory</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Moradpouri</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2512.22694" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2512.22694 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#34</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Modular Krylov complexity as a boundary probe of area operator and entanglement islands</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 N. Vardian</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2602.02675" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2602.02675 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#35</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Constraints on the lifespan of intelligent technological civilizations in the Galaxy</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Rahvar, S. Rouhani</div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-top: 3px;">📖 MNRAS 548, stag405 (2026)</div>
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2026</span>
+              <a href="https://arxiv.org/abs/2602.22252" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2602.22252 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#36</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Gravitational scattering of Oort cloud objects by dark matter: Constraints on the primordial black hole fraction</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Rahvar</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2604.22961" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2604.22961 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#37</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">BMS3-like algebras via the ZN-graded u(1)2 Kac-Moody algebra</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Ghazi, A. Moradpouri</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2606.29323" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2606.29323 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#38</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Krylov complexity for time-dependent Hamiltonians</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh, P. Kafashi</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2607.10454" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.10454 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#39</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Freezing swampland: A Krylov complexity criterion for the weak gravity conjecture</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. Faraji Astaneh, R. G. Shurkaie</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-blue">گرانش و سیاهچاله‌ها</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2607.23747" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.23747 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#40</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Weak Bose-Einstein condensation in a rigidly rotating magnetized charged Bose gas</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 E. Siri, N. Sadooghi</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2607.29297" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.29297 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#41</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Entanglement wedge reconstruction beyond the large N Limit via the twirled Petz map</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 A. A. Shahmiri, M. Sharifian, N. Vardian</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-purple">فیزیک ذرات نظری و ریسمان</span>
+              <span class="badge badge-blue">Recent</span>
+              <a href="https://arxiv.org/abs/2609.07866" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2609.07866 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item" data-category="cosmology" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#42</div>
+          <div style="flex-grow: 1;">
+            <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Frequency shift in gravitational lensing by Kerr metric</h4>
+            <div class="pub-authors" style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 6px;">👥 S. Sarbaz, S. Rahvar</div>
+            
+            <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <span class="badge badge-green">کیهان‌شناسی و اخترفیزیک</span>
+              <span class="badge badge-blue">2026</span>
+              <a href="https://arxiv.org/abs/2609.13775" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2609.13775 ↗</a>
+            </div>
           </div>
         </div>
       </div>
