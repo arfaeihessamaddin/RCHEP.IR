@@ -744,18 +744,36 @@ img {
 }
 
 .avatar {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   margin: 0 auto 16px;
-  background: linear-gradient(135deg, #1e293b, #334155);
-  border: 2px solid var(--border-highlight);
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 3px solid var(--border-highlight);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  color: var(--accent);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: var(--transition);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.person-card:hover .avatar {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.person-card:hover .avatar img {
+  transform: scale(1.08);
 }
 
 .person-name {
