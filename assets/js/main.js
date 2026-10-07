@@ -1,7 +1,7 @@
-// RCHEP Main Interactive Scripts
+// RCHEP Main Interactive Scripts (High-Performance & Instant Navigation)
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Theme Toggle
+  // 1. Theme Toggle
   const themeToggle = document.getElementById('theme-toggle');
   const currentTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', currentTheme);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
   }
 
-  // Mobile Menu
+  // 2. Mobile Menu Toggle
   const mobileToggle = document.getElementById('mobile-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (mobileToggle && navLinks) {
@@ -33,9 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tab Filtering & Live Search (Publications / People)
-  const filterButtons = document.querySelectorAll('.tab-btn');
+  // 3. Tab Filtering & Search (Instant with .is-hidden CSS class)
+  const tabButtons = document.querySelectorAll('.tab-btn');
   const pubSearchInput = document.getElementById('pub-search');
+  const countElem = document.getElementById('pub-count');
 
   function filterItems() {
     const activeTab = document.querySelector('.tab-btn.active');
@@ -49,46 +50,61 @@ document.addEventListener('DOMContentLoaded', () => {
       const cat = item.getAttribute('data-category');
       const text = item.textContent.toLowerCase();
       
-      const matchCat = (filter === 'all' || cat === filter);
+      const matchCat = (!filter || filter === 'all' || cat === filter);
       const matchQuery = !query || text.includes(query);
 
       if (matchCat && matchQuery) {
-        item.style.display = '';
+        item.classList.remove('is-hidden');
         visibleCount++;
       } else {
-        item.style.display = 'none';
+        item.classList.add('is-hidden');
       }
     });
 
-    const countElem = document.getElementById('pub-count');
     if (countElem) {
       countElem.textContent = visibleCount;
     }
   }
 
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterItems();
+  if (tabButtons.length > 0) {
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = btn.parentElement;
+        if (parent) {
+          parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        } else {
+          tabButtons.forEach(b => b.classList.remove('active'));
+        }
+        btn.classList.add('active');
+        filterItems();
+      });
     });
-  });
+  }
 
   if (pubSearchInput) {
     pubSearchInput.addEventListener('input', filterItems);
   }
 
-  // Language Switcher (FA / EN)
+  // Initial filter run
+  filterItems();
+
+  // 4. Ultra-Fast Bilingual Engine
   const langToggle = document.getElementById('lang-toggle');
   const savedLang = localStorage.getItem('lang') || 'fa';
-  applyLanguage(savedLang);
+
+  if (savedLang === 'en') {
+    applyLanguage('en');
+  }
 
   if (langToggle) {
-    langToggle.addEventListener('click', () => {
+    langToggle.addEventListener('click', (e) => {
+      e.preventDefault();
       const cur = document.body.getAttribute('dir') === 'ltr' ? 'en' : 'fa';
       const target = cur === 'fa' ? 'en' : 'fa';
       applyLanguage(target);
       localStorage.setItem('lang', target);
+      filterItems();
     });
   }
 
@@ -101,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       langToggle.textContent = isEn ? 'فارسی' : 'English';
     }
 
-    // 1. First, elements with data-fa and data-en
+    // A. Elements with data-fa and data-en
     document.querySelectorAll('[data-fa]').forEach(el => {
       const enText = el.getAttribute('data-en');
       const faText = el.getAttribute('data-fa');
@@ -112,71 +128,37 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 2. Comprehensive text node translation using dictionary
-    const dict = window.RCHEP_TRANSLATIONS || {};
-    if (Object.keys(dict).length > 0) {
-      translateDom(document.body, isEn, dict);
-    }
-
-    // 3. Search inputs placeholder
-    const searchInputs = document.querySelectorAll('input[type="text"]');
-    searchInputs.forEach(inp => {
-      if (!inp.hasAttribute('data-orig-placeholder')) {
-        inp.setAttribute('data-orig-placeholder', inp.placeholder);
-      }
-      if (isEn) {
-        inp.placeholder = 'Search papers by title, author, or arXiv ID...';
-      } else {
-        inp.placeholder = inp.getAttribute('data-orig-placeholder');
-      }
-    });
-  }
-
-  function translateDom(root, isEn, dict) {
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
-    let node;
-    while ((node = walker.nextNode())) {
-      // Skip script and style tags
-      if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) {
-        continue;
-      }
-      // Skip elements handled by data-fa
-      if (node.parentElement && (node.parentElement.hasAttribute('data-fa') || node.parentElement.hasAttribute('data-en'))) {
-        continue;
-      }
-
-      const text = node.nodeValue.trim();
-      if (!text) continue;
-
-      if (isEn) {
-        // Save original FA text if not already saved
-        if (!node._faOriginal) {
-          node._faOriginal = node.nodeValue;
+    // B. Fast O(1) Dictionary Translation (No heavy nested loops)
+    const dict = window.RCHEP_TRANSLATIONS;
+    if (dict) {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE' || node.parentElement.hasAttribute('data-fa'))) {
+          continue;
         }
 
-        // Direct match
-        if (dict[text]) {
-          node.nodeValue = node.nodeValue.replace(text, dict[text]);
-        } else {
-          // Substring / phrase replacements for dates & labels
-          let updated = node.nodeValue;
-          let changed = false;
-          for (const [faPhrase, enPhrase] of Object.entries(dict)) {
-            if (faPhrase.length > 2 && updated.includes(faPhrase)) {
-              updated = updated.split(faPhrase).join(enPhrase);
-              changed = true;
-            }
+        const trimmed = node.nodeValue.trim();
+        if (!trimmed) continue;
+
+        if (isEn) {
+          if (!node._faOriginal) {
+            node._faOriginal = node.nodeValue;
           }
-          if (changed) {
-            node.nodeValue = updated;
+          if (dict[trimmed]) {
+            node.nodeValue = node.nodeValue.replace(trimmed, dict[trimmed]);
           }
-        }
-      } else {
-        // Restore Persian original
-        if (node._faOriginal) {
+        } else if (node._faOriginal) {
           node.nodeValue = node._faOriginal;
         }
       }
+    }
+
+    // C. Search input placeholder
+    if (pubSearchInput) {
+      pubSearchInput.placeholder = isEn 
+        ? 'Search papers by title, author, or arXiv ID...' 
+        : 'جستجو بر اساس عنوان مقاله، نام پژوهشگر یا شناسه arXiv...';
     }
   }
 });
