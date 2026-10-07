@@ -95,10 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyLanguage(lang) {
     const isEn = lang === 'en';
     document.body.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+    document.documentElement.setAttribute('lang', isEn ? 'en' : 'fa');
+
     if (langToggle) {
       langToggle.textContent = isEn ? 'فارسی' : 'English';
     }
 
+    // 1. First, elements with data-fa and data-en
     document.querySelectorAll('[data-fa]').forEach(el => {
       const enText = el.getAttribute('data-en');
       const faText = el.getAttribute('data-fa');
@@ -108,5 +111,72 @@ document.addEventListener('DOMContentLoaded', () => {
         el.textContent = faText;
       }
     });
+
+    // 2. Comprehensive text node translation using dictionary
+    const dict = window.RCHEP_TRANSLATIONS || {};
+    if (Object.keys(dict).length > 0) {
+      translateDom(document.body, isEn, dict);
+    }
+
+    // 3. Search inputs placeholder
+    const searchInputs = document.querySelectorAll('input[type="text"]');
+    searchInputs.forEach(inp => {
+      if (!inp.hasAttribute('data-orig-placeholder')) {
+        inp.setAttribute('data-orig-placeholder', inp.placeholder);
+      }
+      if (isEn) {
+        inp.placeholder = 'Search papers by title, author, or arXiv ID...';
+      } else {
+        inp.placeholder = inp.getAttribute('data-orig-placeholder');
+      }
+    });
+  }
+
+  function translateDom(root, isEn, dict) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    while ((node = walker.nextNode())) {
+      // Skip script and style tags
+      if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) {
+        continue;
+      }
+      // Skip elements handled by data-fa
+      if (node.parentElement && (node.parentElement.hasAttribute('data-fa') || node.parentElement.hasAttribute('data-en'))) {
+        continue;
+      }
+
+      const text = node.nodeValue.trim();
+      if (!text) continue;
+
+      if (isEn) {
+        // Save original FA text if not already saved
+        if (!node._faOriginal) {
+          node._faOriginal = node.nodeValue;
+        }
+
+        // Direct match
+        if (dict[text]) {
+          node.nodeValue = node.nodeValue.replace(text, dict[text]);
+        } else {
+          // Substring / phrase replacements for dates & labels
+          let updated = node.nodeValue;
+          let changed = false;
+          for (const [faPhrase, enPhrase] of Object.entries(dict)) {
+            if (faPhrase.length > 2 && updated.includes(faPhrase)) {
+              updated = updated.split(faPhrase).join(enPhrase);
+              changed = true;
+            }
+          }
+          if (changed) {
+            node.nodeValue = updated;
+          }
+        }
+      } else {
+        // Restore Persian original
+        if (node._faOriginal) {
+          node.nodeValue = node._faOriginal;
+        }
+      }
+    }
   }
 });
