@@ -172,7 +172,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4)) contrast(1.35) saturate(1.45);
 }
 
 /* Institutional Top Header Logos */
@@ -192,10 +192,10 @@ img {
 }
 
 .inst-logo-sharif {
-  height: 84px;
+  height: 94px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5)) contrast(1.35) saturate(1.45) brightness(1.08);
   transition: var(--transition);
 }
 
