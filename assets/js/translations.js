@@ -303,5 +303,17 @@ window.RCHEP_TRANSLATIONS = {
   "دوگانی پیمانه/ گرانش": "Gauge/Gravity Duality",
   "همکاری در پروژه‌های بین‌المللی آشکارسازها از جمله سرن (CERN) و آزمایش CMS، تحلیل داده‌های برخورددهنده بزرگ هادرونی، و توسعه سامانه‌های مدرن آشکارسازی.": "Active participation in international experiments including CERN and the CMS detector, LHC data analysis, and advanced particle detector instrumentation.",
   "نظریه میدان‌های کوانتومی، پدیده‌شناسی ذرات فراتر از مدل استاندارد، نظریه ریسمان، تقارن‌های هولوگرافی، و مدل‌سازی‌های پیشرفته نظری.": "Quantum Field Theory, Beyond the Standard Model physics, String Theory, Holographic Dualities (AdS/CFT), and mathematical physics.",
-  "بررسی کیهان اولیه، تورم کیهانی، ماده و انرژی تاریک، امواج گرانشی، فوران‌های پرتو گاما (GRBs)، و فیزیک سیاهچاله‌ها و فضازمان.": "Early universe cosmology, cosmological inflation, dark matter, dark energy, gravitational waves, gamma-ray bursts (GRBs), and black hole physics."
+  "بررسی کیهان اولیه، تورم کیهانی، ماده و انرژی تاریک، امواج گرانشی، فوران‌های پرتو گاما (GRBs)، و فیزیک سیاهچاله‌ها و فضازمان.": "Early universe cosmology, cosmological inflation, dark matter, dark energy, gravitational waves, gamma-ray bursts (GRBs), and black hole physics.",
+  "ایجاد بستر پویا برای محققان جوان": "Dynamic Platform for Young Researchers",
+  "برنامه‌های سمینار هفتگی مرکز در دو محور موازی": "Weekly Seminar Programs in Two Parallel Series",
+  "سمینارهای تخصصی مرکز در دو شاخه موازی فیزیک انرژی بالا و گرانش و کیهان‌شناسی به طور منظم برگزار می‌شوند.": "Specialized research seminars are conducted regularly in two parallel tracks: High Energy Physics, and Gravitation & Cosmology.",
+  "سمینارهای فیزیک انرژی بالا": "High Energy Physics Seminars",
+  "سمینارهای گرانش و کیهان‌شناسی": "Gravitation & Cosmology Seminars",
+  "استادان و هیأت علمی (۷)": "Faculty (7)",
+  "پژوهشگران پسادکتری فعال (۶)": "Active Postdocs (6)",
+  "همکاران پسادکتری گذشته (۳)": "Alumni / Former (3)",
+  "استادان و پژوهشگران برجسته مرکز": "Faculty Members",
+  "استادان، پژوهشگران و همکاران RCHEP": "Faculty, Researchers & Fellows",
+  "سمینارهای منظم تخصصی با حضور استادان، پژوهشگران پسادکتری و مهمانان بین‌المللی.": "Regular research seminars with faculty, postdocs, and international guest speakers.",
+  "تحقیقات در مرکز فیزیک انرژی بالا در سه شاخه اصلی نظری، تجربی و کیهان‌شناسی با مشارکت پژوهشگران و استادان سازمان‌دهی شده‌اند.": "Research at RCHEP is organized across three main pillars: theoretical, experimental, and cosmological physics."
 };
