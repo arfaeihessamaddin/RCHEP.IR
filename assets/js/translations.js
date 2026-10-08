@@ -315,5 +315,9 @@ window.RCHEP_TRANSLATIONS = {
   "استادان و پژوهشگران برجسته مرکز": "Faculty Members",
   "استادان، پژوهشگران و همکاران RCHEP": "Faculty, Researchers & Fellows",
   "سمینارهای منظم تخصصی با حضور استادان، پژوهشگران پسادکتری و مهمانان بین‌المللی.": "Regular research seminars with faculty, postdocs, and international guest speakers.",
-  "تحقیقات در مرکز فیزیک انرژی بالا در سه شاخه اصلی نظری، تجربی و کیهان‌شناسی با مشارکت پژوهشگران و استادان سازمان‌دهی شده‌اند.": "Research at RCHEP is organized across three main pillars: theoretical, experimental, and cosmological physics."
+  "تحقیقات در مرکز فیزیک انرژی بالا در سه شاخه اصلی نظری، تجربی و کیهان‌شناسی با مشارکت پژوهشگران و استادان سازمان‌دهی شده‌اند.": "Research at RCHEP is organized across three main pillars: theoretical, experimental, and cosmological physics.",
+  "برنامه سمینارها به‌زودی اعلام می‌شود": "Seminar Schedule to be Announced Soon",
+  "فهرست سخنرانی‌ها و زمان‌بندی سمینارهای گروه گرانش و کیهان‌شناسی پس از اعلام در این بخش قرار خواهد گرفت.": "The detailed talk list and schedule for gravitation and cosmology seminars will be announced here shortly.",
+  "به‌زودی": "Coming Soon",
+  "سال تحصیلی ۱۴۰۵–۱۴۰۶ — دوشنبه‌ها ۱۳:۳۰": "Academic Year 2026–2027 — Mondays 13:30"
 };
