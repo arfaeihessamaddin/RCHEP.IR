@@ -347,5 +347,11 @@ window.RCHEP_TRANSLATIONS = {
   "هفتگی / دو هفته یک‌بار": "Weekly / Bi-weekly",
   "در حال تدوین زمان‌بندی": "Schedule in Preparation",
   "این سلسله نشست‌ها به بررسی و تبادل‌نظر پیرامون کاربردهای نوین هوش مصنوعی، یادگیری عمیق، شبکه‌های عصبی و الگوریتم‌های هوشواره در حوزه‌های گوناگون فیزیک (از جمله تحلیل داده‌های برخورددهنده‌های ذرات در سرن، شبیه‌سازی‌های ساختار بزرگ‌مقیاس کیهانی، کشف امواج گرانشی و مسائل بس‌ذره‌ای) اختصاص دارد.": "A regular discussion series dedicated to cutting-edge applications of artificial intelligence, deep learning, neural networks, and machine learning across physical sciences—including collider data analysis at CERN, cosmological simulations, gravitational wave detection, and many-body quantum systems.",
-  "برنامه زمان‌بندی جلسات و فهرست سخنرانان این نشست‌ها به محض نهایی‌سازی در این بخش بارگذاری خواهد شد.": "The schedule and list of speakers for this series will be published here as soon as finalized."
+  "برنامه زمان‌بندی جلسات و فهرست سخنرانان این نشست‌ها به محض نهایی‌سازی در این بخش بارگذاری خواهد شد.": "The schedule and list of speakers for this series will be published here as soon as finalized.",
+  "۱۲:۳۰ تا ۱۴:۰۰ — نشست هوشواره": "12:30 - 14:00 — AI in Physics",
+  "شنبه‌ها ۱۲:۳۰ تا ۱۴:۰۰ | سالن جلسات RCHEP": "Saturdays 12:30 - 14:00 | RCHEP Conference Hall",
+  "شنبه‌ها ۱۲:۳۰ الی ۱۴:۰۰": "Saturdays 12:30 - 14:00",
+  "فیزیک محاسباتی و هوشواره": "Computational Physics & AI",
+  "زمان برگزاری: شنبه‌ها ساعت ۱۲:۳۰ تا ۱۴:۰۰ — برنامه تفصیلی جلسات و فهرست سخنرانان به محض نهایی‌سازی در این بخش بارگذاری خواهد شد.": "Schedule: Saturdays 12:30 - 14:00 — Detailed talk schedule and speakers will be announced here shortly.",
+  "جلسات تخصصی گروه‌های تحقیقاتی و سمینارهای داخلی": "Specialized research group sessions & internal seminars"
 };
