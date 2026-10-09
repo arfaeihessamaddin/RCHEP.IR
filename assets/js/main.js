@@ -161,4 +161,53 @@ document.addEventListener('DOMContentLoaded', () => {
         : 'جستجو بر اساس عنوان مقاله، نام پژوهشگر یا شناسه arXiv...';
     }
   }
+
+  // 5. Floating Back-to-Top Button
+  const bttBtn = document.createElement('button');
+  bttBtn.className = 'back-to-top';
+  bttBtn.setAttribute('aria-label', 'Back to top');
+  bttBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>';
+  document.body.appendChild(bttBtn);
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      bttBtn.classList.add('visible');
+    } else {
+      bttBtn.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  bttBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // 6. Fast Mathematical Typography Formatter (LaTeX in titles & papers)
+  function renderMathTypography() {
+    const mathReplacements = [
+      [/\$T\\bar\{T\}\$/g, '<span class="math-tex"><span class="math-var">T</span><span class="math-bar">T̄</span></span>'],
+      [/T̄T̄/g, '<span class="math-tex"><span class="math-var">T</span><span class="math-bar">T̄</span></span>'],
+      [/\$\\text\{AdS\}_3\/\\text\{CFT\}_2\$/g, '<span class="math-tex">AdS<sub>3</sub>/CFT<sub>2</sub></span>'],
+      [/\$\\text\{AdS\}_3\$/g, '<span class="math-tex">AdS<sub>3</sub></span>'],
+      [/\$\\text\{CFT\}_2\$/g, '<span class="math-tex">CFT<sub>2</sub></span>'],
+      [/\$\\sqrt\{s\}\s*=\s*13\s*\\text\{ TeV\}\$/g, '<span class="math-tex">&radic;s = 13 TeV</span>'],
+      [/\$\\sqrt\{s\}\s*=\s*13\.6\s*\\text\{ TeV\}\$/g, '<span class="math-tex">&radic;s = 13.6 TeV</span>'],
+      [/\$\\sqrt\{s\}\s*=\s*13\s*TeV\$/g, '<span class="math-tex">&radic;s = 13 TeV</span>']
+    ];
+
+    document.querySelectorAll('.pub-title, .event-info h4, .event-info h5, .card-title, .card-body li').forEach(el => {
+      let html = el.innerHTML;
+      let changed = false;
+      for (const [re, rep] of mathReplacements) {
+        if (re.test(html)) {
+          html = html.replace(re, rep);
+          changed = true;
+        }
+      }
+      if (changed) {
+        el.innerHTML = html;
+      }
+    });
+  }
+
+  renderMathTypography();
 });
