@@ -108,10 +108,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const pageTitleMap = {
+    'مرکز پژوهشی فیزیک انرژی بالا | دانشگاه صنعتی شریف': 'Research Center for High Energy Physics | Sharif University of Technology',
+    'درباره مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'About | Research Center for High Energy Physics (RCHEP)',
+    'محورهای پژوهشی | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Research Areas | Research Center for High Energy Physics (RCHEP)',
+    'اعضای مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'People | Research Center for High Energy Physics (RCHEP)',
+    'رویدادها و سمینارها | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Events & Seminars | Research Center for High Energy Physics (RCHEP)',
+    'فهرست مقالات | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Publications | Research Center for High Energy Physics (RCHEP)',
+    'حامیان مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Sponsors | Research Center for High Energy Physics (RCHEP)',
+    'اطلاعیه‌ها | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Notices | Research Center for High Energy Physics (RCHEP)',
+    'ارتباط با مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Contact | Research Center for High Energy Physics (RCHEP)',
+  };
+
   function applyLanguage(lang) {
     const isEn = lang === 'en';
     document.body.setAttribute('dir', isEn ? 'ltr' : 'rtl');
     document.documentElement.setAttribute('lang', isEn ? 'en' : 'fa');
+
+    // Title translation
+    if (isEn) {
+      if (!document._origTitle) document._origTitle = document.title;
+      if (pageTitleMap[document._origTitle]) {
+        document.title = pageTitleMap[document._origTitle];
+      }
+    } else if (document._origTitle) {
+      document.title = document._origTitle;
+    }
 
     if (langToggle) {
       langToggle.textContent = isEn ? 'فارسی' : 'English';
@@ -128,9 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // B. Fast O(1) Dictionary Translation (No heavy nested loops)
+    // B. Fast Comprehensive Dictionary Translation (Exact + Compound Substrings)
     const dict = window.RCHEP_TRANSLATIONS;
     if (dict) {
+      if (!window._sortedFaKeys) {
+        window._sortedFaKeys = Object.keys(dict).sort((a, b) => b.length - a.length);
+      }
+      const sortedKeys = window._sortedFaKeys;
       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
       let node;
       while ((node = walker.nextNode())) {
@@ -147,6 +173,21 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (dict[trimmed]) {
             node.nodeValue = node.nodeValue.replace(trimmed, dict[trimmed]);
+          } else if (/[\u0600-\u06FF]/.test(trimmed)) {
+            let val = node.nodeValue;
+            let replaced = false;
+            for (let i = 0; i < sortedKeys.length; i++) {
+              const faKey = sortedKeys[i];
+              // Only do substring replacement for longer keys to avoid corrupting Persian words (e.g. "دی" in "بنیادی")
+              if (faKey.length >= 4 && val.includes(faKey)) {
+                val = val.split(faKey).join(dict[faKey]);
+                replaced = true;
+                if (!/[\u0600-\u06FF]/.test(val)) break;
+              }
+            }
+            if (replaced) {
+              node.nodeValue = val;
+            }
           }
         } else if (node._faOriginal) {
           node.nodeValue = node._faOriginal;
