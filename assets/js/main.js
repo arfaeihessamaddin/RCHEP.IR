@@ -89,24 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial filter run
   filterItems();
 
-  // 4. Ultra-Fast Bilingual Engine
+  // 4. Bulletproof Bilingual Engine (Pure Attribute-Based, Instant & Reliable)
   const langToggle = document.getElementById('lang-toggle');
-  const savedLang = localStorage.getItem('lang') || 'fa';
-
-  if (savedLang === 'en') {
-    applyLanguage('en');
-  }
-
-  if (langToggle) {
-    langToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      const cur = document.body.getAttribute('dir') === 'ltr' ? 'en' : 'fa';
-      const target = cur === 'fa' ? 'en' : 'fa';
-      applyLanguage(target);
-      localStorage.setItem('lang', target);
-      filterItems();
-    });
-  }
 
   const pageTitleMap = {
     'مرکز پژوهشی فیزیک انرژی بالا | دانشگاه صنعتی شریف': 'Research Center for High Energy Physics | Sharif University of Technology',
@@ -120,87 +104,103 @@ document.addEventListener('DOMContentLoaded', () => {
     'ارتباط با مرکز | مرکز پژوهشی فیزیک انرژی بالا (RCHEP)': 'Contact | Research Center for High Energy Physics (RCHEP)',
   };
 
+  function getActiveLang() {
+    try {
+      const urlParam = new URLSearchParams(window.location.search).get('lang');
+      if (urlParam === 'en' || urlParam === 'fa') return urlParam;
+    } catch(e) {}
+    try {
+      const stored = localStorage.getItem('rchep_lang');
+      if (stored === 'en' || stored === 'fa') return stored;
+    } catch(e) {}
+    return 'fa';
+  }
+
   function applyLanguage(lang) {
-    const isEn = lang === 'en';
-    document.body.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+    const isEn = (lang === 'en');
+
+    // Document-level direction and language
     document.documentElement.setAttribute('lang', isEn ? 'en' : 'fa');
+    document.documentElement.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+    document.body.setAttribute('dir', isEn ? 'ltr' : 'rtl');
 
     // Title translation
-    if (isEn) {
-      if (!document._origTitle) document._origTitle = document.title;
-      if (pageTitleMap[document._origTitle]) {
-        document.title = pageTitleMap[document._origTitle];
-      }
-    } else if (document._origTitle) {
+    if (!document._origTitle) document._origTitle = document.title;
+    if (isEn && pageTitleMap[document._origTitle]) {
+      document.title = pageTitleMap[document._origTitle];
+    } else if (!isEn && document._origTitle) {
       document.title = document._origTitle;
     }
 
+    // Toggle button label
     if (langToggle) {
       langToggle.textContent = isEn ? 'فارسی' : 'English';
+      langToggle.setAttribute('title', isEn ? 'تغییر زبان به فارسی' : 'Switch to English');
     }
 
-    // A. Elements with data-fa and data-en
+    // Translate all elements with data-fa and data-en
     document.querySelectorAll('[data-fa]').forEach(el => {
-      const enText = el.getAttribute('data-en');
-      const faText = el.getAttribute('data-fa');
-      if (isEn && enText) {
-        el.textContent = enText;
-      } else if (!isEn && faText) {
-        el.textContent = faText;
+      const targetVal = isEn ? el.getAttribute('data-en') : el.getAttribute('data-fa');
+      if (targetVal !== null && targetVal !== undefined) {
+        el.textContent = targetVal;
       }
     });
 
-    // B. Fast Comprehensive Dictionary Translation (Exact + Compound Substrings)
-    const dict = window.RCHEP_TRANSLATIONS;
-    if (dict) {
-      if (!window._sortedFaKeys) {
-        window._sortedFaKeys = Object.keys(dict).sort((a, b) => b.length - a.length);
-      }
-      const sortedKeys = window._sortedFaKeys;
-      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-      let node;
-      while ((node = walker.nextNode())) {
-        if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE' || node.parentElement.hasAttribute('data-fa'))) {
-          continue;
-        }
-
-        const trimmed = node.nodeValue.trim();
-        if (!trimmed) continue;
-
-        if (isEn) {
-          if (!node._faOriginal) {
-            node._faOriginal = node.nodeValue;
-          }
-          if (dict[trimmed]) {
-            node.nodeValue = node.nodeValue.replace(trimmed, dict[trimmed]);
-          } else if (/[\u0600-\u06FF]/.test(trimmed)) {
-            let val = node.nodeValue;
-            let replaced = false;
-            for (let i = 0; i < sortedKeys.length; i++) {
-              const faKey = sortedKeys[i];
-              // Only do substring replacement for longer keys to avoid corrupting Persian words (e.g. "دی" in "بنیادی")
-              if (faKey.length >= 4 && val.includes(faKey)) {
-                val = val.split(faKey).join(dict[faKey]);
-                replaced = true;
-                if (!/[\u0600-\u06FF]/.test(val)) break;
-              }
-            }
-            if (replaced) {
-              node.nodeValue = val;
-            }
-          }
-        } else if (node._faOriginal) {
-          node.nodeValue = node._faOriginal;
-        }
-      }
-    }
-
-    // C. Search input placeholder
+    // Search input placeholder
     if (pubSearchInput) {
       pubSearchInput.placeholder = isEn 
         ? 'Search papers by title, author, or arXiv ID...' 
         : 'جستجو بر اساس عنوان مقاله، نام پژوهشگر یا شناسه arXiv...';
     }
+
+    // Sync all internal links so clicking navigates in the chosen language!
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || !href.includes('.html')) {
+        return;
+      }
+      const [path, hash] = href.split('#');
+      const base = path.split('?')[0];
+      const hStr = hash ? '#' + hash : '';
+      if (isEn) {
+        a.setAttribute('href', base + '?lang=en' + hStr);
+      } else {
+        a.setAttribute('href', base + hStr);
+      }
+    });
+
+    // Save preference safely
+    try {
+      localStorage.setItem('rchep_lang', isEn ? 'en' : 'fa');
+    } catch(e) {}
+
+    // Update browser URL query
+    try {
+      const url = new URL(window.location);
+      if (isEn) {
+        url.searchParams.set('lang', 'en');
+      } else {
+        url.searchParams.delete('lang');
+      }
+      window.history.replaceState({}, '', url.toString());
+    } catch(e) {}
+  }
+
+  // Initial load
+  const initialLang = getActiveLang();
+  if (initialLang === 'en') {
+    applyLanguage('en');
+  }
+
+  // Toggle button click listener
+  if (langToggle) {
+    langToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const current = document.documentElement.getAttribute('lang') || 'fa';
+      const target = current === 'fa' ? 'en' : 'fa';
+      applyLanguage(target);
+      filterItems();
+    });
   }
 
   // 5. Floating Back-to-Top Button
