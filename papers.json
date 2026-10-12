@@ -1,6 +1,33 @@
 [
   {
-    "id": 1,
+    "title": "Reconstruction of Black Hole Islands from Hawking Radiation via the Algebraic Petz Map",
+    "authors": "N. Vardian",
+    "journal": "Preprint (2026)",
+    "arxiv": "arXiv: 2610.10769",
+    "arxiv_url": "https://arxiv.org/abs/2610.10769",
+    "year": "2026",
+    "id": 1
+  },
+  {
+    "title": "Entanglement Wedge Reconstruction Beyond the Large N Limit via the Twirled Petz Map",
+    "authors": "A. Alipour Shahmiri, M. Sharifian, N. Vardian",
+    "journal": "Preprint (2026)",
+    "arxiv": "arXiv: 2609.07866",
+    "arxiv_url": "https://arxiv.org/abs/2609.07866",
+    "year": "2026",
+    "id": 2
+  },
+  {
+    "title": "Modular Krylov Complexity as a Boundary Probe of Area Operator and Entanglement Islands",
+    "authors": "N. Vardian",
+    "journal": "Preprint (2026)",
+    "arxiv": "arXiv: 2602.02675",
+    "arxiv_url": "https://arxiv.org/abs/2602.02675",
+    "year": "2026",
+    "id": 3
+  },
+  {
+    "id": 4,
     "title": "Crypto-Fiat exchange rates network as indicator of macroeconomic dynamics",
     "authors": "S. Rouhani, Y. Shahmari, H. Zare, H. Hatami",
     "journal": "Trans. Theor. Math. Phys. 2, 37 (2024)",
@@ -9,7 +36,7 @@
     "year": "2024"
   },
   {
-    "id": 2,
+    "id": 5,
     "title": "Primordial black hole collision with neutron stars and astrophysical black holes and the observational signatures",
     "authors": "S. Rahvar",
     "journal": "Int. J. Mod. Phys. D 32, 2350103 (2023)",
@@ -18,7 +45,7 @@
     "year": "2023"
   },
   {
-    "id": 3,
+    "id": 6,
     "title": "Locality outside extremal black holes",
     "authors": "H. Arfaei, A. Bedroya, M. Torabian",
     "journal": "",
@@ -27,7 +54,7 @@
     "year": "Recent"
   },
   {
-    "id": 4,
+    "id": 7,
     "title": "On torsion contribution to chiral anomaly via Nieh-Yan term",
     "authors": "I. M. Rasulian, M. Torabian",
     "journal": "Eur. Phys. J. C 83, 1165 (2023)",
@@ -36,7 +63,7 @@
     "year": "2023"
   },
   {
-    "id": 5,
+    "id": 8,
     "title": "Fermions, boundaries and conformal and chiral anomalies in d = 3, 4 and 5 dimensions",
     "authors": "A. Faraji Astaneh, S. N. Solodukhin",
     "journal": "Phys. Rev. D 108, 085015 (2023)",
@@ -45,7 +72,7 @@
     "year": "2023"
   },
   {
-    "id": 6,
+    "id": 9,
     "title": "MOG as symmetry breaking in scalar–vector–tensor gravity",
     "authors": "S. Rouhani, S. Rahvar",
     "journal": "MNRAS 527, 2831-2834 (2023)",
@@ -54,7 +81,7 @@
     "year": "2023"
   },
   {
-    "id": 7,
+    "id": 10,
     "title": "Confinement from distance in metric space and its relation to cosmological constant",
     "authors": "A. Mohseni, M. Torabian",
     "journal": "JHEP 03, 043 (2024)",
@@ -63,7 +90,7 @@
     "year": "2024"
   },
   {
-    "id": 8,
+    "id": 11,
     "title": "Clustering of dark matter in the cosmic web as a probe of massive neutrinos",
     "authors": "M. Khoshtinat, M. Ansarifard, F. Hassani, S. Baghram",
     "journal": "MNRAS 531, 575 (2024)",
@@ -72,7 +99,7 @@
     "year": "2024"
   },
   {
-    "id": 9,
+    "id": 12,
     "title": "A study of cosmological models based on the long gamma-ray burst duration histogram",
     "authors": "Z. Kalantari, S. Rahvar",
     "journal": "Astrophys. J. 980, 184 (2025)",
@@ -81,7 +108,7 @@
     "year": "2025"
   },
   {
-    "id": 10,
+    "id": 13,
     "title": "Cross-Matching of OGLE, GAIA, and Hubble catalogs: Evaluating the probability of resolving lens stars in microlensing events",
     "authors": "S. Mozaheb, S. Rahvar",
     "journal": "",
@@ -90,7 +117,7 @@
     "year": "Recent"
   },
   {
-    "id": 11,
+    "id": 14,
     "title": "McVittie-Plummer spacetime: Plummer sphere immersed in the FLRW Universe",
     "authors": "J. Tabatabaei, S. Baghram, B. Mashhoon",
     "journal": "Astrophys. J. 975, 240 (2024)",
@@ -99,7 +126,7 @@
     "year": "2024"
   },
   {
-    "id": 12,
+    "id": 15,
     "title": "Holographic action principle for T̄T̄-deformation",
     "authors": "A. Faraji Astaneh",
     "journal": "Phys. Lett. B 860, 139227 (2025)",
@@ -108,7 +135,7 @@
     "year": "2025"
   },
   {
-    "id": 13,
+    "id": 16,
     "title": "One-point Statistics in various cosmic environments in the presence of massive neutrinos",
     "authors": "M. Khoshtinat, H. Hatamnia, S. Baghram",
     "journal": "MNRAS 534, 1166 (2024)",
@@ -117,7 +144,7 @@
     "year": "2024"
   },
   {
-    "id": 14,
+    "id": 17,
     "title": "Quantum complexity of T̄T̄-deformation and its implications",
     "authors": "A. Faraji Astaneh",
     "journal": "JHEP 10, 059 (2024)",
@@ -126,7 +153,7 @@
     "year": "2024"
   },
   {
-    "id": 15,
+    "id": 18,
     "title": "Frequency shift in binary microlensing",
     "authors": "S. Sarbaz, S. Rahvar",
     "journal": "MNRAS 533, 1618 (2024)",
@@ -135,7 +162,7 @@
     "year": "2024"
   },
   {
-    "id": 16,
+    "id": 19,
     "title": "Local peculiar motions in McVittie and LTB spacetimes",
     "authors": "M. Molaei, S. Baghram, B. Mashhoon",
     "journal": "Eur. Phys. J. C 85, 44 (2025)",
@@ -144,7 +171,7 @@
     "year": "2025"
   },
   {
-    "id": 17,
+    "id": 20,
     "title": "Symmetry-resolved relative entropy of random states",
     "authors": "M. Ghasemi",
     "journal": "JHEP 04, 090 (2025)",
@@ -153,7 +180,7 @@
     "year": "2025"
   },
   {
-    "id": 18,
+    "id": 21,
     "title": "Left-Right relative entropy",
     "authors": "M. Ghasemi",
     "journal": "",
@@ -162,7 +189,7 @@
     "year": "Recent"
   },
   {
-    "id": 19,
+    "id": 22,
     "title": "In search of extraterrestrial artificial intelligence through Dyson sphere-like structures around primordial black holes",
     "authors": "S. Baghram",
     "journal": "Astrophys. J. 978, 132 (2025)",
@@ -171,7 +198,7 @@
     "year": "2025"
   },
   {
-    "id": 20,
+    "id": 23,
     "title": "Renormalized volume, Polyakov anomaly, and orbifold Riemann surfaces",
     "authors": "H. Mohammadi, A. Naseh, B. Taghavi",
     "journal": "Phys. Rev. D 111, 086005 (2025)",
@@ -180,7 +207,7 @@
     "year": "2025"
   },
   {
-    "id": 21,
+    "id": 24,
     "title": "Elliptically polarized plane gravitational waves",
     "authors": "M. Molaei, S. Baghram, B. Mashhoon",
     "journal": "Phys. Rev. D 111, 104035 (2025)",
@@ -189,7 +216,7 @@
     "year": "2025"
   },
   {
-    "id": 22,
+    "id": 25,
     "title": "Quantum regular black holes and complete monotonicity",
     "authors": "A. Almasi, A. Moradpouri, M. Shahbazi",
     "journal": "JHEP 09, 208 (2025)",
@@ -198,7 +225,7 @@
     "year": "2025"
   },
   {
-    "id": 23,
+    "id": 26,
     "title": "Average spread complexity and the higher-order level spacing",
     "authors": "A. Faraji Astaneh, N. Vardian",
     "journal": "JHEP 12, 128 (2025)",
@@ -207,7 +234,7 @@
     "year": "2025"
   },
   {
-    "id": 24,
+    "id": 27,
     "title": "Machine learning identification of gravitationally microlensed gamma-ray bursts",
     "authors": "M. H. Zhoolideh Haghighi, Z. Kalantari, S. Rahvar, A. Ibrahim",
     "journal": "Astrophys. J. 992, 189 (2025)",
@@ -216,7 +243,7 @@
     "year": "2025"
   },
   {
-    "id": 25,
+    "id": 28,
     "title": "Addressing the too-big-to-fail problem and the void phenomenon through a modified initial power spectrum",
     "authors": "H. Kameli, S. Baghram",
     "journal": "MNRAS 542, 3331 (2025)",
@@ -225,7 +252,7 @@
     "year": "2025"
   },
   {
-    "id": 26,
+    "id": 29,
     "title": "Equivalence principle violations in the dark sector: A pathway to Hubble tension resolution",
     "authors": "M. H. Zhoolideh Haghighi, A. Talebian, N. Riazi",
     "journal": "",
@@ -234,7 +261,7 @@
     "year": "Recent"
   },
   {
-    "id": 27,
+    "id": 30,
     "title": "Cosmic web analysis of modified gravity models in large scale structures",
     "authors": "A. Rostami, S. Baghram",
     "journal": "JCAP 07, 045 (2025)",
@@ -243,7 +270,7 @@
     "year": "2025"
   },
   {
-    "id": 28,
+    "id": 31,
     "title": "Thermal corrections to entanglement entropy in holographic superconductor models",
     "authors": "S. M. Hosseini, M. Torabian",
     "journal": "",
@@ -252,7 +279,7 @@
     "year": "Recent"
   },
   {
-    "id": 29,
+    "id": 32,
     "title": "Addressing dipole tension via clustering in ΛCDM and beyond",
     "authors": "A. Daei Rasouli, H. S. Tadayyoni, S. Baghram, S. Rahvar",
     "journal": "Astrophys. J. 998, 207 (2026)",
@@ -261,7 +288,7 @@
     "year": "2026"
   },
   {
-    "id": 30,
+    "id": 33,
     "title": "Schwarzschild spacetime and the local limit of nonlocal gravity",
     "authors": "Y. Mohammadi, J. Tabatabaei, S. Baghram, B. Mashhoon",
     "journal": "",
@@ -270,7 +297,7 @@
     "year": "Recent"
   },
   {
-    "id": 31,
+    "id": 34,
     "title": "The ZN equivariant Virasoro algebra via alternative Sugawara constructions",
     "authors": "A. Ghazi, A. Moradpouri",
     "journal": "",
@@ -279,7 +306,7 @@
     "year": "Recent"
   },
   {
-    "id": 32,
+    "id": 35,
     "title": "Microlensing signatures of Dyson sphere-like structures around primordial black holes as technosignatures of extraterrestrial advanced civilizations",
     "authors": "S. Baghram",
     "journal": "Astrophys. J. 997, 104 (2026)",
@@ -288,7 +315,7 @@
     "year": "2026"
   },
   {
-    "id": 33,
+    "id": 36,
     "title": "The species scale and the refined TCC bound in time-dependent backgrounds of string theory",
     "authors": "A. Moradpouri",
     "journal": "",
@@ -297,7 +324,7 @@
     "year": "Recent"
   },
   {
-    "id": 34,
+    "id": 37,
     "title": "Modular Krylov complexity as a boundary probe of area operator and entanglement islands",
     "authors": "N. Vardian",
     "journal": "",
@@ -306,7 +333,7 @@
     "year": "Recent"
   },
   {
-    "id": 35,
+    "id": 38,
     "title": "Constraints on the lifespan of intelligent technological civilizations in the Galaxy",
     "authors": "S. Rahvar, S. Rouhani",
     "journal": "MNRAS 548, stag405 (2026)",
@@ -315,7 +342,7 @@
     "year": "2026"
   },
   {
-    "id": 36,
+    "id": 39,
     "title": "Gravitational scattering of Oort cloud objects by dark matter: Constraints on the primordial black hole fraction",
     "authors": "S. Rahvar",
     "journal": "",
@@ -324,7 +351,7 @@
     "year": "Recent"
   },
   {
-    "id": 37,
+    "id": 40,
     "title": "BMS3-like algebras via the ZN-graded u(1)2 Kac-Moody algebra",
     "authors": "A. Ghazi, A. Moradpouri",
     "journal": "",
@@ -333,7 +360,7 @@
     "year": "Recent"
   },
   {
-    "id": 38,
+    "id": 41,
     "title": "Krylov complexity for time-dependent Hamiltonians",
     "authors": "A. Faraji Astaneh, P. Kafashi",
     "journal": "",
@@ -342,7 +369,7 @@
     "year": "Recent"
   },
   {
-    "id": 39,
+    "id": 42,
     "title": "Freezing swampland: A Krylov complexity criterion for the weak gravity conjecture",
     "authors": "A. Faraji Astaneh, R. G. Shurkaie",
     "journal": "",
@@ -351,7 +378,7 @@
     "year": "Recent"
   },
   {
-    "id": 40,
+    "id": 43,
     "title": "Weak Bose-Einstein condensation in a rigidly rotating magnetized charged Bose gas",
     "authors": "E. Siri, N. Sadooghi",
     "journal": "",
@@ -360,7 +387,7 @@
     "year": "Recent"
   },
   {
-    "id": 41,
+    "id": 44,
     "title": "Entanglement wedge reconstruction beyond the large N Limit via the twirled Petz map",
     "authors": "A. A. Shahmiri, M. Sharifian, N. Vardian",
     "journal": "",
@@ -369,7 +396,7 @@
     "year": "Recent"
   },
   {
-    "id": 42,
+    "id": 45,
     "title": "Frequency shift in gravitational lensing by Kerr metric",
     "authors": "S. Sarbaz, S. Rahvar",
     "journal": "",
