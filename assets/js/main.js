@@ -169,6 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Render Lucide icons
+    if (window.lucide) {
+      try {
+        window.lucide.createIcons();
+      } catch(e) {}
+    }
+
     // Save preference safely
     try {
       localStorage.setItem('rchep_lang', isEn ? 'en' : 'fa');
@@ -251,4 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderMathTypography();
+  if (window.lucide) {
+    try {
+      window.lucide.createIcons();
+    } catch(e) {}
+  }
 });
