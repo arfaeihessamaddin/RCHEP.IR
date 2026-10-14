@@ -1,0 +1,41 @@
+name: Auto Archive Seminars
+
+on:
+  schedule:
+    # Mondays at 12:00 UTC (15:30 Tehran time)
+    - cron: '0 12 * * 1'
+    # Saturdays at 10:30 UTC (14:00 Tehran time)
+    - cron: '30 10 * * 6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Archive Manager
+        run: |
+          chmod +x scripts/archive_manager.py
+          python scripts/archive_manager.py --auto
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Auto-archive completed seminar/session [skip ci]"
+            git push origin main
+          else
+            echo "No changes to commit."
+          fi
