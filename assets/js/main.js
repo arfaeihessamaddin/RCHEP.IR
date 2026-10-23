@@ -288,7 +288,9 @@ function initPosterInteractions() {
           <button class="poster-modal-close" aria-label="بستن">✕</button>
         </div>
       </div>
-      <img src="" alt="پوستر کامل سمینار">
+      <div class="poster-modal-img-container">
+        <img src="" alt="پوستر کامل سمینار">
+      </div>
     </div>
   `;
   document.body.appendChild(modalEl);
@@ -322,18 +324,21 @@ function initPosterInteractions() {
       const rect = btn.getBoundingClientRect();
       const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
       
+      const prevW = 440;
+      const prevH = 560;
+
       let left;
       if (isRtl) {
-        left = rect.left - 250;
-        if (left < 10) left = rect.right + 10;
+        left = rect.left - prevW - 16;
+        if (left < 16) left = rect.right + 16;
       } else {
-        left = rect.right + 10;
-        if (left + 250 > window.innerWidth) left = rect.left - 250;
+        left = rect.right + 16;
+        if (left + prevW > window.innerWidth - 16) left = rect.left - prevW - 16;
       }
+      left = Math.max(16, Math.min(window.innerWidth - prevW - 16, left));
 
-      let top = rect.top - 40;
-      if (top < 10) top = 10;
-      if (top + 340 > window.innerHeight) top = window.innerHeight - 350;
+      let top = rect.top + (rect.height / 2) - (prevH / 2);
+      top = Math.max(16, Math.min(window.innerHeight - prevH - 16, top));
 
       previewEl.style.left = `${left}px`;
       previewEl.style.top = `${top}px`;
@@ -354,6 +359,35 @@ function initPosterInteractions() {
       modalDownload.setAttribute('href', posterSrc);
       modalEl.classList.add('active');
       document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // 8. Program Navigation Tabs & Smooth Scroll Highlighting
+  document.querySelectorAll('.tab-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (targetId && targetId.startsWith('#')) {
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', targetId);
+          
+          const parentGroup = link.closest('.nav-program-tabs');
+          if (parentGroup) {
+            parentGroup.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active-tab'));
+            link.classList.add('active-tab');
+          }
+
+          targetEl.style.transition = 'box-shadow 0.4s ease, border-color 0.4s ease';
+          targetEl.style.boxShadow = '0 0 25px rgba(56, 189, 248, 0.45)';
+          targetEl.style.borderColor = 'var(--accent)';
+          setTimeout(() => {
+            targetEl.style.boxShadow = '';
+            targetEl.style.borderColor = '';
+          }, 2000);
+        }
+      }
     });
   });
 }

@@ -107,16 +107,73 @@
         </div>
       </div>
 
+      <!-- Quick Program Navigation Tabs (سامانه ناوبری و تب‌های دسترسی سریع به برنامه‌ها و آرشیو) -->
+      <div class="events-quick-nav">
+        <!-- 1. HEP Seminars -->
+        <div class="nav-program-card">
+          <div class="nav-program-header">
+            <i data-lucide="atom"></i>
+            <h4 data-fa="فیزیک انرژی بالا" data-en="High Energy Physics">فیزیک انرژی بالا</h4>
+          </div>
+          <div class="nav-program-tabs">
+            <a href="#hep-upcoming" class="tab-link active-tab" data-fa="🟢 جاری و آینده" data-en="🟢 Upcoming">🟢 جاری و آینده</a>
+            <a href="#hep-archive" class="tab-link" data-fa="📁 آرشیو جلسات" data-en="📁 Archive">📁 آرشیو جلسات</a>
+          </div>
+        </div>
+
+        <!-- 2. AI in Physics -->
+        <div class="nav-program-card">
+          <div class="nav-program-header">
+            <i data-lucide="cpu"></i>
+            <h4 data-fa="هوشواره در فیزیک" data-en="AI in Physics">هوشواره در فیزیک</h4>
+          </div>
+          <div class="nav-program-tabs">
+            <a href="#ai-upcoming" class="tab-link active-tab" data-fa="🟢 برنامه‌های آینده" data-en="🟢 Upcoming">🟢 برنامه‌های آینده</a>
+            <a href="#ai-archive" class="tab-link" data-fa="📁 آرشیو امسال" data-en="📁 Archive">📁 آرشیو امسال</a>
+          </div>
+        </div>
+
+        <!-- 3. Gravitation & Cosmology -->
+        <div class="nav-program-card">
+          <div class="nav-program-header">
+            <i data-lucide="orbit"></i>
+            <h4 data-fa="کیهان‌شناسی و گرانش" data-en="Cosmology & Gravity">کیهان‌شناسی و گرانش</h4>
+          </div>
+          <div class="nav-program-tabs">
+            <a href="#cosmo-upcoming" class="tab-link active-tab" data-fa="🟢 برنامه‌های جاری" data-en="🟢 Current">🟢 برنامه‌های جاری</a>
+            <a href="#hep-archive" class="tab-link" data-fa="📁 آرشیو جلسات" data-en="📁 Archive">📁 آرشیو جلسات</a>
+          </div>
+        </div>
+
+        <!-- 4. Schools & Workshops -->
+        <div class="nav-program-card">
+          <div class="nav-program-header">
+            <i data-lucide="graduation-cap"></i>
+            <h4 data-fa="مدرسه‌ها و دوره‌ها" data-en="Schools & Courses">مدرسه‌ها و دوره‌ها</h4>
+          </div>
+          <div class="nav-program-tabs">
+            <a href="#schools-current" class="tab-link active-tab" data-fa="🟢 دوره‌های اخیر" data-en="🟢 Recent Courses">🟢 دوره‌های اخیر</a>
+            <a href="#schools-archive" class="tab-link" data-fa="📁 آرشیو ادوار" data-en="📁 Archive">📁 آرشیو ادوار</a>
+          </div>
+        </div>
+      </div>
+
       <!-- Parallel Seminars: High Energy Physics & Gravitation/Cosmology -->
       <div style="margin-bottom: 45px;">
-        <h3 style="font-size: 1.35rem; color: var(--accent); margin-bottom: 8px;" data-fa="🎙️ برنامه‌های سمینار هفتگی مرکز" data-en="🎙️ Weekly Seminar Programs">🎙️ برنامه‌های سمینار هفتگی مرکز</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 12px;">
+          <h3 style="font-size: 1.35rem; color: var(--accent); margin-bottom: 0;" data-fa="🎙️ برنامه‌های سمینار هفتگی مرکز" data-en="🎙️ Weekly Seminar Programs">🎙️ برنامه‌های سمینار هفتگی مرکز</h3>
+          <div class="nav-program-tabs" style="width: auto;">
+            <a href="#hep-upcoming" class="tab-link" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="🟢 برنامه‌های جاری" data-en="🟢 Current Seminars">🟢 برنامه‌های جاری</a>
+            <a href="#hep-archive" class="tab-link" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="📁 آرشیو سمینارها" data-en="📁 Seminars Archive">📁 آرشیو سمینارها</a>
+          </div>
+        </div>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;" data-fa="سمینارهای تخصصی مرکز در حوزه‌های فیزیک انرژی بالا و گرانش و کیهان‌شناسی به طور منظم برگزار می‌شوند." data-en="Specialized research seminars in High Energy Physics and Gravitation & Cosmology.">
           سمینارهای تخصصی مرکز در حوزه‌های فیزیک انرژی بالا و گرانش و کیهان‌شناسی به طور منظم برگزار می‌شوند.
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; align-items: start;">
           <!-- Column 1: High Energy Physics Seminars -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-top: 3px solid var(--primary); border-radius: var(--radius-lg); padding: 24px;">
+          <div id="hep-upcoming" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-top: 3px solid var(--primary); border-radius: var(--radius-lg); padding: 24px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
               <h4 style="font-size: 1.15rem; color: var(--text-main); margin: 0; font-weight: 700;" data-fa="⚛️ سمینارهای فیزیک انرژی بالا" data-en="⚛️ High Energy Physics Seminars">⚛️ سمینارهای فیزیک انرژی بالا</h4>
               <span class="badge badge-green" data-fa="سال تحصیلی ۱۴۰۵–۱۴۰۶ — دوشنبه‌ها ۱۳:۳۰" data-en="Academic Year 2026–2027 — Mondays 13:30">سال تحصیلی ۱۴۰۵–۱۴۰۶ — دوشنبه‌ها ۱۳:۳۰</span>
@@ -323,7 +380,7 @@
           </div>
 
           <!-- Column 2: Gravitation & Cosmology Seminars (Empty & Pending List) -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-top: 3px solid var(--accent); border-radius: var(--radius-lg); padding: 24px;">
+          <div id="cosmo-upcoming" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-top: 3px solid var(--accent); border-radius: var(--radius-lg); padding: 24px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
               <h4 style="font-size: 1.15rem; color: var(--text-main); margin: 0; font-weight: 700;" data-fa="🌌 سمینارهای گرانش و کیهان‌شناسی" data-en="🌌 Gravitation & Cosmology Seminars">🌌 سمینارهای گرانش و کیهان‌شناسی</h4>
               <span class="badge badge-blue" data-fa="به‌زودی" data-en="Coming Soon">به‌زودی</span>
@@ -341,7 +398,7 @@
       </div>
 
             <!-- AI in Physics Series Track (سلسله نشست‌های تخصصی هوشواره در فیزیک) -->
-      <div style="margin-bottom: 45px;">
+      <div id="ai-upcoming" style="margin-bottom: 45px;">
         <div class="card" style="padding: 28px; border-right: 4px solid #a855f7; background: linear-gradient(135deg, rgba(168, 85, 247, 0.06), transparent);">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
             <div>
@@ -354,10 +411,16 @@
                 🤖 سلسله نشست‌های تخصصی کاربرد هوشواره در فیزیک (AI in Physics)
               </h4>
             </div>
-            <a href="https://vc.sharif.edu/ch/physics-energy-high" target="_blank" rel="noopener" class="live-room-btn" style="font-size: 0.82rem; padding: 6px 12px;">
-              <span class="live-pulse"></span>
-              <span data-fa="ورود به اتاق وبینار هوشواره ↗" data-en="Join AI Webinar Room ↗">ورود به اتاق وبینار هوشواره ↗</span>
-            </a>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <div class="nav-program-tabs" style="width: auto;">
+                <a href="#ai-upcoming" class="tab-link active-tab" style="padding: 5px 12px; font-size: 0.78rem;" data-fa="🟢 برنامه‌های آینده" data-en="🟢 Upcoming">🟢 برنامه‌های آینده</a>
+                <a href="#ai-archive" class="tab-link" style="padding: 5px 12px; font-size: 0.78rem;" data-fa="📁 آرشیو امسال" data-en="📁 Archive">📁 آرشیو امسال</a>
+              </div>
+              <a href="https://vc.sharif.edu/ch/physics-energy-high" target="_blank" rel="noopener" class="live-room-btn" style="font-size: 0.82rem; padding: 6px 12px;">
+                <span class="live-pulse"></span>
+                <span data-fa="ورود به اتاق وبینار هوشواره ↗" data-en="Join AI Webinar Room ↗">ورود به اتاق وبینار هوشواره ↗</span>
+              </a>
+            </div>
           </div>
 
           <p class="card-body" style="font-size: 0.94rem; line-height: 1.8; margin-bottom: 24px;" data-fa="این سلسله نشست‌ها به بررسی و تبادل‌نظر پیرامون کاربردهای نوین هوش مصنوعی، یادگیری عمیق، ایجنت‌های هوشمند پژوهشی و الگوریتم‌های هوشواره در حوزه‌های گوناگون علوم فیزیکی و داده‌های بنیادی اختصاص دارد." data-en="A specialized biweekly seminar series dedicated to cutting-edge applications of artificial intelligence, deep learning, agentic research frameworks, and foundational model access in physical sciences.">
@@ -446,7 +509,7 @@
           </div>
 
           <!-- Part 2: Held AI Sessions Archive (آرشیو امسال شامل برنامه‌های قبلی) -->
-          <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+          <div id="ai-archive" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
               <h5 style="font-size: 1.05rem; font-weight: 800; color: var(--accent); margin: 0; display: flex; align-items: center; gap: 8px;" data-fa="📁 بخش دوم: آرشیو امسال نشست‌های هوشواره (سال تحصیلی ۱۴۰۵–۱۴۰۶)" data-en="📁 Part 2: Current Year AI Archive (2026–2027)">
                 <span>📁</span> <span data-fa="آرشیو امسال نشست‌های هوشواره" data-en="Current Year AI Archive">آرشیو امسال نشست‌های هوشواره</span>
@@ -498,9 +561,15 @@
       </div>
 
       <!-- Workshops & Short Courses -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
-        <h3 style="font-size: 1.35rem; color: var(--accent); margin-bottom: 0;" data-fa="🎯 دوره‌های آموزشی کوتاه و مدارس تخصصی" data-en="🎯 Intensive Short Courses & Workshops">🎯 دوره‌های آموزشی کوتاه و مدارس تخصصی</h3>
-        <span class="badge badge-purple" data-fa="مرکز پژوهشی فیزیک انرژی بالا" data-en="Research Center for High Energy Physics">مرکز پژوهشی فیزیک انرژی بالا</span>
+      <div id="schools-current" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <h3 style=\"font-size: 1.35rem; color: var(--accent); margin-bottom: 0;\" data-fa=\"🎯 دوره‌های آموزشی کوتاه و مدارس تخصصی\" data-en=\"🎯 Intensive Short Courses & Workshops\">🎯 دوره‌های آموزشی کوتاه و مدارس تخصصی</h3>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <div class="nav-program-tabs" style="width: auto;">
+            <a href="#schools-current" class="tab-link active-tab" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="🟢 دوره‌های اخیر" data-en="🟢 Recent Courses">🟢 دوره‌های اخیر</a>
+            <a href="#schools-archive" class="tab-link" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="📁 آرشیو ادوار" data-en="📁 Archive">📁 آرشیو ادوار</a>
+          </div>
+          <span class="badge badge-purple" data-fa="مرکز پژوهشی فیزیک انرژی بالا" data-en="Research Center for High Energy Physics">مرکز پژوهشی فیزیک انرژی بالا</span>
+        </div>
       </div>
 
       <!-- Course 1: 1404 Ardehali -->
@@ -580,7 +649,7 @@
       </div>
 
       <!-- Course 4: 1403 Salehi Vaziri -->
-      <div class="card" style="margin-bottom: 40px; padding: 28px;">
+      <div id="schools-archive" class="card" style="margin-bottom: 40px; padding: 28px;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
           <div>
             <span class="badge badge-purple" style="margin-bottom: 6px;" data-fa="سال ۱۴۰۳ (۳ جلسه)" data-en="2024–2025 (3 Sessions)">سال ۱۴۰۳ (۳ جلسه)</span>
@@ -603,10 +672,16 @@
       </div>
 
       <!-- Current Academic Year Archive 1405-1406 (سخنرانی‌های انجام‌شده سال جاری) -->
-      <div style="padding-top: 30px; border-top: 1px solid var(--border-color); margin-bottom: 40px;">
+      <div id="hep-archive" style="padding-top: 30px; border-top: 1px solid var(--border-color); margin-bottom: 40px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-          <h3 style="font-size: 1.3rem; color: var(--accent); margin-bottom: 0;" data-fa="📁 آرشیو سال جاری (سال تحصیلی ۱۴۰۵–۱۴۰۶)" data-en="📁 Current Academic Year Archive (2026–2027)">📁 آرشیو سال جاری (سال تحصیلی ۱۴۰۵–۱۴۰۶)</h3>
-          <span class="badge badge-green" data-fa="۳ سمینار برگزار شده" data-en="3 Seminars Held">۳ سمینار برگزار شده</span>
+          <h3 style="font-size: 1.3rem; color: var(--accent); margin-bottom: 0;" data-fa="📁 آرشیو سمینارهای فیزیک انرژی بالا (سال تحصیلی ۱۴۰۵–۱۴۰۶)" data-en="📁 High Energy Physics Seminars Archive (2026–2027)">📁 آرشیو سمینارهای فیزیک انرژی بالا (سال تحصیلی ۱۴۰۵–۱۴۰۶)</h3>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div class="nav-program-tabs" style="width: auto;">
+              <a href="#hep-upcoming" class="tab-link" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="🟢 بازگشت به سمینارهای جاری" data-en="🟢 Back to Current">🟢 بازگشت به سمینارهای جاری</a>
+              <a href="#hep-archive" class="tab-link active-tab" style="padding: 4px 12px; font-size: 0.78rem;" data-fa="📁 آرشیو" data-en="📁 Archive">📁 آرشیو</a>
+            </div>
+            <span class="badge badge-green" data-fa="۳ سمینار برگزار شده" data-en="3 Seminars Held">۳ سمینار برگزار شده</span>
+          </div>
         </div>
 
         <div class="events-list">
