@@ -39,8 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const countElem = document.getElementById('pub-count');
 
   function filterItems() {
-    const activeTab = document.querySelector('.tab-btn.active');
-    const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+    const activeTopicBtn = document.querySelector('#topic-filters .tab-btn.active') || document.querySelector('.filter-tabs:not(#year-filters) .tab-btn.active');
+    const activeYearBtn = document.querySelector('#year-filters .tab-btn.active');
+    
+    const topicFilter = activeTopicBtn ? (activeTopicBtn.getAttribute('data-filter') || 'all') : 'all';
+    const yearFilter = activeYearBtn ? (activeYearBtn.getAttribute('data-year') || 'all') : 'all';
     const query = pubSearchInput ? pubSearchInput.value.trim().toLowerCase() : '';
 
     const items = document.querySelectorAll('[data-category]');
@@ -48,12 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     items.forEach(item => {
       const cat = item.getAttribute('data-category');
+      const itemYear = item.getAttribute('data-year');
       const text = item.textContent.toLowerCase();
       
-      const matchCat = (!filter || filter === 'all' || cat === filter);
+      const matchTopic = (!topicFilter || topicFilter === 'all' || cat === topicFilter);
+      const matchYear = (!yearFilter || yearFilter === 'all' || itemYear === yearFilter);
       const matchQuery = !query || text.includes(query);
 
-      if (matchCat && matchQuery) {
+      if (matchTopic && matchYear && matchQuery) {
         item.classList.remove('is-hidden');
         visibleCount++;
       } else {
@@ -70,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tabButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const parent = btn.parentElement;
+        const parent = btn.closest('.filter-tabs');
         if (parent) {
           parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         } else {

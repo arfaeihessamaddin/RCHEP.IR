@@ -90,8 +90,8 @@
       <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 16px;">
         <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: space-between; align-items: center;">
           <!-- Search Box -->
-          <div style="flex: 1; min-width: 260px; position: relative;">
-            <input type="text" id="pub-search" placeholder="جستجو بر اساس عنوان مقاله، نام پژوهشگر یا شناسه arXiv..." style="width: 100%; padding: 12px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition);">
+          <div style="flex: 1; min-width: 280px; position: relative;">
+            <input type="text" id="pub-search" placeholder="جستجو در مقالات: بر اساس عنوان، نویسنده، کلمات کلیدی یا شناسه arXiv..." style="width: 100%; padding: 12px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition);">
           </div>
           <!-- Counter Badge -->
           <div style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">
@@ -99,12 +99,27 @@
           </div>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="filter-tabs" style="margin-bottom: 0;">
-          <button class="tab-btn active" data-filter="all" data-fa="همه مقالات (۴۵)" data-en="All Papers (45)">همه مقالات (۴۵)</button>
-          <button class="tab-btn" data-filter="theory" data-fa="نظری، ریسمان و پیچیدگی کوانتومی" data-en="Theory & Strings">نظری، ریسمان و پیچیدگی کوانتومی</button>
-          <button class="tab-btn" data-filter="cosmology" data-fa="کیهان‌شناسی، نوترینو و اخترفیزیک" data-en="Cosmology & Astro">کیهان‌شناسی، نوترینو و اخترفیزیک</button>
-          <button class="tab-btn" data-filter="gravity" data-fa="سیاهچاله‌ها و گرانش" data-en="Gravity & Black Holes">سیاهچاله‌ها و گرانش</button>
+        <!-- Year Navigation Tabs (برحسب سال میلادی) -->
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);" data-fa="📅 سال انتشار:" data-en="📅 Year:">📅 سال انتشار:</span>
+          <div class="filter-tabs" id="year-filters" style="margin-bottom: 0; display: inline-flex; gap: 8px; flex-wrap: wrap;">
+            <button class="tab-btn active" data-year="all" data-fa="همه سال‌ها (۴۵)" data-en="All Years (45)">همه سال‌ها (۴۵)</button>
+            <button class="tab-btn" data-year="2026" data-fa="سال ۲۰۲۶ (۱۴)" data-en="2026 (14)">سال ۲۰۲۶ (۱۴)</button>
+            <button class="tab-btn" data-year="2025" data-fa="سال ۲۰۲۵ (۱۷)" data-en="2025 (17)">سال ۲۰۲۵ (۱۷)</button>
+            <button class="tab-btn" data-year="2024" data-fa="سال ۲۰۲۴ (۹)" data-en="2024 (9)">سال ۲۰۲۴ (۹)</button>
+            <button class="tab-btn" data-year="2023" data-fa="سال ۲۰۲۳ (۵)" data-en="2023 (5)">سال ۲۰۲۳ (۵)</button>
+          </div>
+        </div>
+
+        <!-- Topic Filter Tabs -->
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--border-color);">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);" data-fa="🔬 محور موضوعی:" data-en="🔬 Subject:">🔬 محور موضوعی:</span>
+          <div class="filter-tabs" id="topic-filters" style="margin-bottom: 0; display: inline-flex; gap: 8px; flex-wrap: wrap;">
+            <button class="tab-btn active" data-filter="all" data-fa="همه موضوعات" data-en="All Topics">همه موضوعات</button>
+            <button class="tab-btn" data-filter="theory" data-fa="نظری، ریسمان و پیچیدگی کوانتومی" data-en="Theory & Strings">نظری، ریسمان و پیچیدگی کوانتومی</button>
+            <button class="tab-btn" data-filter="cosmology" data-fa="کیهان‌شناسی، نوترینو و اخترفیزیک" data-en="Cosmology & Astro">کیهان‌شناسی، نوترینو و اخترفیزیک</button>
+            <button class="tab-btn" data-filter="gravity" data-fa="سیاهچاله‌ها و گرانش" data-en="Gravity & Black Holes">سیاهچاله‌ها و گرانش</button>
+          </div>
         </div>
       </div>
 
@@ -177,7 +192,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="gravity" data-year="2023" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#6</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Locality outside extremal black holes</h4>
@@ -185,7 +200,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-blue" data-fa="گرانش و سیاهچاله‌ها" data-en="Gravity & Black Holes">گرانش و سیاهچاله‌ها</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2023</span>
               <a href="https://arxiv.org/abs/2304.07315" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2304.07315 ↗</a>
             </div>
           </div>
@@ -275,7 +290,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="cosmology" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#13</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Cross-Matching of OGLE, GAIA, and Hubble catalogs: Evaluating the probability of resolving lens stars in microlensing events</h4>
@@ -283,7 +298,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-green" data-fa="کیهان‌شناسی و اخترفیزیک" data-en="Cosmology & Astrophysics">کیهان‌شناسی و اخترفیزیک</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2024</span>
               <a href="https://arxiv.org/abs/2405.16454" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2405.16454 ↗</a>
             </div>
           </div>
@@ -387,7 +402,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2024" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#21</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Left-Right relative entropy</h4>
@@ -395,7 +410,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2024</span>
               <a href="https://arxiv.org/abs/2411.09406" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2411.09406 ↗</a>
             </div>
           </div>
@@ -499,7 +514,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="cosmology" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#29</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Equivalence principle violations in the dark sector: A pathway to Hubble tension resolution</h4>
@@ -507,7 +522,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-green" data-fa="کیهان‌شناسی و اخترفیزیک" data-en="Cosmology & Astrophysics">کیهان‌شناسی و اخترفیزیک</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2025</span>
               <a href="https://arxiv.org/abs/2506.01234" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2506.01234 ↗</a>
             </div>
           </div>
@@ -527,7 +542,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#31</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Thermal corrections to entanglement entropy in holographic superconductor models</h4>
@@ -535,7 +550,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2025</span>
               <a href="https://arxiv.org/abs/2508.17055" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2508.17055 ↗</a>
             </div>
           </div>
@@ -555,7 +570,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="gravity" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#33</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Schwarzschild spacetime and the local limit of nonlocal gravity</h4>
@@ -563,13 +578,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-blue" data-fa="گرانش و سیاهچاله‌ها" data-en="Gravity & Black Holes">گرانش و سیاهچاله‌ها</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2025</span>
               <a href="https://arxiv.org/abs/2509.20089" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2509.20089 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#34</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">The ZN equivariant Virasoro algebra via alternative Sugawara constructions</h4>
@@ -577,7 +592,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2025</span>
               <a href="https://arxiv.org/abs/2512.00588" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2512.00588 ↗</a>
             </div>
           </div>
@@ -597,7 +612,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2025" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#36</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">The species scale and the refined TCC bound in time-dependent backgrounds of string theory</h4>
@@ -605,13 +620,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2025</span>
               <a href="https://arxiv.org/abs/2512.22694" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2512.22694 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#37</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Modular Krylov complexity as a boundary probe of area operator and entanglement islands</h4>
@@ -619,7 +634,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2602.02675" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2602.02675 ↗</a>
             </div>
           </div>
@@ -639,7 +654,7 @@
           </div>
         </div>
 
-        <div class="pub-item" data-category="cosmology" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="cosmology" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#39</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Gravitational scattering of Oort cloud objects by dark matter: Constraints on the primordial black hole fraction</h4>
@@ -647,13 +662,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-green" data-fa="کیهان‌شناسی و اخترفیزیک" data-en="Cosmology & Astrophysics">کیهان‌شناسی و اخترفیزیک</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2604.22961" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2604.22961 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#40</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">BMS3-like algebras via the ZN-graded u(1)2 Kac-Moody algebra</h4>
@@ -661,13 +676,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2606.29323" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2606.29323 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#41</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Krylov complexity for time-dependent Hamiltonians</h4>
@@ -675,13 +690,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2607.10454" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.10454 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="gravity" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="gravity" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#42</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Freezing swampland: A Krylov complexity criterion for the weak gravity conjecture</h4>
@@ -689,13 +704,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-blue" data-fa="گرانش و سیاهچاله‌ها" data-en="Gravity & Black Holes">گرانش و سیاهچاله‌ها</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2607.23747" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.23747 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#43</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Weak Bose-Einstein condensation in a rigidly rotating magnetized charged Bose gas</h4>
@@ -703,13 +718,13 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2607.29297" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2607.29297 ↗</a>
             </div>
           </div>
         </div>
 
-        <div class="pub-item" data-category="theory" data-year="Recent" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="pub-item" data-category="theory" data-year="2026" style="display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent); min-width: 32px; text-align: center;">#44</div>
           <div style="flex-grow: 1;">
             <h4 class="pub-title" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 6px;">Entanglement wedge reconstruction beyond the large N Limit via the twirled Petz map</h4>
@@ -717,7 +732,7 @@
             
             <div class="pub-meta" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <span class="badge badge-purple" data-fa="فیزیک ذرات نظری و ریسمان" data-en="Theoretical HEP & Strings">فیزیک ذرات نظری و ریسمان</span>
-              <span class="badge badge-blue">Recent</span>
+              <span class="badge badge-blue">2026</span>
               <a href="https://arxiv.org/abs/2609.07866" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">📄 arXiv: 2609.07866 ↗</a>
             </div>
           </div>
@@ -742,9 +757,50 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container footer-bottom">
-      <div data-fa="© 2024–2026 مرکز پژوهشی فیزیک انرژی بالا (RCHEP) - دانشگاه صنعتی شریف" data-en="© 2024–2026 Research Center for High Energy Physics (RCHEP) - Sharif University">© 2024–2026 مرکز پژوهشی فیزیک انرژی بالا (RCHEP) - دانشگاه صنعتی شریف</div>
-      <div><a href="index.html" style="color: var(--accent);" data-fa="بازگشت به صفحه اصلی" data-en="Back to Home">بازگشت به صفحه اصلی</a></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4 data-fa="مرکز پژوهشی فیزیک انرژی بالا (RCHEP)" data-en="Research Center for High Energy Physics">مرکز پژوهشی فیزیک انرژی بالا (RCHEP)</h4>
+          <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; margin-bottom: 14px;" data-fa="دانشگاه صنعتی شریف، دانشکده فیزیک، ساختمان شهید ستاری." data-en="Sharif University of Technology, Department of Physics, Tehran, Iran.">
+            دانشگاه صنعتی شریف، دانشکده فیزیک، خیابان آزادی، تهران، ایران.
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">
+            ✉️ Email: <a href="mailto:rchep@sharif.ir" style="color: var(--accent);">rchep@sharif.ir</a>
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-fa="دسترسی سریع" data-en="Quick Links">دسترسی سریع</h4>
+          <ul>
+            <li><a href="research.html" data-fa="گروه‌های پژوهشی" data-en="Research Groups">گروه‌های پژوهشی</a></li>
+            <li><a href="people.html" data-fa="اعضای هیأت علمی" data-en="Faculty & Members">اعضای هیأت علمی</a></li>
+            <li><a href="events.html" data-fa="سمینارها و کارگاه‌ها" data-en="Seminars & Events">سمینارها و کارگاه‌ها</a></li>
+            <li><a href="publications.html" data-fa="مقالات علمی" data-en="Publications">مقالات علمی</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-fa="پیوندهای مفید" data-en="External Links">پیوندهای مفید</h4>
+          <ul>
+            <li><a href="https://sharif.edu" target="_blank" rel="noopener" data-fa="دانشگاه صنعتی شریف" data-en="Sharif University of Technology">دانشگاه صنعتی شریف</a></li>
+            <li><a href="https://physics.sharif.edu" target="_blank" rel="noopener" data-fa="دانشکده فیزیک شریف" data-en="Sharif Department of Physics">دانشکده فیزیک شریف</a></li>
+            <li><a href="https://home.cern" target="_blank" rel="noopener" data-fa="آزمایشگاه سرن (CERN)" data-en="CERN Laboratory">آزمایشگاه سرن (CERN)</a></li>
+            <li><a href="https://arxiv.org" target="_blank" rel="noopener">arXiv e-Print Archive</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-fa="درباره سایت" data-en="About Site">درباره سایت</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6;" data-fa="میزبانی شده بر روی GitHub Pages با عملکرد سریع، امنیت بالا و بدون وابستگی به پایگاه داده." data-en="Hosted seamlessly on GitHub Pages. Fast, static, and secure.">
+            میزبانی شده بر روی GitHub Pages با عملکرد سریع، امنیت بالا و طراحی اختصاصی استاتیک.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div data-fa="© 2024–2026 مرکز پژوهشی فیزیک انرژی بالا (RCHEP) - تمام حقوق محفوظ است." data-en="© 2024–2026 Research Center for High Energy Physics (RCHEP) - All Rights Reserved.">© 2024–2026 مرکز پژوهشی فیزیک انرژی بالا (RCHEP) - تمام حقوق محفوظ است.</div>
+        <div>rchep.ir | Sharif University of Technology</div>
+      </div>
     </div>
   </footer>
 
