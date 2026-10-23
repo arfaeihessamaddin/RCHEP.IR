@@ -1516,3 +1516,194 @@ body[dir="ltr"] .cal-tooltip {
     align-items: flex-start;
   }
 }
+
+/* ==========================================================================
+   Poster Hover Preview & Click Lightbox Modal (خرامش و زنش پوستر سمینار)
+   ========================================================================== */
+.poster-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  font-family: inherit;
+}
+
+[data-theme="dark"] .poster-btn {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.poster-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+[data-theme="dark"] .poster-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+}
+
+.poster-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Floating Hover Preview (خرامش) */
+.poster-floating-preview {
+  position: fixed;
+  z-index: 9990;
+  pointer-events: none;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-highlight);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  max-width: 240px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.poster-floating-preview.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.poster-floating-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.poster-floating-preview .preview-hint {
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+}
+
+/* Fullscreen Lightbox Modal (زنش) */
+.poster-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.poster-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.poster-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.92);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.poster-modal.active .poster-modal-content {
+  transform: scale(1);
+}
+
+.poster-modal-content img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border-highlight);
+}
+
+.poster-modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #f3f4f6;
+  gap: 16px;
+}
+
+.poster-modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.poster-modal-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.poster-modal-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.poster-modal-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.poster-modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+
+.poster-modal-close:hover {
+  background: #ef4444;
+  transform: rotate(90deg);
+}

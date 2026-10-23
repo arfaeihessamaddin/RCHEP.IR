@@ -258,9 +258,102 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderMathTypography();
+  initPosterInteractions();
   if (window.lucide) {
     try {
       window.lucide.createIcons();
     } catch(e) {}
   }
 });
+
+// 7. Interactive Poster Hover Preview & Lightbox Modal (خرامش و زنش پوستر)
+function initPosterInteractions() {
+  const previewEl = document.createElement('div');
+  previewEl.className = 'poster-floating-preview';
+  previewEl.innerHTML = `
+    <img src="" alt="پیش‌نمایش پوستر">
+    <div class="preview-hint" data-fa="برای بزرگ‌نمایی کلیک کنید" data-en="Click to enlarge">برای بزرگ‌نمایی کلیک کنید</div>
+  `;
+  document.body.appendChild(previewEl);
+  const previewImg = previewEl.querySelector('img');
+
+  const modalEl = document.createElement('div');
+  modalEl.className = 'poster-modal';
+  modalEl.innerHTML = `
+    <div class="poster-modal-content">
+      <div class="poster-modal-header">
+        <span class="poster-modal-title" data-fa="پوستر رسمی سمینار" data-en="Official Seminar Poster">پوستر رسمی سمینار</span>
+        <div class="poster-modal-actions">
+          <a href="#" download class="poster-modal-btn download-link" data-fa="دریافت فایل پوستر ⬇" data-en="Download Poster ⬇">دریافت فایل پوستر ⬇</a>
+          <button class="poster-modal-close" aria-label="بستن">✕</button>
+        </div>
+      </div>
+      <img src="" alt="پوستر کامل سمینار">
+    </div>
+  `;
+  document.body.appendChild(modalEl);
+  const modalImg = modalEl.querySelector('img');
+  const modalTitle = modalEl.querySelector('.poster-modal-title');
+  const modalDownload = modalEl.querySelector('.download-link');
+  const modalClose = modalEl.querySelector('.poster-modal-close');
+
+  function closeModal() {
+    modalEl.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalEl.addEventListener('click', (e) => {
+    if (e.target === modalEl) closeModal();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalEl.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+  document.querySelectorAll('[data-poster]').forEach(btn => {
+    const posterSrc = btn.getAttribute('data-poster');
+    const title = btn.getAttribute('data-title') || 'پوستر سمینار';
+
+    // Hover (خرامش)
+    btn.addEventListener('mouseenter', () => {
+      previewImg.src = posterSrc;
+      const rect = btn.getBoundingClientRect();
+      const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
+      
+      let left;
+      if (isRtl) {
+        left = rect.left - 250;
+        if (left < 10) left = rect.right + 10;
+      } else {
+        left = rect.right + 10;
+        if (left + 250 > window.innerWidth) left = rect.left - 250;
+      }
+
+      let top = rect.top - 40;
+      if (top < 10) top = 10;
+      if (top + 340 > window.innerHeight) top = window.innerHeight - 350;
+
+      previewEl.style.left = `${left}px`;
+      previewEl.style.top = `${top}px`;
+      previewEl.classList.add('visible');
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      previewEl.classList.remove('visible');
+    });
+
+    // Click (زنش)
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      previewEl.classList.remove('visible');
+      modalImg.src = posterSrc;
+      modalTitle.textContent = title;
+      modalDownload.setAttribute('href', posterSrc);
+      modalEl.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+}
