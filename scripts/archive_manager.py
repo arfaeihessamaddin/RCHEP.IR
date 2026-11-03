@@ -87,45 +87,9 @@ def archive_hep_seminar():
     with open(EVENTS_PATH, "w", encoding="utf-8") as f:
         f.write(new_html)
 
-    update_index_hep()
+    # Keep the weekly calendar tied to its own displayed week. Archiving this
+    # seminar must not replace it with the next event in the upcoming list.
     return True
-
-def update_index_hep():
-    with open(EVENTS_PATH, "r", encoding="utf-8") as f:
-        ev_html = f.read()
-
-    col1_marker = '<!-- Column 1: High Energy Physics Seminars -->'
-    c1 = ev_html.find(col1_marker)
-    item_s = ev_html.find('<div class="event-item"', c1)
-    if item_s == -1: return
-    item_e = ev_html.find('</div>\n              </div>', item_s) + len('</div>\n              </div>')
-    top_item = ev_html[item_s:item_e]
-
-    day_m = re.search(r'<div class="day"[^>]*>(\d+)</div>', top_item)
-    title_m = re.search(r'<h5[^>]*>(.*?)</h5>', top_item)
-    spk_m = re.search(r'<span data-fa=\"👤 ([^\"]+)\"', top_item)
-
-    if not (day_m and title_m and spk_m):
-        return
-
-    day = day_m.group(1).zfill(2)
-    title = title_m.group(1)
-    spk = spk_m.group(1)
-
-    with open(INDEX_PATH, "r", encoding="utf-8") as f:
-        idx_html = f.read()
-
-    mon_start = idx_html.find('<!-- Mon (Active Seminar')
-    if mon_start != -1:
-        mon_end = idx_html.find('<!-- Tue', mon_start)
-        mon_block = idx_html[mon_start:mon_end]
-        mon_block = re.sub(r'<div class="cal-shamsi-date"[^>]*>\d+</div>', f'<div class="cal-shamsi-date" data-fa="{day}" data-en="{day}">{day}</div>', mon_block)
-        mon_block = re.sub(r'<div class="cal-tip-title"[^>]*>.*?</div>', f'<div class="cal-tip-title" data-fa="{title}" data-en="{title}">{title}</div>', mon_block)
-        mon_block = re.sub(r'<div class="cal-tip-speaker"[^>]*>.*?</div>', f'<div class="cal-tip-speaker" data-fa="👤 {spk}" data-en="👤 {spk}">👤 {spk}</div>', mon_block)
-        idx_html = idx_html[:mon_start] + mon_block + idx_html[mon_end:]
-
-    with open(INDEX_PATH, "w", encoding="utf-8") as f:
-        f.write(idx_html)
 
 def archive_ai_session():
     with open(EVENTS_PATH, "r", encoding="utf-8") as f:
