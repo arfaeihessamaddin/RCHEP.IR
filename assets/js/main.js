@@ -3,7 +3,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Theme Toggle
   const themeToggle = document.getElementById('theme-toggle');
-  const currentTheme = localStorage.getItem('theme') || 'dark';
+  let currentTheme = 'dark';
+  try {
+    currentTheme = localStorage.getItem('theme') || 'dark';
+  } catch (error) {
+    // Keep the interface functional when browser storage is unavailable.
+  }
   document.documentElement.setAttribute('data-theme', currentTheme);
 
   if (themeToggle) {
@@ -12,7 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeTheme = document.documentElement.getAttribute('data-theme');
       const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+      try {
+        localStorage.setItem('theme', newTheme);
+      } catch (error) {
+        // Theme still changes for the current page when storage is unavailable.
+      }
       updateThemeIcon(newTheme);
     });
   }
