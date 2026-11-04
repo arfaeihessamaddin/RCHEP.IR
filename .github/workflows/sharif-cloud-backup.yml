@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
 
           # Normalize accidental whitespace or enclosing quotes/brackets in the URL secret.
-          BASE="$(printf '%s' "$SHARIF_WEBDAV_URL" | tr -d '\\r\\n' | sed -e 's/^[[:space:]<"]*//' -e 's/[[:space:]>"]*$//')"
+          BASE="$(printf '%s' "$SHARIF_WEBDAV_URL" | tr -d '\r\n' | sed -e 's/^[[:space:]<"]*//' -e 's/[[:space:]>"]*$//')"
           BASE="${BASE%/}"
           if [[ ! "$BASE" =~ ^https?://[^/]+(/.*)?$ ]]; then
             echo "SHARIF_WEBDAV_URL is not a valid absolute HTTP(S) URL. Check the secret value."
