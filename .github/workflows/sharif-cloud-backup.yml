@@ -1,0 +1,95 @@
+name: Backup RCHEP website to Sharif Cloud
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sharif-cloud-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the exact commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Validate WebDAV credentials
+        env:
+          SHARIF_WEBDAV_URL: ${{ secrets.SHARIF_WEBDAV_URL }}
+          SHARIF_WEBDAV_USER: ${{ secrets.SHARIF_WEBDAV_USER }}
+          SHARIF_WEBDAV_PASSWORD: ${{ secrets.SHARIF_WEBDAV_PASSWORD }}
+        run: |
+          test -n "$SHARIF_WEBDAV_URL" || { echo "Missing SHARIF_WEBDAV_URL"; exit 1; }
+          test -n "$SHARIF_WEBDAV_USER" || { echo "Missing SHARIF_WEBDAV_USER"; exit 1; }
+          test -n "$SHARIF_WEBDAV_PASSWORD" || { echo "Missing SHARIF_WEBDAV_PASSWORD"; exit 1; }
+
+      - name: Package website and upload to Sharif Cloud
+        env:
+          SHARIF_WEBDAV_URL: ${{ secrets.SHARIF_WEBDAV_URL }}
+          SHARIF_WEBDAV_USER: ${{ secrets.SHARIF_WEBDAV_USER }}
+          SHARIF_WEBDAV_PASSWORD: ${{ secrets.SHARIF_WEBDAV_PASSWORD }}
+          SOURCE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BASE="${SHARIF_WEBDAV_URL%/}"
+          ROOT="${BASE}/rchep-website"
+
+          mkdir_remote() {
+            local url="$1"
+            local code
+            code=$(curl --silent --show-error --output /dev/null --write-out "%{http_code}" \
+              --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
+              --request MKCOL "$url")
+            case "$code" in
+              201|405) ;;
+              *) echo "Could not create/check WebDAV folder (HTTP $code): $url"; exit 1 ;;
+            esac
+          }
+
+          upload_file() {
+            local local_file="$1"
+            local remote_url="$2"
+            curl --fail --silent --show-error \
+              --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
+              --upload-file "$local_file" "$remote_url"
+            local code
+            code=$(curl --silent --show-error --output /dev/null --write-out "%{http_code}" \
+              --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
+              --request PROPFIND --header "Depth: 0" "$remote_url")
+            test "$code" = "207" || { echo "Upload verification failed (HTTP $code): $remote_url"; exit 1; }
+          }
+
+          for folder in website-files documentation design-decisions change-log backups; do
+            mkdir_remote "$ROOT/$folder"
+          done
+
+          STAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          SHORT_SHA="${SOURCE_SHA:0:12}"
+          ARCHIVE="RCHEP-website-${STAMP}-${SHORT_SHA}.zip"
+          git archive --format=zip --prefix=RCHEP-website/ "$SOURCE_SHA" -o "$RUNNER_TEMP/$ARCHIVE"
+
+          upload_file "$RUNNER_TEMP/$ARCHIVE" "$ROOT/backups/$ARCHIVE"
+          upload_file "$RUNNER_TEMP/$ARCHIVE" "$ROOT/website-files/RCHEP-website-current.zip"
+
+          {
+            echo "RCHEP website backup"
+            echo "UTC time: $STAMP"
+            echo "Commit: $SOURCE_SHA"
+            echo "Archive: $ARCHIVE"
+            git show -s --format="Commit subject: %s%nCommit date: %cI" "$SOURCE_SHA"
+          } > "$RUNNER_TEMP/backup-info.txt"
+          upload_file "$RUNNER_TEMP/backup-info.txt" "$ROOT/change-log/latest-backup.txt"
+
+          echo "Sharif Cloud backup uploaded and verified: $ARCHIVE"
