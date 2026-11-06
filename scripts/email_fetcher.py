@@ -1,181 +1,317 @@
 #!/usr/bin/env python3
-"""
-RCHEP Automated Email Listener & Website Synchronizer
-Connects to Gmail via IMAP, inspects emails from official seminar coordinators
-(Niloofar Vardian & Pouya / Ebrahim Siri), extracts poster attachments, titles,
-and abstracts, and updates events.html & index.html automatically.
-"""
+"""Fetch approved RCHEP seminar announcements and update their event cards."""
 
-import os, sys, re, email, imaplib
+import os
+import re
+import html
+import email
+import imaplib
+import hashlib
 from email.header import decode_header
-from datetime import datetime
+from datetime import datetime, timezone
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVENTS_PATH = os.path.join(REPO_ROOT, "events.html")
-INDEX_PATH = os.path.join(REPO_ROOT, "index.html")
 EVENTS_IMG_DIR = os.path.join(REPO_ROOT, "assets", "images", "events")
-
 os.makedirs(EVENTS_IMG_DIR, exist_ok=True)
 
-def decode_mime(h):
-    if not h: return ""
-    parts = decode_header(h)
-    res = ""
-    for p, enc in parts:
-        if isinstance(p, bytes):
-            res += p.decode(enc or "utf-8", errors="ignore")
+APPROVED_SENDERS = ("niloofarvardian@gmail.com", "pouya.si74@gmail.com")
+IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
+PERSIAN_MONTHS = "فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند"
+
+
+def decode_mime(value):
+    if not value:
+        return ""
+    output = []
+    for part, encoding in decode_header(value):
+        if isinstance(part, bytes):
+            output.append(part.decode(encoding or "utf-8", errors="replace"))
         else:
-            res += str(p)
-    return res
+            output.append(str(part))
+    return "".join(output)
 
-def fetch_and_update():
-    user = os.environ.get("GMAIL_USER")
-    pwd = os.environ.get("GMAIL_APP_PASSWORD")
 
-    if not user or not pwd:
-        print("Missing GMAIL_USER or GMAIL_APP_PASSWORD environment variables.")
-        return False
+def normalize_text(value):
+    value = value or ""
+    return (value.replace("\u200c", "").replace("\u200f", "")
+            .replace("ي", "ی").replace("ك", "ک").replace("\xa0", " ")
+            .strip())
 
-    print(f"Connecting to Gmail for {user}...")
-    try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-        mail.login(user, pwd)
-        mail.select("inbox")
-    except Exception as e:
-        print(f"Failed to login to Gmail: {e}")
-        return False
 
-    # Check for seminar and Houshvareh session announcements from approved senders
-    _, sender_msgs = mail.search(
-        None,
-        '(OR FROM "niloofarvardian@gmail.com" FROM "pouya.si74@gmail.com")'
-    )
-    message_ids = sender_msgs[0].split()
+def safe_filename(value):
+    value = re.sub(r"[^\w.-]+", "-", value, flags=re.UNICODE).strip("-.")
+    return value[:100] or "poster"
 
-    updated = False
-    if message_ids:
-        # Check the latest 10 messages from the approved senders
-        for mid in message_ids[-10:]:
-            _, data = mail.fetch(mid, "(RFC822)")
-            msg = email.message_from_bytes(data[0][1])
-            subject = decode_mime(msg.get("Subject"))
-            
-            if not any(term in subject for term in ("سمینار", "هوشواره")):
-                continue
 
-            # Extract body and attachments
-            body_text = ""
-            poster_filename = None
+def extract_body(message):
+    plain_parts = []
+    html_parts = []
+    for part in message.walk():
+        if part.get_content_maintype() == "multipart":
+            continue
+        if part.get_filename():
+            continue
+        payload = part.get_payload(decode=True)
+        if not payload:
+            continue
+        charset = part.get_content_charset() or "utf-8"
+        text = payload.decode(charset, errors="replace")
+        if part.get_content_type() == "text/plain":
+            plain_parts.append(text)
+        elif part.get_content_type() == "text/html":
+            html_parts.append(re.sub(r"<[^>]+>", " ", text))
+    return "\n".join(plain_parts or html_parts)
 
-            for part in msg.walk():
-                ctype = part.get_content_type()
-                cdisp = str(part.get("Content-Disposition"))
-                fn = decode_mime(part.get_filename())
-
-                if fn and any(fn.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png"]):
-                    save_name = re.sub(r"[^\w\.-]", "_", fn)
-                    poster_path = os.path.join(EVENTS_IMG_DIR, save_name)
-                    with open(poster_path, "wb") as f:
-                        f.write(part.get_payload(decode=True))
-                    poster_filename = save_name
-                    print(f"Saved attached poster: {poster_filename}")
-
-                elif ctype == "text/plain" and not body_text:
-                    body_text = part.get_payload(decode=True).decode("utf-8", errors="ignore")
-
-            # Parse details from body
-            if body_text and "ارائه‌دهنده" in body_text or "ارائه دهنده" in body_text:
-                res = parse_seminar_text(body_text, subject)
-                if res:
-                    print(f"Found parsed seminar details: {res['title']} by {res['speaker']}")
-                    if update_seminar_in_site(res, poster_filename):
-                        updated = True
-
-    mail.logout()
-    return updated
 
 def parse_seminar_text(body, subject):
-    lines = [l.strip() for l in body.splitlines() if l.strip()]
+    raw_lines = [line.strip() for line in body.splitlines() if line.strip()]
+    lines = [normalize_text(line).strip("*• \t") for line in raw_lines]
+    normalized_body = normalize_text(body)
     details = {
         "title": "",
         "speaker": "",
-        "affiliation": "دانشگاه صنعتی شریف (SUT)",
-        "time": "۱۳:۳۰",
-        "date_str": "",
+        "affiliation": "",
+        "abstract": "",
         "day": "",
         "month": "",
-        "abstract": "",
-        "venue": "اتاق سمینار مرکز پژوهشی فیزیک انرژی بالا"
+        "year": "1405",
     }
 
-    # Find speaker
-    for i, line in enumerate(lines):
-        clean = line.replace("*", "").strip()
-        if "ارائه‌دهنده" in clean or "ارائه دهنده" in clean or "سخنران" in clean:
-            parts = clean.split(":")
-            if len(parts) > 1 and parts[1].strip():
-                details["speaker"] = parts[1].strip()
-            elif i + 1 < len(lines):
-                details["speaker"] = lines[i+1].replace("*", "").strip()
+    # Date may be in the subject or body. Accept Persian and Arabic numerals.
+    date_source = normalize_text(subject + "\n" + body)
+    digit_map = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+    date_source = date_source.translate(digit_map)
+    date_match = re.search(rf"(\d{{1,2}})\s*({PERSIAN_MONTHS})", date_source)
+    if date_match:
+        details["day"] = date_match.group(1).zfill(2)
+        details["month"] = date_match.group(2)
+        year_match = re.search(r"(14\d{2})", date_source)
+        if year_match:
+            details["year"] = year_match.group(1)
 
-        if "چکیده" in clean:
-            # Next paragraph is abstract
-            abs_lines = []
-            for j in range(i+1, min(len(lines), i+15)):
-                if "مکان" in lines[j] or "لینک" in lines[j] or "ساعت" in lines[j]:
-                    break
-                abs_lines.append(lines[j].replace("*", "").strip())
-            details["abstract"] = " ".join(abs_lines).strip()
-
-        if "تاریخ" in clean:
-            for j in range(i, min(len(lines), i+3)):
-                dm = re.search(r"(\d{1,2})\s*(مهر|آبان|آذر|دی|بهمن|اسفند|فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور)", lines[j])
-                if dm:
-                    details["day"] = dm.group(1).zfill(2)
-                    details["month"] = dm.group(2) + " 1405"
-                    break
-
-    # Title is usually right below header line
-    for i, line in enumerate(lines):
-        if "سمینار" in line and ("مرکز" in line or "دانشکده" in line):
-            for k in range(i+1, min(len(lines), i+5)):
-                candidate = lines[k].replace("*", "").strip()
-                if candidate and not any(w in candidate for w in ["دانشگاه", "ارائه‌دهنده", "زمان", "تاریخ"]):
-                    details["title"] = candidate
-                    break
+    # Explicit title labels take precedence.
+    for line in lines:
+        match = re.match(r"^(?:عنوان|موضوع|title)\s*[:：]\s*(.+)$", line, re.I)
+        if match:
+            details["title"] = match.group(1).strip()
             break
 
-    if details["title"] and details["speaker"]:
+    # Otherwise, the title is normally the first substantive line after the seminar header.
+    if not details["title"]:
+        for index, line in enumerate(lines):
+            compact = normalize_text(line)
+            if "سمینار" in compact and ("مرکز" in compact or "دانشگاه" in compact):
+                for candidate in lines[index + 1:index + 7]:
+                    if candidate and not re.search(
+                        r"ارائهدهنده|سخنران|زمان|تاریخ|مکان|چکیده|دانشگاه صنعتی شریف",
+                        normalize_text(candidate), re.I
+                    ):
+                        details["title"] = candidate
+                        break
+                break
+
+    # Speaker labels tolerate joined, spaced, and half-spaced Persian forms.
+    for index, line in enumerate(lines):
+        compact = normalize_text(line)
+        if re.search(r"(?:ارائهدهنده|سخنران|ارائهکننده)", compact):
+            value = re.split(r"[:：]", line, maxsplit=1)
+            if len(value) > 1 and value[1].strip():
+                details["speaker"] = value[1].strip()
+            elif index + 1 < len(lines):
+                details["speaker"] = lines[index + 1]
+            break
+
+    # Affiliation, when explicitly present.
+    for index, line in enumerate(lines):
+        if re.search(r"وابستگی|دانشگاه|پژوهشگاه|affiliation", normalize_text(line), re.I):
+            if ":" in line or "：" in line:
+                details["affiliation"] = re.split(r"[:：]", line, maxsplit=1)[-1].strip()
+            elif index + 1 < len(lines):
+                details["affiliation"] = lines[index + 1]
+            break
+
+    for index, line in enumerate(lines):
+        if "چکیده" in normalize_text(line):
+            abstract_lines = []
+            for candidate in lines[index + 1:index + 16]:
+                if re.search(r"مکان|لینک|ساعت|زمان|تاریخ", normalize_text(candidate)):
+                    break
+                abstract_lines.append(candidate)
+            details["abstract"] = " ".join(abstract_lines).strip()
+            break
+
+    if details["title"] and details["speaker"] and details["day"] and details["month"]:
         return details
     return None
 
-def update_seminar_in_site(details, poster_filename):
-    with open(EVENTS_PATH, "r", encoding="utf-8") as f:
-        html = f.read()
 
-    # Check if title already present
-    if details["title"] in html:
-        print("Seminar title already updated on events.html.")
+def save_posters(message, day, month):
+    saved = {}
+    for part in message.walk():
+        filename = decode_mime(part.get_filename())
+        if not filename or not filename.lower().endswith(IMAGE_EXTENSIONS):
+            continue
+        payload = part.get_payload(decode=True)
+        if not payload:
+            continue
+
+        lower_name = normalize_text(filename).lower()
+        if re.search(r"(^|[^a-z])fa([^a-z]|$)|فارسی|persian", lower_name):
+            language = "fa"
+        elif re.search(r"(^|[^a-z])en([^a-z]|$)|english|انگلیسی", lower_name):
+            language = "en"
+        else:
+            # Do not guess a language when the attachment name gives no clue.
+            language = "unclassified"
+
+        extension = os.path.splitext(filename)[1].lower()
+        if extension not in IMAGE_EXTENSIONS:
+            continue
+        stem = f"{day}-{safe_filename(month)}-{language}"
+        target_name = f"{stem}{extension}"
+        target_path = os.path.join(EVENTS_IMG_DIR, target_name)
+        with open(target_path, "wb") as output:
+            output.write(payload)
+        saved[language] = target_name
+        print(f"Poster saved: {target_name} ({len(payload)} bytes)")
+    return saved
+
+
+def update_seminar_in_site(details, posters):
+    with open(EVENTS_PATH, "r", encoding="utf-8") as source:
+        page = source.read()
+
+    marker = f"<!-- {details['day']} {details['month']} {details['year']} -->"
+    start = page.find(marker)
+    if start < 0:
+        print(f"Review required: event marker not found for {marker}")
         return False
 
-    day = details["day"]
-    if not day:
+    next_marker = re.search(r"\n\s*<!--\s*\d{1,2}\s+[آ-ی]+\s+14\d{2}\s*-->", page[start + len(marker):])
+    end = start + len(marker) + next_marker.start() if next_marker else page.find("</div>\n", start)
+    if end < start:
+        print("Review required: could not isolate the dated event card.")
         return False
 
-    # Find the upcoming event item for this day
-    pattern = rf'(<div class="day"[^>]*>{day}</div>[\s\S]*?<div class="event-info">[\s\S]*?<h5[^>]*>)(.*?)(</h5>)'
-    m = re.search(pattern, html)
-    if m:
-        html = html[:m.start(2)] + details["title"] + html[m.end(2):]
-        # Also update data-fa and data-en on h5
-        html = re.sub(rf'<h5([^>]*)>{re.escape(details["title"])}</h5>', f'<h5\\1 data-fa="{details["title"]}" data-en="{details["title"]}">{details["title"]}</h5>', html)
-        with open(EVENTS_PATH, "w", encoding="utf-8") as f:
-            f.write(html)
-        print(f"Successfully updated seminar for day {day} in events.html!")
+    block = page[start:end]
+    escaped_title = html.escape(details["title"], quote=True)
+    title_pattern = re.compile(r'(<h5\b[^>]*>).*?(</h5>)', re.S)
+    if title_pattern.search(block):
+        block = title_pattern.sub(
+            lambda match: re.sub(r">\s*$", ">", match.group(1)) +
+                          escaped_title + match.group(2),
+            block, count=1
+        )
+
+    if details.get("speaker"):
+        speaker_pattern = re.compile(r'(<span\b[^>]*data-fa=")[^"]*(".*?data-en=")[^"]*(".*?>).*?(</span>)', re.S)
+        if speaker_pattern.search(block):
+            block = speaker_pattern.sub(
+                lambda m: m.group(1) + "👤 " + html.escape(details["speaker"], quote=True) +
+                          m.group(2) + "👤 " + html.escape(details["speaker"], quote=True) +
+                          m.group(3) + "👤 " + html.escape(details["speaker"]) + m.group(4),
+                block, count=1
+            )
+
+    poster_links = []
+    labels = {
+        "fa": ('پوستر فارسی', 'Persian poster'),
+        "en": ('پوستر انگلیسی', 'English poster'),
+    }
+    for language in ("fa", "en"):
+        filename = posters.get(language)
+        if filename:
+            href = "assets/images/events/" + filename
+            fa_label, en_label = labels[language]
+            poster_links.append(
+                f'<a class="seminar-poster-link" href="{href}" target="_blank" rel="noopener" '
+                f'download data-fa="{fa_label}" data-en="{en_label}">{fa_label} / {en_label}</a>'
+            )
+    if posters.get("unclassified"):
+        filename = posters["unclassified"]
+        href = "assets/images/events/" + filename
+        poster_links.append(
+            f'<a class="seminar-poster-link" href="{href}" target="_blank" rel="noopener" download '
+            f'data-fa="پوستر" data-en="Poster">پوستر / Poster</a>'
+        )
+
+    # Replace the poster links on repeat runs instead of duplicating them.
+    block = re.sub(r'\s*<div class="seminar-posters">.*?</div>', "", block, flags=re.S)
+    if poster_links:
+        links_html = '<div class="seminar-posters" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">' + \
+                     "".join(poster_links) + '</div>'
+        insertion = block.find("</div>", block.find('<div class="event-meta"'))
+        if insertion >= 0:
+            insertion += len("</div>")
+            block = block[:insertion] + "\n                " + links_html + block[insertion:]
+        else:
+            print("Review required: could not find event metadata container for poster links.")
+            return False
+
+    updated_page = page[:start] + block + page[end:]
+    if updated_page != page:
+        with open(EVENTS_PATH, "w", encoding="utf-8") as output:
+            output.write(updated_page)
+        print(f"Updated event card: {details['day']} {details['month']} {details['year']}")
         return True
-
+    print("No changes needed for this event.")
     return False
+
+
+def fetch_and_update():
+    user = os.environ.get("GMAIL_USER")
+    password = os.environ.get("GMAIL_APP_PASSWORD")
+    if not user or not password:
+        print("Missing Gmail credentials in workflow secrets.")
+        return False
+
+    mail = None
+    updated = False
+    try:
+        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+        mail.login(user, password)
+        mail.select("inbox")
+
+        sender_query = '(OR FROM "' + APPROVED_SENDERS[0] + '" FROM "' + APPROVED_SENDERS[1] + '")'
+        status, search_data = mail.search(None, sender_query)
+        if status != "OK":
+            raise RuntimeError("Gmail search failed.")
+
+        message_ids = search_data[0].split()[-20:]
+        print(f"Approved-sender messages examined: {len(message_ids)}")
+
+        for message_id in message_ids:
+            status, data = mail.fetch(message_id, "(RFC822)")
+            if status != "OK" or not data or not isinstance(data[0], tuple):
+                print("Skipped a message that could not be fetched.")
+                continue
+
+            message = email.message_from_bytes(data[0][1])
+            subject = decode_mime(message.get("Subject"))
+            if not any(term in normalize_text(subject) for term in ("سمینار", "هوشواره", "seminar")):
+                continue
+
+            body = extract_body(message)
+            parsed = parse_seminar_text(body, subject)
+            if not parsed:
+                # Attachments are deliberately not published without a confidently identified event.
+                print("Manual review required: relevant message could not be parsed.")
+                continue
+
+            posters = save_posters(message, parsed["day"], parsed["month"])
+            if update_seminar_in_site(parsed, posters):
+                updated = True
+
+        return updated
+    finally:
+        if mail is not None:
+            try:
+                mail.logout()
+            except Exception:
+                pass
+
 
 if __name__ == "__main__":
     changed = fetch_and_update()
-    print("Done. Changes made:", changed)
+    print("Email synchronization finished. Changes made:", changed)
