@@ -182,7 +182,9 @@ def update_seminar_in_site(details, posters):
     with open(EVENTS_PATH, "r", encoding="utf-8") as source:
         page = source.read()
 
-    marker = f"<!-- {details['day']} {details['month']} {details['year']} -->"
+    month_comments = {"فروردین": "Farvardin", "اردیبهشت": "Ordibehesht", "خرداد": "Khordad", "تیر": "Tir", "مرداد": "Mordad", "شهریور": "Shahrivar", "مهر": "Mehr", "آبان": "Aban", "آذر": "Azar", "دی": "Dey", "بهمن": "Bahman", "اسفند": "Esfand"}
+    marker_month = month_comments.get(details["month"], details["month"])
+    marker = f"<!-- {details['day']} {marker_month} {details['year']} -->"
     start = page.find(marker)
     if start < 0:
         print(f"Review required: event marker not found for {marker}")
