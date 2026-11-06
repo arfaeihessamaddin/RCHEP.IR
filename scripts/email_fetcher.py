@@ -190,7 +190,7 @@ def update_seminar_in_site(details, posters):
         print(f"Review required: event marker not found for {marker}")
         return False
 
-    next_marker = re.search(r"\n\s*<!--\s*\d{1,2}\s+[آ-ی]+\s+14\d{2}\s*-->", page[start + len(marker):])
+    next_marker = re.search(r"\n\s*<!--\s*\d{1,2}\s+[A-Za-zآ-ی]+\s+14\d{2}\s*-->", page[start + len(marker):])
     end = start + len(marker) + next_marker.start() if next_marker else page.find("</div>\n", start)
     if end < start:
         print("Review required: could not isolate the dated event card.")
