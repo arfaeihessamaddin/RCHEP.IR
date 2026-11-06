@@ -45,19 +45,22 @@ def fetch_and_update():
         print(f"Failed to login to Gmail: {e}")
         return False
 
-    # Check for seminar announcement emails from Niloofar Vardian
-    _, vardian_msgs = mail.search(None, '(FROM "niloofarvardian@gmail.com")')
-    v_ids = vardian_msgs[0].split()
+    # Check for seminar and Houshvareh session announcements from approved senders
+    _, sender_msgs = mail.search(
+        None,
+        '(OR FROM "niloofarvardian@gmail.com" FROM "pouya.si74@gmail.com")'
+    )
+    message_ids = sender_msgs[0].split()
 
     updated = False
-    if v_ids:
-        # Check last 5 messages
-        for mid in v_ids[-5:]:
+    if message_ids:
+        # Check the latest 10 messages from the approved senders
+        for mid in message_ids[-10:]:
             _, data = mail.fetch(mid, "(RFC822)")
             msg = email.message_from_bytes(data[0][1])
             subject = decode_mime(msg.get("Subject"))
             
-            if "سمینار" not in subject:
+            if not any(term in subject for term in ("سمینار", "هوشواره")):
                 continue
 
             # Extract body and attachments
