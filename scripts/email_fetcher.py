@@ -168,7 +168,8 @@ def save_posters(message, day, month):
         extension = os.path.splitext(filename)[1].lower()
         if extension not in IMAGE_EXTENSIONS:
             continue
-        stem = f"{day}-{safe_filename(month)}-{language}"
+        month_slug = {"فروردین": "farvardin", "اردیبهشت": "ordibehesht", "خرداد": "khordad", "تیر": "tir", "مرداد": "mordad", "شهریور": "shahrivar", "مهر": "mehr", "آبان": "aban", "آذر": "azar", "دی": "dey", "بهمن": "bahman", "اسفند": "esfand"}.get(month, safe_filename(month))
+        stem = f"{day}-{month_slug}-{language}"
         target_name = f"{stem}{extension}"
         target_path = os.path.join(EVENTS_IMG_DIR, target_name)
         with open(target_path, "wb") as output:
@@ -191,7 +192,10 @@ def update_seminar_in_site(details, posters):
         return False
 
     next_marker = re.search(r"\n\s*<!--\s*\d{1,2}\s+[A-Za-zآ-ی]+\s+14\d{2}\s*-->", page[start + len(marker):])
-    end = start + len(marker) + next_marker.start() if next_marker else page.find("</div>\n", start)
+    if not next_marker:
+        print("Review required: following event marker was not found; page left unchanged.")
+        return False
+    end = start + len(marker) + next_marker.start()
     if end < start:
         print("Review required: could not isolate the dated event card.")
         return False
