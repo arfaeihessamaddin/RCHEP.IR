@@ -2,9 +2,9 @@ name: Daily Email Seminar Sync
 
 on:
   schedule:
-    # Tehran time (UTC+3:30): 08:00, 11:00, 16:00, and 22:00
-    # GitHub Actions cron uses UTC: 04:30, 07:30, 12:30, and 18:30
-    - cron: '30 4,7,12,18 * * *'
+    # Tehran time (UTC+3:30): 11:00 and 23:00
+    # GitHub Actions cron uses UTC: 07:30 and 19:30
+    - cron: '30 7,19 * * *'
   workflow_dispatch:
 
 permissions:
