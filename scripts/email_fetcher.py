@@ -243,7 +243,7 @@ def update_seminar_in_site(details, posters):
         )
 
     # Replace the poster links on repeat runs instead of duplicating them.
-    block = re.sub(r'\s*<div class="seminar-posters">.*?</div>', "", block, flags=re.S)
+    block = re.sub(r'\s*<div class="seminar-posters"[^>]*>.*?</div>', "", block, flags=re.S)
     if poster_links:
         links_html = '<div class="seminar-posters" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">' + \
                      "".join(poster_links) + '</div>'
