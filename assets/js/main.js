@@ -405,3 +405,52 @@ function initPosterInteractions() {
     });
   });
 }
+
+// 9. Newsletter Subscription Handler
+window.handleSubscribe = function(event) {
+  event.preventDefault();
+  const nameInput = document.getElementById('sub-name');
+  const emailInput = document.getElementById('sub-email');
+  const msgEl = document.getElementById('sub-msg');
+  const lang = localStorage.getItem('rchep_lang') || 'fa';
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+
+  if (!email) return;
+
+  const mailtoSubject = encodeURIComponent('درخواست عضویت در سمینارهای RCHEP [subscribe]');
+  const mailtoBody = encodeURIComponent(`درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: ${name}\nرایانامه: ${email}`);
+  const mailtoLink = `mailto:rchep@physics.sharif.ir?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+  msgEl.style.display = 'block';
+  msgEl.style.background = 'rgba(2, 132, 199, 0.15)';
+  msgEl.style.border = '1px solid rgba(2, 132, 199, 0.4)';
+  msgEl.style.color = 'var(--text-color)';
+
+  const textFa = `
+    درخواست شما آماده گردید. لطفاً جهت ارسال درخواست تأیید، دکمه زیر را بزنید تا برنامه ایمیل شما باز شود (یا یک ایمیل با موضوع «عضویت» به rchep@physics.sharif.ir بفرستید):
+    <div style="margin-top: 10px;">
+      <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
+        ارسال ایمیل درخواست با یک زنش ✉️
+      </a>
+    </div>
+    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
+      سپس به محض دریافت رایانامه تأیید از طرف مرکز، کافیست آن را Reply کنید تا عضویت نهایی شود.
+    </div>
+  `;
+
+  const textEn = `
+    Your request is prepared. Click below to open your email client and send the verification request:
+    <div style="margin-top: 10px;">
+      <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
+        Send Verification Request ✉️
+      </a>
+    </div>
+    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
+      Once you receive the confirmation email from RCHEP, simply reply to activate.
+    </div>
+  `;
+
+  msgEl.innerHTML = lang === 'en' ? textEn : textFa;
+};

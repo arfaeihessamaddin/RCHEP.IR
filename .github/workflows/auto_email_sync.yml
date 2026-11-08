@@ -22,13 +22,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Email Fetcher
+      - name: Run Email Fetcher and Newsletter Processor
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SHARIF_MAIL_HOST: ${{ secrets.SHARIF_MAIL_HOST }}
+          SHARIF_MAIL_PORT: ${{ secrets.SHARIF_MAIL_PORT }}
+          SHARIF_MAIL_USER: ${{ secrets.SHARIF_MAIL_USER }}
+          SHARIF_MAIL_PASSWORD: ${{ secrets.SHARIF_MAIL_PASSWORD }}
         run: |
-          chmod +x scripts/email_fetcher.py
+          chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py
           python scripts/email_fetcher.py
+          python scripts/newsletter_manager.py process
 
       - name: Commit and push changes
         run: |

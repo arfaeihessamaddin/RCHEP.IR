@@ -491,6 +491,35 @@
         </div>
       </div>
     </section>
+    <!-- Newsletter Subscription Section -->
+    <section class="section" style="background: linear-gradient(180deg, rgba(2, 132, 199, 0.05) 0%, rgba(15, 23, 42, 0.2) 100%); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container" style="max-width: 720px; text-align: center;">
+        <div class="section-header" style="margin-bottom: 20px;">
+          <span class="section-tag" data-fa="اطلاع‌رسانی سمینارها" data-en="Seminar Notifications">اطلاع‌رسانی سمینارها</span>
+          <h3 class="section-title" data-fa="عضویت در حلقه مخاطبان سمینارهای مرکز" data-en="Subscribe to RCHEP Seminar Announcements">عضویت در حلقه مخاطبان سمینارهای مرکز</h3>
+          <p class="section-desc" data-fa="با عضویت در این فهرست، اطلاعیه سمینارهای هفتگی و رویدادهای علمی مرکز بلافاصله پس از اعلام، به رایانامه شما فرستاده می‌شود." data-en="Receive weekly seminar announcements and academic events directly in your inbox.">
+            با عضویت در این فهرست، اطلاعیه سمینارهای هفتگی و رویدادهای علمی مرکز بلافاصله پس از اعلام، به رایانامه شما فرستاده می‌شود.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+          <form id="subscribe-form" onsubmit="handleSubscribe(event)" style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <input type="text" id="sub-name" placeholder="نام و نام خانوادگی (اختیاری)" style="flex: 1; min-width: 200px; padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-color); font-family: inherit; font-size: 0.92rem; outline: none;">
+              <input type="email" id="sub-email" required placeholder="نشانی رایانامه (Email)*" style="flex: 1.5; min-width: 240px; padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-color); font-family: inherit; font-size: 0.92rem; outline: none;">
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-weight: bold; width: 100%; justify-content: center;" data-fa="درخواست عضویت و دریافت رایانامه تأیید" data-en="Subscribe & Receive Confirmation Email">
+              درخواست عضویت و دریافت رایانامه تأیید
+            </button>
+          </form>
+          <div id="sub-msg" style="display: none; margin-top: 15px; padding: 12px; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;"></div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 15px; margin-bottom: 0;" data-fa="🛡️ برای اطمینان از صحت نشانی، پس از ارسال درخواست یک رایانامه تأیید برای شما فرستاده خواهد شد و عضویت تنها پس از پاسخ شما نهایی می‌گردد." data-en="🛡️ Double Opt-In: A confirmation email will be sent to verify your address before activating notifications.">
+            🛡️ برای اطمینان از صحت نشانی، پس از ثبت درخواست یک رایانامه تأیید برای شما فرستاده خواهد شد و عضویت تنها پس از پاسخ شما نهایی می‌گردد.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Sponsors Strip -->
     <section class="section" style="background: rgba(17, 24, 39, 0.3); border-top: 1px solid var(--border-color);">
       <div class="container">
