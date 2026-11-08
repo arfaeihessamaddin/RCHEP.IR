@@ -266,61 +266,83 @@ def update_seminar_in_site(details, posters):
 
 
 def fetch_and_update():
-    user = os.environ.get("GMAIL_USER")
-    password = os.environ.get("GMAIL_APP_PASSWORD")
-    if not user or not password:
-        print("Missing Gmail credentials in workflow secrets.")
+    sharif_host = os.environ.get("SHARIF_MAIL_HOST", "physics.sharif.ir")
+    sharif_user = os.environ.get("SHARIF_MAIL_USER")
+    sharif_pass = os.environ.get("SHARIF_MAIL_PASSWORD")
+    gmail_user = os.environ.get("GMAIL_USER")
+    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD")
+
+    accounts = []
+    if sharif_user and sharif_pass:
+        accounts.append(("Sharif", sharif_host, 993, sharif_user, sharif_pass))
+    if gmail_user and gmail_pass:
+        accounts.append(("Gmail", "imap.gmail.com", 993, gmail_user, gmail_pass))
+
+    if not accounts:
+        print("Missing mail credentials (neither Sharif nor Gmail found).")
         return False
 
-    mail = None
     updated = False
-    try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-        mail.login(user, password)
-        mail.select("inbox")
+    for label, host, port, user, password in accounts:
+        mail = None
+        try:
+            print(f"Checking {label} inbox for seminar announcements...")
+            mail = imaplib.IMAP4_SSL(host, port)
+            mail.login(user, password)
+            mail.select("inbox")
 
-        sender_query = '(OR FROM "' + APPROVED_SENDERS[0] + '" FROM "' + APPROVED_SENDERS[1] + '")'
-        status, search_data = mail.search(None, sender_query)
-        if status != "OK":
-            raise RuntimeError("Gmail search failed.")
-
-        message_ids = search_data[0].split()[-20:]
-        print(f"Approved-sender messages examined: {len(message_ids)}")
-
-        for message_id in message_ids:
-            status, data = mail.fetch(message_id, "(RFC822)")
-            if status != "OK" or not data or not isinstance(data[0], tuple):
-                print("Skipped a message that could not be fetched.")
+            status, search_data = mail.search(None, "ALL")
+            if status != "OK":
+                print(f"{label} search failed.")
                 continue
 
-            message = email.message_from_bytes(data[0][1])
-            subject = decode_mime(message.get("Subject"))
-            if not any(term in normalize_text(subject) for term in ("سمینار", "هوشواره", "seminar")):
-                continue
+            message_ids = search_data[0].split()[-25:]
+            print(f"{label} recent messages examined: {len(message_ids)}")
 
-            body = extract_body(message)
-            parsed = parse_seminar_text(body, subject)
-            if not parsed:
-                # Attachments are deliberately not published without a confidently identified event.
-                print("Manual review required: relevant message could not be parsed.")
-                continue
+            for message_id in message_ids:
+                status, data = mail.fetch(message_id, "(RFC822)")
+                if status != "OK" or not data or not isinstance(data[0], tuple):
+                    continue
 
-            posters = save_posters(message, parsed["day"], parsed["month"])
-            if update_seminar_in_site(parsed, posters):
-                updated = True
+                message = email.message_from_bytes(data[0][1])
+                sender = decode_mime(message.get("From", "")).lower()
+
+                # Accept from approved senders or official rchep email
+                is_approved = any(s in sender for s in APPROVED_SENDERS) or "rchep@physics.sharif.ir" in sender
+                if not is_approved:
+                    continue
+
+                subject = decode_mime(message.get("Subject"))
+                if not any(term in normalize_text(subject) for term in ("سمینار", "هوشواره", "seminar")):
+                    continue
+
+                body = extract_body(message)
+                parsed = parse_seminar_text(body, subject)
+                if not parsed:
+                    continue
+
+                posters = save_posters(message, parsed["day"], parsed["month"])
+                if update_seminar_in_site(parsed, posters):
+                    updated = True
+                    try:
+                        import newsletter_manager
+                        newsletter_manager.broadcast_seminar(parsed)
+                    except Exception as ex:
+                        print(f"Newsletter broadcast notice skipped: {ex}")
+        except Exception as e:
+            print(f"Error checking {label} mail: {e}")
+        finally:
+            if mail is not None:
                 try:
-                    import newsletter_manager
-                    newsletter_manager.broadcast_seminar(parsed)
-                except Exception as ex:
-                    print(f"Newsletter broadcast notice skipped: {ex}")
+                    mail.close()
+                except Exception:
+                    pass
+                try:
+                    mail.logout()
+                except Exception:
+                    pass
 
-        return updated
-    finally:
-        if mail is not None:
-            try:
-                mail.logout()
-            except Exception:
-                pass
+    return updated
 
 
 if __name__ == "__main__":
