@@ -78,7 +78,7 @@ jobs:
             test "$code" = "207" || { echo "Upload verification failed (HTTP $code): $remote_url"; exit 1; }
           }
 
-          for folder in website-files documentation design-decisions change-log backups; do
+          for folder in website-files documentation design-decisions change-log backups full-source; do
             mkdir_remote "$ROOT/$folder"
           done
 
@@ -89,6 +89,35 @@ jobs:
 
           upload_file "$RUNNER_TEMP/$ARCHIVE" "$ROOT/backups/$ARCHIVE"
           upload_file "$RUNNER_TEMP/$ARCHIVE" "$ROOT/website-files/RCHEP-website-current.zip"
+
+          # Upload uncompressed live files directly so any successor can browse or edit without unzipping
+          for f in *.html *.json CNAME; do
+            if [ -f "$f" ]; then
+              upload_file "$f" "$ROOT/full-source/$f"
+            fi
+          done
+
+          if [ -d "scripts" ]; then
+            mkdir_remote "$ROOT/full-source/scripts"
+            for s in scripts/*.py; do
+              if [ -f "$s" ]; then
+                upload_file "$s" "$ROOT/full-source/$s"
+              fi
+            done
+          fi
+
+          if [ -d "data" ]; then
+            mkdir_remote "$ROOT/full-source/data"
+            for d in data/*.json; do
+              if [ -f "$d" ]; then
+                upload_file "$d" "$ROOT/full-source/$d"
+              fi
+            done
+          fi
+
+          if [ -f "README.md" ]; then
+            upload_file "README.md" "$ROOT/documentation/README.md"
+          fi
 
           {
             echo "RCHEP website backup"
