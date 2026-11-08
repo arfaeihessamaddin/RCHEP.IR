@@ -180,9 +180,10 @@ def process_mailbox():
                         # Send welcome confirmation
                         welcome_subject = "عضویت شما در فهرست سمینارهای RCHEP تأیید شد"
                         welcome_html = f"""
-                        <div dir="rtl" style="font-family: -apple-system, BlinkMacSystemFont, Tahoma, sans-serif; line-height: 1.8; color: #1e293b; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px;">
+                        <div dir="rtl" style="font-family: -apple-system, BlinkMacSystemFont, Tahoma, sans-serif; line-height: 1.8; color: #1e293b; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
                           <h3 style="color: #0369a1;">مرکز پژوهشی فیزیک انرژی بالا (دانشگاه صنعتی شریف)</h3>
-                          <p>عضویت شما با موفقیت قطعی گردید. از این پس آگهی سمینارها برای شما ارسال خواهد شد.</p>
+                          <p>عضویت شما با موفقیت قطعی گردید. از این پس آگهی سمینارها و رویدادهای علمی مرکز برای شما ارسال خواهد شد.</p>
+                          <p style="font-size: 0.85rem; color: #64748b;">هر زمان مایل باشید، با زدن دکمه «لغو دریافت پیام‌ها» در پای ایمیل‌ها یا از طریق تارنمای rchep.ir می‌توانید عضویت خود را لغو فرمایید.</p>
                         </div>
                         """
                         try:
@@ -191,6 +192,45 @@ def process_mailbox():
                             print(f"Error sending welcome email: {e}")
                         break
                 save_json(SUBSCRIBERS_FILE, subscribers)
+                continue
+
+            # Case 1.5: Unsubscribe request
+            is_unsub = any(k in subject.lower() for k in ["unsubscribe", "لغو عضویت", "لغو اشتراک", "انصراف", "unsub"])
+            if not is_unsub:
+                for part in msg.walk():
+                    if part.get_content_type() == "text/plain":
+                        payload = part.get_payload(decode=True)
+                        if isinstance(payload, bytes):
+                            body_text = payload.decode(part.get_content_charset() or "utf-8", errors="replace").lower()
+                            if any(k in body_text for k in ["unsubscribe", "لغو عضویت", "لغو اشتراک"]):
+                                is_unsub = True
+                                break
+
+            if is_unsub:
+                unsub_found = False
+                for s in subscribers["list"]:
+                    if s.get("email", "").lower() == sender_email:
+                        s["status"] = "unsubscribed"
+                        s["unsubscribed_at"] = datetime.now(timezone.utc).isoformat()
+                        unsub_found = True
+                        print(f"Unsubscribed: {sender_email}")
+                        break
+                if unsub_found:
+                    save_json(SUBSCRIBERS_FILE, subscribers)
+                    unsub_subject = "لغو دریافت آگهی سمینارهای RCHEP"
+                    unsub_html = f"""
+                    <div dir="rtl" style="font-family: -apple-system, BlinkMacSystemFont, Tahoma, sans-serif; line-height: 1.8; color: #1e293b; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+                      <h3 style="color: #0369a1;">مرکز پژوهشی فیزیک انرژی بالا (دانشگاه صنعتی شریف)</h3>
+                      <p>درخواست شما انجام شد و دریافت آگهی سمینارها برای نشانی <b>{sender_email}</b> لغو گردید. دیگر پیامی برای شما ارسال نخواهد شد.</p>
+                      <p style="font-size: 0.85rem; color: #64748b;">در صورت تمایل، هر زمان می‌توانید مجدداً از طریق تارنمای rchep.ir عضویت خود را فعال نمایید.</p>
+                    </div>
+                    """
+                    try:
+                        send_smtp_email(sender_email, unsub_subject, unsub_html)
+                    except Exception as e:
+                        print(f"Error sending unsub email to {sender_email}: {e}")
+                else:
+                    print(f"Unsubscribe requested for {sender_email}, but address not found in subscribers.")
                 continue
 
             # Case 2: New subscription request via email (subject contains subscribe or عضویت, or body contains it)
@@ -207,8 +247,11 @@ def process_mailbox():
 
             if is_sub_req:
                 if sender_email in email_map:
-                    if email_map[sender_email]["status"] == "confirmed":
+                    if email_map[sender_email].get("status") == "confirmed":
                         print(f"Already confirmed: {sender_email}")
+                        continue
+                    if email_map[sender_email].get("status") == "pending":
+                        print(f"Already pending verification: {sender_email}")
                         continue
                 token = str(uuid.uuid4())
                 entry = {
@@ -280,9 +323,10 @@ def broadcast_seminar(seminar_details, poster_filename=None):
       <div style="margin: 25px 0; text-align: center;">
         <a href="https://rchep.ir/events.html" style="background-color: #0284c7; color: #ffffff; padding: 10px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">مشاهده جزئیات و پوستر در تارنما</a>
       </div>
-      <p style="font-size: 0.8rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 30px;">
-        این پیام برای اعضای تأییدشده فهرست سمینارهای مرکز فیزیک انرژی بالا دانشگاه صنعتی شریف ارسال شده است.
-      </p>
+      <div style="border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 30px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #94a3b8;">
+        <span>این پیام برای اعضای تأییدشده سمینارهای مرکز فیزیک انرژی بالا ارسال شده است.</span>
+        <a href="mailto:{MAIL_USER}?subject=UNSUBSCRIBE" style="color: #94a3b8; text-decoration: underline;">لغو دریافت پیام‌ها (Unsubscribe)</a>
+      </div>
     </div>
     """
 

@@ -407,11 +407,11 @@ function initPosterInteractions() {
 }
 
 // 9. Newsletter Subscription Handler
-window.handleSubscribe = function(event) {
-  event.preventDefault();
-  const nameInput = document.getElementById('sub-name');
-  const emailInput = document.getElementById('sub-email');
-  const msgEl = document.getElementById('sub-msg');
+window.handleSubscribe = function(event, formPrefix = '') {
+  if (event) event.preventDefault();
+  const nameInput = document.getElementById(formPrefix ? `${formPrefix}-sub-name` : 'sub-name');
+  const emailInput = document.getElementById(formPrefix ? `${formPrefix}-sub-email` : 'sub-email');
+  const msgEl = document.getElementById(formPrefix ? `${formPrefix}-sub-msg` : 'sub-msg');
   const lang = localStorage.getItem('rchep_lang') || 'fa';
 
   const name = nameInput ? nameInput.value.trim() : '';
@@ -423,34 +423,81 @@ window.handleSubscribe = function(event) {
   const mailtoBody = encodeURIComponent(`درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: ${name}\nرایانامه: ${email}`);
   const mailtoLink = `mailto:rchep@physics.sharif.ir?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-  msgEl.style.display = 'block';
-  msgEl.style.background = 'rgba(2, 132, 199, 0.15)';
-  msgEl.style.border = '1px solid rgba(2, 132, 199, 0.4)';
-  msgEl.style.color = 'var(--text-color)';
+  if (msgEl) {
+    msgEl.style.display = 'block';
+    msgEl.style.background = 'rgba(2, 132, 199, 0.15)';
+    msgEl.style.border = '1px solid rgba(2, 132, 199, 0.4)';
+    msgEl.style.color = 'var(--text-color)';
 
-  const textFa = `
-    درخواست شما آماده گردید. لطفاً جهت تکمیل، دکمه زیر را بزنید تا برنامه ایمیل باز شود، سپس فقط دکمه <b>ارسال (Send)</b> را بزنید:
-    <div style="margin-top: 10px;">
-      <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
-        ارسال ایمیل درخواست با یک زنش ✉️
-      </a>
-    </div>
-    <div style="margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
-      💡 پس از ارسال، رایانامه‌ای برای شما می‌آید که حاوی پیوند پاسخ است؛ با یک زنش روی آن و زدن دکمه <b>Send</b>، دریافت پیام و صحت نشانی شما قطعی می‌شود.
-    </div>
-  `;
+    const textFa = `
+      درخواست شما آماده گردید. لطفاً جهت تکمیل، دکمه زیر را بزنید تا برنامه ایمیل باز شود، سپس فقط دکمه <b>ارسال (Send)</b> را بزنید:
+      <div style="margin-top: 10px;">
+        <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
+          ارسال ایمیل درخواست با یک زنش ✉️
+        </a>
+      </div>
+      <div style="margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+        💡 پس از ارسال، رایانامه‌ای برای شما می‌آید که حاوی پیوند پاسخ است؛ با یک زنش روی آن و زدن دکمه <b>Send</b>، دریافت پیام و صحت نشانی شما قطعی می‌شود.
+      </div>
+    `;
 
-  const textEn = `
-    Your request is prepared. Click below to open your email client and send the verification request:
-    <div style="margin-top: 10px;">
-      <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
-        Send Verification Request ✉️
-      </a>
-    </div>
-    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
-      Once you receive the confirmation email from RCHEP, simply reply to activate.
-    </div>
-  `;
+    const textEn = `
+      Your request is prepared. Click below to open your email client and send the verification request:
+      <div style="margin-top: 10px;">
+        <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
+          Send Verification Request ✉️
+        </a>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
+        Once you receive the confirmation email from RCHEP, simply reply to activate.
+      </div>
+    `;
 
-  msgEl.innerHTML = lang === 'en' ? textEn : textFa;
+    msgEl.innerHTML = lang === 'en' ? textEn : textFa;
+  }
+};
+
+window.handleUnsubscribe = function(event, formPrefix = '') {
+  if (event) event.preventDefault();
+  const emailInput = document.getElementById(formPrefix ? `${formPrefix}-sub-email` : 'sub-email');
+  const msgEl = document.getElementById(formPrefix ? `${formPrefix}-sub-msg` : 'sub-msg');
+  const lang = localStorage.getItem('rchep_lang') || 'fa';
+
+  const email = emailInput ? emailInput.value.trim() : '';
+  const mailtoSubject = encodeURIComponent('درخواست لغو عضویت در سمینارهای RCHEP [unsubscribe]');
+  const mailtoBody = encodeURIComponent(`درود،\nلطفاً نشانی زیر را از فهرست سمینارهای مرکز فیزیک انرژی بالا حذف فرمایید:\n${email}`);
+  const mailtoLink = `mailto:rchep@physics.sharif.ir?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+  if (msgEl) {
+    msgEl.style.display = 'block';
+    msgEl.style.background = 'rgba(239, 68, 68, 0.1)';
+    msgEl.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+    msgEl.style.color = 'var(--text-color)';
+
+    const textFa = `
+      درخواست لغو عضویت آماده گردید. لطفاً روی دکمه زیر بزنید تا برنامه ایمیل باز شود و دکمه <b>ارسال (Send)</b> را بزنید:
+      <div style="margin-top: 10px;">
+        <a href="${mailtoLink}" class="btn" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem; background-color: #ef4444; color: white;">
+          ارسال ایمیل لغو عضویت ✉️
+        </a>
+      </div>
+      <div style="margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+        💡 پس از دریافت ایمیل شما در سامانه شریف، لغو عضویت بی‌درنگ ثبت شده و تأییدیه آن به رایانامه شما فرستاده خواهد شد.
+      </div>
+    `;
+
+    const textEn = `
+      Unsubscribe request prepared. Click below to open your email client and send the cancellation email:
+      <div style="margin-top: 10px;">
+        <a href="${mailtoLink}" class="btn" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem; background-color: #ef4444; color: white;">
+          Send Unsubscribe Request ✉️
+        </a>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
+        Once processed by the Sharif system, you will receive confirmation and no further emails will be sent.
+      </div>
+    `;
+
+    msgEl.innerHTML = lang === 'en' ? textEn : textFa;
+  }
 };
