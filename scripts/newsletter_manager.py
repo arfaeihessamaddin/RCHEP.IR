@@ -111,15 +111,27 @@ def process_mailbox():
         mail.login(MAIL_USER, MAIL_PASSWORD)
         mail.select("INBOX")
         
+        # Check both UNSEEN and recent messages to avoid missing messages already marked read
         status, data = mail.search(None, "UNSEEN")
-        if status != "OK" or not data[0]:
-            print("No new unread messages.")
+        unread_ids = data[0].split() if (status == "OK" and data[0]) else []
+        
+        # Also grab the latest 20 messages in case an email client or webmail marked it read
+        status_all, data_all = mail.search(None, "ALL")
+        all_ids = data_all[0].split()[-25:] if (status_all == "OK" and data_all[0]) else []
+        
+        # Combine preserving order and uniqueness
+        combined_ids = []
+        for mid in unread_ids + all_ids:
+            if mid not in combined_ids:
+                combined_ids.append(mid)
+
+        if not combined_ids:
+            print("No messages found to process.")
             return
 
-        msg_ids = data[0].split()
-        print(f"Found {len(msg_ids)} unread messages.")
+        print(f"Examining {len(combined_ids)} messages for subscription actions...")
 
-        for mid in msg_ids:
+        for mid in combined_ids:
             status, res = mail.fetch(mid, "(RFC822)")
             if status != "OK" or not res:
                 continue
@@ -173,8 +185,19 @@ def process_mailbox():
                 save_json(SUBSCRIBERS_FILE, subscribers)
                 continue
 
-            # Case 2: New subscription request via email (subject contains subscribe or عضویت)
-            if any(k in subject.lower() for k in ["subscribe", "عضویت", "ثبت نام"]):
+            # Case 2: New subscription request via email (subject contains subscribe or عضویت, or body contains it)
+            is_sub_req = any(k in subject.lower() for k in ["subscribe", "عضویت", "ثبت نام", "اشتراک"])
+            if not is_sub_req:
+                for part in msg.walk():
+                    if part.get_content_type() == "text/plain":
+                        payload = part.get_payload(decode=True)
+                        if isinstance(payload, bytes):
+                            body_text = payload.decode(part.get_content_charset() or "utf-8", errors="replace").lower()
+                            if any(k in body_text for k in ["subscribe", "عضویت", "ثبت نام", "اشتراک"]):
+                                is_sub_req = True
+                                break
+
+            if is_sub_req:
                 if sender_email in email_map:
                     if email_map[sender_email]["status"] == "confirmed":
                         print(f"Already confirmed: {sender_email}")

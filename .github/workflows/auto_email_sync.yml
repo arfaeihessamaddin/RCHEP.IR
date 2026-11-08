@@ -32,8 +32,8 @@ jobs:
           SHARIF_MAIL_PASSWORD: ${{ secrets.SHARIF_MAIL_PASSWORD }}
         run: |
           chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py
-          python scripts/email_fetcher.py
           python scripts/newsletter_manager.py process
+          python scripts/email_fetcher.py
 
       - name: Commit and push changes
         run: |
