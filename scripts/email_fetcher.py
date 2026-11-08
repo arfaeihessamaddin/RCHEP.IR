@@ -76,6 +76,8 @@ def parse_seminar_text(body, subject):
         "day": "",
         "month": "",
         "year": "1405",
+        "time": "۱۳:۳۰",
+        "location": "اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی",
     }
 
     # Date may be in the subject or body. Accept Persian and Arabic numerals.
@@ -127,8 +129,8 @@ def parse_seminar_text(body, subject):
         if re.search(r"وابستگی|دانشگاه|پژوهشگاه|affiliation", normalize_text(line), re.I):
             if ":" in line or "：" in line:
                 details["affiliation"] = re.split(r"[:：]", line, maxsplit=1)[-1].strip()
-            elif index + 1 < len(lines):
-                details["affiliation"] = lines[index + 1]
+            elif index + 1 < len(lines) and not any(k in lines[index + 1] for k in ["چکیده", "ساعت", "مکان"]):
+                details["affiliation"] = lines[index + 1].strip()
             break
 
     for index, line in enumerate(lines):
@@ -139,6 +141,24 @@ def parse_seminar_text(body, subject):
                     break
                 abstract_lines.append(candidate)
             details["abstract"] = " ".join(abstract_lines).strip()
+            break
+
+    # Location, when explicitly present
+    for line in lines:
+        match = re.match(r"^(?:مکان|محل برگزاری|محل|venue|location)\s*[:：]\s*(.+)$", line, re.I)
+        if match:
+            loc_val = match.group(1).strip()
+            if loc_val and "جناب" not in loc_val:
+                details["location"] = loc_val
+            break
+
+    # Time, when explicitly present
+    for line in lines:
+        match = re.match(r"^(?:ساعت|زمان برگزاری|time)\s*[:：]\s*(.+)$", line, re.I)
+        if match:
+            time_val = match.group(1).strip()
+            if time_val:
+                details["time"] = time_val
             break
 
     if details["title"] and details["speaker"] and details["day"] and details["month"]:

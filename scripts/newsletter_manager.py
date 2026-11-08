@@ -231,20 +231,29 @@ def broadcast_seminar(seminar_details, poster_filename=None):
         print("Mail password missing; cannot broadcast.")
         return False
 
+    day = seminar_details.get("day", "")
+    month = seminar_details.get("month", "")
+    year = seminar_details.get("year", "1405")
+    seminar_id = f"{year}_{month}_{day}"
+
+    sent_data = load_json(SENT_SEMINARS_FILE, {"broadcasted": []})
+    if seminar_id and seminar_id in sent_data.get("broadcasted", []):
+        print(f"Seminar {seminar_id} already broadcasted. Skipping.")
+        return False
+
     subscribers = load_json(SUBSCRIBERS_FILE, {"list": []})
     confirmed_emails = [s["email"] for s in subscribers.get("list", []) if s.get("status") == "confirmed"]
 
     if not confirmed_emails:
         print("No confirmed subscribers to notify.")
         return False
-
-    day = seminar_details.get("day", "")
-    month = seminar_details.get("month", "")
     title = seminar_details.get("title", "")
     speaker = seminar_details.get("speaker", "")
     affiliation = seminar_details.get("affiliation", "")
     time_str = seminar_details.get("time", "۱۳:۳۰")
-    location = seminar_details.get("location", "تالار جناب، دانشکده فیزیک، دانشگاه صنعتی شریف")
+    location = seminar_details.get("location")
+    if not location or "جناب" in location:
+        location = "اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی (vc.sharif.edu/ch/physics-high-energy)"
 
     subject = f"[سمینار RCHEP] {title} — {speaker} ({day} {month})"
 
@@ -276,6 +285,12 @@ def broadcast_seminar(seminar_details, poster_filename=None):
             print(f"Sent seminar notice to: {recipient}")
         except Exception as e:
             print(f"Failed to send to {recipient}: {e}")
+
+    if seminar_id:
+        if "broadcasted" not in sent_data:
+            sent_data["broadcasted"] = []
+        sent_data["broadcasted"].append(seminar_id)
+        save_json(SENT_SEMINARS_FILE, sent_data)
 
     return True
 
