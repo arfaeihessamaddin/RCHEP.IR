@@ -429,14 +429,14 @@ window.handleSubscribe = function(event) {
   msgEl.style.color = 'var(--text-color)';
 
   const textFa = `
-    درخواست شما آماده گردید. لطفاً جهت ارسال درخواست تأیید، دکمه زیر را بزنید تا برنامه ایمیل شما باز شود (یا یک ایمیل با موضوع «عضویت» به rchep@physics.sharif.ir بفرستید):
+    درخواست شما آماده گردید. لطفاً جهت تکمیل، دکمه زیر را بزنید تا برنامه ایمیل باز شود، سپس فقط دکمه <b>ارسال (Send)</b> را بزنید:
     <div style="margin-top: 10px;">
       <a href="${mailtoLink}" class="btn btn-primary" style="display: inline-block; padding: 8px 18px; font-size: 0.9rem;">
         ارسال ایمیل درخواست با یک زنش ✉️
       </a>
     </div>
-    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
-      سپس به محض دریافت رایانامه تأیید از طرف مرکز، کافیست آن را Reply کنید تا عضویت نهایی شود.
+    <div style="margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+      💡 پس از ارسال، رایانامه‌ای برای شما می‌آید که حاوی پیوند پاسخ است؛ با یک زنش روی آن و زدن دکمه <b>Send</b>، دریافت پیام و صحت نشانی شما قطعی می‌شود.
     </div>
   `;
 

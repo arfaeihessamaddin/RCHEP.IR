@@ -83,14 +83,22 @@ def send_verification_email(name, to_email, token):
         <span style="font-size: 0.85rem; color: #64748b;">دانشگاه صنعتی شریف</span>
       </div>
       <p>درود {name if name else 'گرامی'}،</p>
-      <p>درخواست شما برای دریافت آگهی سمینارها و رویدادهای هفتگی مرکز پژوهشی فیزیک انرژی بالا دریافت گردید.</p>
-      <p>برای اطمینان از صحت نشانی رایانامه، لطفاً بر روی پیوند زیر پاسخ (Reply) دهید، یا کافیست همین ایمیل را بدون تغییر ارسال (Reply) فرمایید:</p>
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="mailto:{verify_email_addr}?subject=CONFIRM_{token}" style="background-color: #0284c7; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">تأیید عضویت با یک زنش (Click)</a>
+      <p>درخواست شما برای دریافت آگهی سمینارها و رویدادهای هفتگی مرکز دریافت گردید.</p>
+      <div style="background: #f0fdf4; border-right: 4px solid #16a34a; padding: 14px 18px; border-radius: 6px; margin: 20px 0;">
+        <strong style="color: #15803d; font-size: 1rem;">نحوه نهایی‌سازی عضویت (تضمین صحت نشانی):</strong>
+        <p style="margin: 8px 0 0 0; color: #166534; font-size: 0.95rem;">
+          روی دکمه آبی زیر بزنید تا پنجره پاسخ (Reply) باز شود، سپس فقط دکمه <b>ارسال (Send)</b> را بزنید.
+          <br>
+          <span style="font-size: 0.85rem; color: #4b5563;">(نیازی به نوشتن متنی در پاسخ نیست؛ عنوان ایمیل حاوی کد یکتای تأیید است و ارسال آن هویت و دریافت نشانی شما را قطعی می‌کند).</span>
+        </p>
+      </div>
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="mailto:{verify_email_addr}?subject=CONFIRM_{token}" style="background-color: #0284c7; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">باز کردن پاسخ و ارسال تأییدیه ✉️</a>
       </div>
       <p style="font-size: 0.85rem; color: #64748b; background: #f8fafc; padding: 10px 14px; border-radius: 6px;">
+        همچنین می‌توانید بدون زدن دکمه فوق، مستقیماً همین ایمیل را با نرم‌افزار ایمیل خود <b>Reply</b> کنید.<br>
         شناسه اختصاصی شما: <code>{token}</code><br>
-        در صورتی که شما این درخواست را ثبت نکرده‌اید، این پیام را نادیده بگیرید؛ هیچ پیامی بدون تأیید برای شما فرستاده نخواهد شد.
+        در صورتی که شما این درخواست را ثبت نکرده‌اید، این پیام را نادیده بگیرید.
       </p>
     </div>
     """
