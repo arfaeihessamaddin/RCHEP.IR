@@ -308,6 +308,11 @@ def fetch_and_update():
             posters = save_posters(message, parsed["day"], parsed["month"])
             if update_seminar_in_site(parsed, posters):
                 updated = True
+                try:
+                    import newsletter_manager
+                    newsletter_manager.broadcast_seminar(parsed)
+                except Exception as ex:
+                    print(f"Newsletter broadcast notice skipped: {ex}")
 
         return updated
     finally:
