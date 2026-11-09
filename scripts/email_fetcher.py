@@ -262,6 +262,11 @@ def update_seminar_in_site(details, posters):
             f'data-fa="پوستر" data-en="Poster">پوستر / Poster</a>'
         )
 
+    # If event already has interactive poster-btn elements, do not insert duplicate plain links
+    if 'class="poster-btn"' in block:
+        print("Interactive poster buttons already present, skipping duplicate links.")
+        return False
+
     # Replace the poster links on repeat runs instead of duplicating them.
     block = re.sub(r'\s*<div class="seminar-posters"[^>]*>.*?</div>', "", block, flags=re.S)
     if poster_links:
