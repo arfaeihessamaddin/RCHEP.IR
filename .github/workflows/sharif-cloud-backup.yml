@@ -82,6 +82,9 @@ jobs:
             mkdir_remote "$ROOT/$folder"
           done
 
+          # Ensure subscribers spreadsheet is compiled
+          python3 scripts/sync_sharif_cloud.py || true
+
           STAMP=$(date -u +%Y%m%dT%H%M%SZ)
           SHORT_SHA="${SOURCE_SHA:0:12}"
           ARCHIVE="RCHEP-website-${STAMP}-${SHORT_SHA}.zip"
@@ -108,11 +111,16 @@ jobs:
 
           if [ -d "data" ]; then
             mkdir_remote "$ROOT/full-source/data"
-            for d in data/*.json; do
+            for d in data/*.json data/*.xlsx; do
               if [ -f "$d" ]; then
                 upload_file "$d" "$ROOT/full-source/$d"
               fi
             done
+          fi
+
+          # Also keep the latest subscribers spreadsheet directly in the root folder for easy access
+          if [ -f "data/subscribers.xlsx" ]; then
+            upload_file "data/subscribers.xlsx" "$ROOT/subscribers.xlsx"
           fi
 
           if [ -f "README.md" ]; then

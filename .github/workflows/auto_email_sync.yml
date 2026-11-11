@@ -30,9 +30,13 @@ jobs:
           SHARIF_MAIL_PORT: ${{ secrets.SHARIF_MAIL_PORT }}
           SHARIF_MAIL_USER: ${{ secrets.SHARIF_MAIL_USER }}
           SHARIF_MAIL_PASSWORD: ${{ secrets.SHARIF_MAIL_PASSWORD }}
+          SHARIF_WEBDAV_URL: ${{ secrets.SHARIF_WEBDAV_URL }}
+          SHARIF_WEBDAV_USER: ${{ secrets.SHARIF_WEBDAV_USER }}
+          SHARIF_WEBDAV_PASSWORD: ${{ secrets.SHARIF_WEBDAV_PASSWORD }}
         run: |
-          chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py
+          chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py scripts/sync_sharif_cloud.py
           python scripts/newsletter_manager.py process
+          python scripts/sync_sharif_cloud.py
           python scripts/email_fetcher.py
 
       - name: Commit and push changes

@@ -42,6 +42,15 @@ def load_json(filepath, default):
 def save_json(filepath, data):
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    # Automatically recompile Excel sheet and sync if subscribers changed
+    if "subscribers.json" in filepath:
+        try:
+            import subprocess
+            sync_script = os.path.join(os.path.dirname(__file__), "sync_sharif_cloud.py")
+            if os.path.exists(sync_script):
+                subprocess.run([sys.executable, sync_script], capture_output=True)
+        except Exception as e:
+            print(f"Auto-sync trigger warning: {e}")
 
 def decode_mime(value):
     if not value:
