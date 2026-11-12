@@ -348,35 +348,9 @@ def process_mailbox():
                         s["confirmed_at"] = datetime.now(timezone.utc).isoformat()
                         print(f"Confirmed subscription: {mask_email(s['email'])}")
                         # \u0627\u06cc\u0645\u06cc\u0644 \u062e\u0648\u0634\u200c\u0622\u0645\u062f \u0641\u0642\u0637 \u06cc\u06a9\u200c\u0628\u0627\u0631 \u0628\u0631\u0627\u06cc \u0647\u0631 \u0639\u0636\u0648 \u0641\u0631\u0633\u062a\u0627\u062f\u0647 \u0645\u06cc\u200c\u0634\u0648\u062f (\u062c\u0644\u0648\u06af\u06cc\u0631\u06cc \u0627\u0632 \u0627\u06cc\u0645\u06cc\u0644 \u062a\u06a9\u0631\u0627\u0631\u06cc).
-                        welcome_subject = "عضویت شما در فهرست سمینارهای RCHEP تأیید شد"
-                        welcome_html = f"""
-                        <div dir="rtl" style="font-family: -apple-system, BlinkMacSystemFont, Tahoma, sans-serif; line-height: 1.8; color: #1e293b; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
-                          <h3 style="color: #0369a1;">مرکز پژوهشی فیزیک انرژی بالا (دانشگاه صنعتی شریف)</h3>
-                          <p>عضویت شما با موفقیت قطعی گردید. از این پس آگهی سمینارها و رویدادهای علمی مرکز برای شما ارسال خواهد شد.</p>
-                          <p style="font-size: 0.85rem; color: #64748b;">هر زمان مایل باشید، با زدن دکمه «لغو دریافت پیام‌ها» در پای ایمیل‌ها یا از طریق تارنمای rchep.ir می‌توانید عضویت خود را لغو فرمایید.</p>
-                        </div>
-                        """
-                        if s.get("welcome_sent"):
-                            print(f"Welcome email already sent earlier; not repeating for {mask_email(s['email'])}")
-                        else:
-                            # ادعا پیش از ارسال: نشانهٔ «خوش‌آمد فرستاده شد» پیش از
-                            # تماس با SMTP ثبت و ذخیره می‌شود تا اجرای همزمان یا
-                            # ناتمام نتواند همان ایمیل را دوباره بفرستد.
-                            s["welcome_sent"] = True
-                            save_json(SUBSCRIBERS_FILE, subscribers)
-                            try:
-                                sent_ok = send_smtp_email(
-                                    s["email"], welcome_subject, welcome_html,
-                                    kind="welcome", key="welcome",
-                                )
-                                if sent_ok:
-                                    print(f"Welcome email sent once to {mask_email(s['email'])}")
-                                else:
-                                    print(f"Welcome email already sent (guardrail); not repeating for {mask_email(s['email'])}")
-                            except Exception as e:
-                                # ارسال نشد: ادعا آزاد می‌شود تا در اجرای بعدی تلاش دوباره شود.
-                                s["welcome_sent"] = False
-                                print(f"Error sending welcome email: {e}")
+                        # ایمیل خوشآمد فقط یکبار برای هر عضو فرستاده میشود
+                        # (سیاست یکباره + چتر محافظ نشانیهای ممنوع).
+                        send_welcome_email(s, subscribers)
                         break
                 save_json(SUBSCRIBERS_FILE, subscribers)
                 mark_email_processed(processed_state, ledger_key)
@@ -781,6 +755,92 @@ def send_queued_notices():
     return sent_any
 
 
+# ─────────────── ایمیل خوشآمد: سیاست «یکبار برای همیشه» ───────────────
+# نشانیهایی که هرگز نباید ایمیل خوشآمد/تأیید عضویت بگیرند (مثلاً کسی که
+# پیشتر چند بار گرفته است). این چتر محافظ بر همهٔ مسیرها حاکم است: هم مسیر
+# تأیید عضویت (CONFIRM_…) و هم اجرای یکبارهٔ خوشآمد (welcome-once).
+WELCOME_NEVER = {
+    "niloofarvardian@gmail.com",
+}
+
+# مقصد اجرای یکبارهٔ خوشآمد. با متغیر محیطی RCHEP_WELCOME_TO (چند نشانی با
+# کاما) قابل تغییر است. پیشفرض: نشانی ادغامشدهٔ مدیر مرکز.
+WELCOME_ONCE_DEFAULT = "arfaeihessamaddin@gmail.com"
+
+
+def build_welcome_email():
+    """متن و سرصفحهٔ ایمیل خوشآمد (یک متن مشترک برای همهٔ مسیرها)."""
+    subject = "عضویت شما در فهرست سمینارهای RCHEP تأیید شد"
+    html = """
+    <div dir="rtl" style="font-family: -apple-system, BlinkMacSystemFont, Tahoma, sans-serif; line-height: 1.8; color: #1e293b; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+      <h3 style="color: #0369a1;">مرکز پژوهشی فیزیک انرژی بالا (دانشگاه صنعتی شریف)</h3>
+      <p>عضویت شما با موفقیت قطعی گردید. از این پس آگهی سمینارها و رویدادهای علمی مرکز برای شما ارسال خواهد شد.</p>
+      <p style="font-size: 0.85rem; color: #64748b;">هر زمان مایل باشید، با زدن دکمه «لغو دریافت پیامها» در پای ایمیلها یا از طریق تارنمای rchep.ir میتوانید عضویت خود را لغو فرمایید.</p>
+    </div>
+    """
+    return subject, html
+
+
+def send_welcome_email(entry, subscribers):
+    """ایمیل خوشآمد را برای یک عضو میفرستد؛ هر عضو حداکثر یکبار.
+
+    ادعا پیش از ارسال ثبت و ذخیره میشود تا اجرای همزمان یا ناتمام نتواند
+    همان ایمیل را دوباره بفرستد؛ در شکست ارسال، ادعا آزاد میشود.
+    """
+    address = (entry.get("email") or "").strip()
+    if not address:
+        return False
+    if address.lower() in WELCOME_NEVER:
+        entry["welcome_sent"] = True
+        print(f"Welcome email blocked by policy; never sending to {mask_email(address)}")
+        return False
+    if entry.get("welcome_sent"):
+        print(f"Welcome email already sent earlier; not repeating for {mask_email(address)}")
+        return False
+    entry["welcome_sent"] = True
+    save_json(SUBSCRIBERS_FILE, subscribers)
+    subject, html = build_welcome_email()
+    try:
+        if send_smtp_email(address, subject, html, kind="welcome", key="welcome"):
+            print(f"Welcome email sent once to {mask_email(address)}")
+            return True
+        print(f"Welcome email already sent (guardrail); not repeating for {mask_email(address)}")
+        return False
+    except Exception as e:
+        entry["welcome_sent"] = False
+        print(f"Error sending welcome email: {e}")
+        return False
+
+
+def send_one_time_welcome():
+    """اجرای یکبارهٔ ایمیل خوشآمد (CLI: welcome-once).
+
+    تنها به نشانیهای مقصد (RCHEP_WELCOME_TO یا WELCOME_ONCE_DEFAULT) فرستاده
+    میشود — هرگز به همهٔ اعضا — و نشانهٔ «فرستاده شد» ثبت میگردد تا تکرار نشود.
+    """
+    raw = os.environ.get("RCHEP_WELCOME_TO", "").strip() or WELCOME_ONCE_DEFAULT
+    targets = [t.strip().lower() for t in raw.split(",") if t.strip()]
+    subscribers = load_json(SUBSCRIBERS_FILE, {"list": []})
+    index = {s.get("email", "").lower(): s for s in subscribers.get("list", [])}
+    sent = 0
+    for address in targets:
+        if address in WELCOME_NEVER:
+            print(f"Welcome email blocked by policy; never sending to {mask_email(address)}")
+            continue
+        entry = index.get(address)
+        if entry is None:
+            print(f"Welcome email target not in subscribers list: {mask_email(address)}")
+            continue
+        if entry.get("status") != "confirmed":
+            print(f"Welcome email target is not confirmed; skipping {mask_email(address)}")
+            continue
+        if send_welcome_email(entry, subscribers):
+            sent += 1
+    save_json(SUBSCRIBERS_FILE, subscribers)
+    print(f"One-time welcome run finished: {sent} sent of {len(targets)} target(s)")
+    return sent
+
+
 if __name__ == "__main__":
     action = sys.argv[1] if len(sys.argv) > 1 else "process"
     if action == "process":
@@ -790,6 +850,8 @@ if __name__ == "__main__":
     elif action == "dry-run-notices":
         os.environ["RCHEP_DRY_RUN"] = "1"
         send_queued_notices()
+    elif action in ("welcome-once", "welcome"):
+        send_one_time_welcome()
     elif action == "broadcast":
         # test / sample broadcast call
         pass

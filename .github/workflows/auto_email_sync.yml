@@ -48,9 +48,17 @@ on:
         required: false
         default: ''
       force_send:
-        description: 'بازفرست عمدی همان‌روز (گاردریل تکرار را کنار می‌گذارد؛ 1 = روشن)'
+        description: 'بازفرست عمدی همانروز (گاردریل تکرار را کنار میگذارد؛ 1 = روشن)'
         required: false
         default: ''
+      welcome_once:
+        description: 'ارسال یکبارهٔ ایمیل خوشآمد (1 = روشن؛ فقط به نشانی welcome_to)'
+        required: false
+        default: ''
+      welcome_to:
+        description: 'نشانی مقصد اجرای یکبارهٔ ایمیل خوشآمد'
+        required: false
+        default: 'arfaeihessamaddin@gmail.com'
 
 permissions:
   contents: write
@@ -86,6 +94,7 @@ jobs:
           python3 scripts/send_guard_e2e_test.py
 
       - name: Run Email Fetcher and Newsletter Processor
+        if: ${{ inputs.welcome_once != '1' }}
         env:
           RCHEP_FORCE_SEND: ${{ inputs.force_send }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -104,6 +113,19 @@ jobs:
           python scripts/email_fetcher.py
           python scripts/newsletter_manager.py send-notices
           python scripts/sync_sharif_cloud.py
+
+      # اجرای یکبارهٔ ایمیل خوشآمد — تنها با فرمان دستی (welcome_once=1)، فقط به
+      # نشانیهای welcome_to و با حاکمیت WELCOME_NEVER؛ در این اجرا هیچ اطلاعیهٔ
+      # سمیناری فرستاده نمیشود (گام پردازش اصلی در همین حالت کنار گذاشته میشود).
+      - name: One-time welcome email (manual, single target)
+        if: ${{ inputs.welcome_once == '1' }}
+        env:
+          RCHEP_WELCOME_TO: ${{ inputs.welcome_to }}
+          SHARIF_MAIL_HOST: ${{ secrets.SHARIF_MAIL_HOST }}
+          SHARIF_MAIL_PORT: ${{ secrets.SHARIF_MAIL_PORT }}
+          SHARIF_MAIL_USER: ${{ secrets.SHARIF_MAIL_USER }}
+          SHARIF_MAIL_PASSWORD: ${{ secrets.SHARIF_MAIL_PASSWORD }}
+        run: python scripts/newsletter_manager.py welcome-once
 
       # پویش خواندنی (بدون هیچ ارسال یا تغییر در صندوق پستی): فقط برای یافتن
       # اطلاعیه و پوستر یک برنامه، مثلاً نشست هوشواره از ایمیل استاد سیری.
