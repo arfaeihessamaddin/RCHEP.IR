@@ -1,0 +1,999 @@
+{
+  "scan_limit": 40,
+  "messages": [
+    {
+      "account": "Sharif",
+      "index": 1,
+      "date": "2026-11-12T12:50:07+03:30",
+      "from": "M***@zmail.ipm.ir (Mail Delivery System)",
+      "to": "r***@physics.sharif.ir",
+      "subject": "Undelivered Mail Returned to Sender",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 2,
+      "date": "2026-11-12T12:49:09+03:30",
+      "from": "M***@sender1.sharif.edu (Mail Delivery System)",
+      "to": "r***@physics.sharif.ir",
+      "subject": "Undelivered Mail Returned to Sender",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 3,
+      "date": "2026-11-12T12:48:46+03:30",
+      "from": "M***@zmail.ipm.ir (Mail Delivery System)",
+      "to": "r***@physics.sharif.ir",
+      "subject": "Undelivered Mail Returned to Sender",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 4,
+      "date": "2026-11-12T11:10:23+03:30",
+      "from": "Pouya Si <p***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "CONFIRM_f0489321-a83e-4db6-b5c3-abefce0e398c",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 5,
+      "date": "2026-11-12T10:19:10+03:30",
+      "from": "Pouya Si <p***@gmail.com>",
+      "to": "s***@sharif.ir, s***@gmail.com,\r\n        Amin Faraji Astaneh <a***@gmail.com>, e***@physics.sharif.ir,\r\n        Niloofar Vardian <n***@gmail.com>,\r\n        a***@gmail.com, Hessamaddin Arfaei <h***@gma",
+      "subject": "Bi-Weekly AI Seminar Series in Physics - Sharif University of\r\n Technology - 14 Nov 2026 (23 Aban1405)",
+      "keyword_hit": true,
+      "attachments": [
+        {
+          "name": "AISeries_Amin_14050823.pdf",
+          "size": 199247,
+          "extension": ".pdf",
+          "sha1": "b0c57d79587e"
+        }
+      ],
+      "saved_files": [
+        "session-20261112-1.pdf"
+      ],
+      "body": "همکاران ارجمند،\nبا سلام و احترام،\nبدینوسیله از شما دعوت میشود در سمینارهای هوش مصنوعی دانشکده فیزیک،\nدانشگاه صنعتی شریف شرکت فرمایید. این مجموعه سمینار فرصتی برای آشنایی و\nگفتوگو درباره موضوعات و کاربردهای گوناگون هوش مصنوعی در پژوهشهای علمی\nفراهم میکند. حضور ارزشمند شما میتواند به پربارترشدن این نشستها و\nشکلگیری تبادلنظرهای سازنده میان همکاران کمک کند.\nاطلاعات مربوط به سمینار این هفته، در زیر درج شده است (*برای جزئیات بیشتر به\nفایل پیوست این رایانامه مراجعه کنید*) . *شایان ذکر است که در نیمسال جاری\nاین سمینارها هر دو هفته یک بار برگزار خواهد شد.*\n*عنوان سخنرانی:* پیشرفتهای اخیر هوش مصنوعی در اثباتهای ریاضی؛ آیا\nریاضیدانان قلمهای خود را زمین میگذارند؟\n*سخنران:* دکتر امین فرجی آستانه (استادیار دانشکده فیزیک و مرکز پژوهشی فیزیک\nانرژیهای بالا - دانشگاه صنعتی شریف)\n*زمان برگزاری:* شنبه 23 آبان 1405 – 12:30 الی 13:20\n*مکان:* سالن سمینار مرکز فیزیک انرژیهای بالا\n*آدرس برخط:* اتاق مجازی مرکز پژوهشی فیزیک انرژی بالا (\nhttps://vc.sharif.edu/ch/rchep)\nهمچنین برای دسترسی به خبر و اطلاعات تکمیلی، لینک مربوطه در گوگلشیت در\nاختیار همکاران قرار گرفته است؛ موجب امتنان خواهد بود چنانچه اخبار، رویدادها\nیا مقالات مرتبط و شاخصی مدنظر همکاران محترم قرار دارد، جهت بهرهمندی سایر\nاساتید در همین جدول به اشتراک گذاشته شود.\n*لینک گوگلشیت: *\nhttps://docs.google.com/spreadsheets/d/1OTOtX_uKN7YIedQddh3ofn9EEpY_HDmh3bgiHXK8HKA/edit?usp=sharing\nپیشاپیش از توجه و همراهی شما سپاسگزاریم.\n*با احترام و آرزوی توفیق*\n*تیم برگزاری سمینارهای هوش مصنوعی*\n--\nEbrahim Siri\nPostdoctoral Fellow\nResearch Center for HEP\nPhysics Department, Sharif University of Technology, Tehran, Iran\nInspire <https://inspirehep.net/authors/2800410?ui-citation-summary=true>\n|  ORCID <https://orcid.org/0009-0008-1021-3348>  |  Google Scholar\n<https://scholar.google.com/citations?user=87nefkcAAAAJ&hl=en>"
+    },
+    {
+      "account": "Sharif",
+      "index": 6,
+      "date": "2026-11-11T09:57:12+00:00",
+      "from": "r***@physics.sharif.edu",
+      "to": "r***@physics.sharif.ir",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 7,
+      "date": "2026-11-11T09:36:29+00:00",
+      "from": "\"Hessamaddin Arfaei\" <a***@sharif.edu>",
+      "to": "\"Shant Baghram\" <b***@sharif.edu>, \"Sohrab\" <r***@sharif.edu>,\r\n        r***@physics.sharif.ir, r***@physics.sharif.edu",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 8,
+      "date": "2026-11-09T18:03:11+00:00",
+      "from": "\"Shant Baghram\" <b***@sharif.edu>",
+      "to": "\"Sohrab\" <r***@sharif.edu>, r***@physics.sharif.ir,\r\n        r***@physics.sharif.edu",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 9,
+      "date": "2026-11-09T18:03:11+00:00",
+      "from": "\"Shant Baghram\" <b***@sharif.edu>",
+      "to": "\"Sohrab\" <r***@sharif.edu>, r***@physics.sharif.ir,\r\n        r***@physics.sharif.edu",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 10,
+      "date": "2026-11-09T17:37:40+00:00",
+      "from": "\"Sohrab\" <r***@sharif.edu>",
+      "to": "r***@physics.sharif.ir, r***@physics.sharif.edu",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 11,
+      "date": "2026-11-09T17:37:40+00:00",
+      "from": "\"Sohrab\" <r***@sharif.edu>",
+      "to": "r***@physics.sharif.ir, r***@physics.sharif.edu",
+      "subject": "Re: درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 12,
+      "date": "2026-11-09T14:03:08+00:00",
+      "from": "r***@physics.sharif.ir",
+      "to": "r***@physics.sharif.edu",
+      "subject": "درخواست آقای دکتر علی طباطبایی",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "My_Cv.pdf",
+          "size": 175898,
+          "extension": ".pdf",
+          "sha1": "f2c1466759bb"
+        },
+        {
+          "name": "Research_Statement_SUT_1405.pdf",
+          "size": 116561,
+          "extension": ".pdf",
+          "sha1": "f88461fc8acf"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 13,
+      "date": "2026-11-08T17:56:53+03:30",
+      "from": "Niloofar Vardian <n***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "CONFIRM_b77a747c-a111-465a-b3e6-4bbbfc2fb990",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 14,
+      "date": "2026-11-08T14:39:28+03:30",
+      "from": "Niloofar Vardian <n***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "درخواست عضویت در سمینارهای RCHEP [subscribe]",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: نیلوفر وردیان\nرایانامه: n***@gmail.com\nSent from my iPhone"
+    },
+    {
+      "account": "Sharif",
+      "index": 15,
+      "date": "2026-11-08T14:37:42+03:30",
+      "from": "Niloofar Vardian <n***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "CONFIRM_27f8a85b-6606-4a7b-bd23-a9699a8be907",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 16,
+      "date": "2026-11-08T14:27:23+03:30",
+      "from": "Niloofar Vardian <n***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "درخواست عضویت در سمینارهای RCHEP [subscribe]",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: نیلوفر وردیان\nرایانامه: n***@gmail.com\nSent from my iPhone"
+    },
+    {
+      "account": "Sharif",
+      "index": 17,
+      "date": "2026-11-08T13:48:46+03:30",
+      "from": "h***@icloud.com",
+      "to": "r***@physics.sharif.ir",
+      "subject": "CONFIRM_1a00819d-c5cd-4fe0-9753-22d6d86316c4",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 18,
+      "date": "2026-11-08T13:12:32+03:30",
+      "from": "h***@icloud.com",
+      "to": "r***@physics.sharif.ir",
+      "subject": "درخواست عضویت در سمینارهای RCHEP [subscribe]",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: میرزا عبدالله عوضی\nرایانامه: a***@gmail.com"
+    },
+    {
+      "account": "Sharif",
+      "index": 19,
+      "date": "2026-11-08T13:09:42+03:30",
+      "from": "h***@icloud.com",
+      "to": "r***@physics.sharif.ir",
+      "subject": "درخواست عضویت در سمینارهای RCHEP [subscribe]",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "درود،\nلطفاً این نشانی را در فهرست سمینارهای مرکز فیزیک انرژی بالا ثبت فرمایید.\nنام: میرزا عبدالله عوضی\nرایانامه: a***@gmail.com"
+    },
+    {
+      "account": "Sharif",
+      "index": 20,
+      "date": "",
+      "from": "r***@physics.sharif.ir",
+      "to": "r***@physics.sharif.ir",
+      "subject": "RCHEP SMTP Verification Test",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 21,
+      "date": "2026-10-12T21:03:46+03:30",
+      "from": "Javad Tabatabaei <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Postdoctoral submission",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "cv-tabatabaei.pdf",
+          "size": 307128,
+          "extension": ".pdf",
+          "sha1": "bcec2515ebdc"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 22,
+      "date": "2026-09-29T14:26:24+03:30",
+      "from": "Ali Tabatabaee <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "دوره پژوهشی پسادکتری در مرکز انرژی های بالا",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "My_Cv.pdf",
+          "size": 175898,
+          "extension": ".pdf",
+          "sha1": "f2c1466759bb"
+        },
+        {
+          "name": "Research_Statement_SUT_1405.pdf",
+          "size": 116561,
+          "extension": ".pdf",
+          "sha1": "f88461fc8acf"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 23,
+      "date": "2026-09-26T08:54:12+00:00",
+      "from": "\"Ali Mohseni\" <m***@sharif.edu>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: حساب my.sharif.ir",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "سلام آقای دکتر\nدر جلسه مرکز بررسی میکنیم روزهای آینده\nبا احترام\nمحسنی\nSeptember 26, 2026 at 12:13 PM, [r***@physics.sharif.edu](mailto:r***@physics.sharif.edu) wrote:\n> سلام بر مهندس محسنی عزیز\n>\n>\n>\n> امیدوارم شاد و تندرست باشید.\n>\n>\n>\n> از آنجایی که لازم است من مدارک مرکز را در اختیار نفر بعد قرار دهم و به دلیل درگذشتگی ( یا همان بازنشستگی !) مدت قابل توجهی از سال را در سفر هستم بهتر است مدارک را جایی ذخیره کنم که بتوانم کاملا در اختیار نفر بعد و اگر بتوانیم یک دستیار اداری هم بگیریم در اختیار ایشان هم قرار دهم. در حال حاضر از حساب خودم استفاده میکنم. ممنون میشوم امکان برقراری my.sharif را برای حسابهی حقوقی هم مطرح بفرمایید.\n>\n>\n>\n> با تشکر از زحمات شما\n>\n>\n>\n> ارادتمند ارفعی\n>\n>\n>\n>\n>\n> September 22, 2026 9:51 PM, \"Ali Mohseni\" <[m***@sharif.edu](mailto:m***@sharif.edu?to=%22Ali%20Mohseni%22%20%3***@sharif.edu%3E)\\> wrote:\n>\n>\n>\n> > سلام آقای دکتر\n> >\n> > بررسی کردم ایمیل حقوقی امکانشنو فعلا نداره.\n> >\n> > از شناسه خودتون میتونین استفاده بفرمایید.\n> >\n> > با احترام\n> >\n> > محسنی\n> >\n> >\n> >\n> >\n> >\n> > September 22, 2026 at 6:05 PM, [r***@physics.sharif.edu](mailto:r***@physics.sharif.edu) wrote:\n> >\n> > > سلام جناب آقای مهندس محسنی عزیز\n> > >\n> > > امیدوارم شاد و تندرست باشید.\n> > >\n> > > آگر امکان داشته باشد ممنون میشوم برای این حسابی از آن برایتان ایمیل میفرستم امکان استفاده از محیط my.sharif.ir فراهم شود تا مکاتبات و اسناد مرکز را حفظ کنم و با همکاران به اشتراک بگذارم.\n> > >\n> > >\n> > >\n> > > از لطف همیشگی شما سپاسگزارم\n> > >\n> > >\n> > >\n> > > ارادتمند حسام الدین ارفعی\n> >\n> >\n>\n>"
+    },
+    {
+      "account": "Sharif",
+      "index": 24,
+      "date": "2026-09-22T18:21:06+00:00",
+      "from": "\"Ali Mohseni\" <m***@sharif.edu>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: حساب my.sharif.ir",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 25,
+      "date": "2026-09-22T15:44:17+00:00",
+      "from": "\"Ali Mohseni\" <m***@sharif.edu>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: حساب my.sharif.ir",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 26,
+      "date": "2025-12-24T22:38:19-05:00",
+      "from": "Darius Hellabad <i***@hellabad.org>",
+      "to": "\"d***@sharif.ir\" <d***@sharif.ir>",
+      "subject": "ارائهٔ یک چارچوب پژوهشی مستقل برای بررسی و نقد دانشگاهی (H3)",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "H3_One_Page_Academic_Brief_Ali_Wajir_Hellabad 2.pdf",
+          "size": 2826,
+          "extension": ".pdf",
+          "sha1": "a85807f4a35d"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 27,
+      "date": "2025-12-07T18:40:26+03:30",
+      "from": "سعید چولکی <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: جذب پژوهشگر",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 28,
+      "date": "2025-11-22T11:28:46+03:30",
+      "from": "sima modarres <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "دوره تحلیل داده های کیهان شناسی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 29,
+      "date": "2025-11-19T10:39:34-08:00",
+      "from": "سعید چولکی <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: جذب پژوهشگر",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "resume-file-cvresume-ir-1763588077-104.pdf",
+          "size": 604724,
+          "extension": ".pdf",
+          "sha1": "2db55879ae3f"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 30,
+      "date": "2025-11-19T10:35:20-08:00",
+      "from": "سعید چولکی <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "جذب پژوهشگر",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 31,
+      "date": "2025-11-18T22:09:15+03:30",
+      "from": "Melika Mirzaei <m***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: دوره تحلیل داده‌های کیهانشناسی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 32,
+      "date": "2025-11-15T16:33:38+03:30",
+      "from": "Melika Mirzaei <m***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: دوره تحلیل داده‌های کیهانشناسی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 33,
+      "date": "2025-11-14T17:49:16+03:30",
+      "from": "Melika Mirzaei <m***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "دوره تحلیل داده‌های کیهانشناسی",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 34,
+      "date": "2025-11-04T15:55:48+03:30",
+      "from": "ahmadreza moradpour <a***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: شماره شبا",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 35,
+      "date": "2025-10-20T09:15:33+03:30",
+      "from": "Postdoc Sharif <p***@sharif.edu>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: توصیه نامه برای آقای دکتر ابراهیم سیری",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Sharif",
+      "index": 36,
+      "date": "2025-09-06T13:20:21+03:30",
+      "from": "Javad Tabatabaei <s***@gmail.com>",
+      "to": "r***@physics.sharif.edu",
+      "subject": "Re: تمدید بورس تحصیلی",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "research-tabatabaei.pdf",
+          "size": 187725,
+          "extension": ".pdf",
+          "sha1": "9eea586cd475"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 37,
+      "date": "2025-09-03T11:22:34+00:00",
+      "from": "Hessamaddin Arfaei <a***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "‎⁨تمدیدقرارداد1404 دکتر زینلی ⁩",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "تمدیدقرارداد1404 دکتر زینلی .pdf",
+          "size": 137021,
+          "extension": ".pdf",
+          "sha1": "589b6480a9e5"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 38,
+      "date": "2025-09-03T14:50:45+03:30",
+      "from": "Hessamaddin Arfaei <a***@gmail.com>",
+      "to": "r***@physics.sharif.ir",
+      "subject": "قرارداد دکتر زینلی",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "تمدیدقرارداد1404 دکتر زینلی .pdf",
+          "size": 137021,
+          "extension": ".pdf",
+          "sha1": "589b6480a9e5"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 39,
+      "date": "2025-09-03T11:06:33+00:00",
+      "from": "r***@physics.sharif.edu",
+      "to": "r***@physics.sharif.ir, a***@gmail.com",
+      "subject": "قرارداد دکتر زینلی",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "تمدیدقرارداد1404 دکتر زینلی .pdf",
+          "size": 106406,
+          "extension": ".pdf",
+          "sha1": "b05c0a60fb0c"
+        }
+      ]
+    },
+    {
+      "account": "Sharif",
+      "index": 40,
+      "date": "2025-08-27T22:45:10+00:00",
+      "from": "Hamidreza Moshfegh <h***@yahoo.com>",
+      "to": "\"r***@physics.sharif.edu\" <r***@physics.sharif.edu>",
+      "subject": "Recommendation support Ebrahim Siri",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "Siri.pdf",
+          "size": 300729,
+          "extension": ".pdf",
+          "sha1": "5a0da2d8b64a"
+        }
+      ]
+    },
+    {
+      "account": "Gmail",
+      "index": 1,
+      "date": "2026-11-12T01:19:14-08:00",
+      "from": "RCHEP Center <r***@physics.sharif.ir>",
+      "to": "a***@gmail.com",
+      "subject": "[سمینار RCHEP] The Zn equivariant Virasoro algebra via alternative Sugawara construction — آرمین قاضی (25 آبان)",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "مرکز پژوهشی فیزیک انرژی بالا (RCHEP)\nدانشگاه صنعتی شریف\nThe Zn equivariant Virasoro algebra via alternative Sugawara construction\nسخنران:  آرمین قاضی (دانشگاه صنعتی شریف)\nزمان:  دوشنبه 25 آبان، ساعت ۱۳:۳۰\nمکان:  اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی\nمشاهده جزئیات و پوستر در تارنما\nاین پیام برای اعضای تأییدشده سمینارهای مرکز فیزیک انرژی بالا ارسال شده است.\nلغو دریافت پیامها (Unsubscribe)"
+    },
+    {
+      "account": "Gmail",
+      "index": 2,
+      "date": "2026-11-12T01:18:50-08:00",
+      "from": "RCHEP Center <r***@physics.sharif.ir>",
+      "to": "h***@gmail.com",
+      "subject": "[سمینار RCHEP] The Zn equivariant Virasoro algebra via alternative Sugawara construction — آرمین قاضی (25 آبان)",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "مرکز پژوهشی فیزیک انرژی بالا (RCHEP)\nدانشگاه صنعتی شریف\nThe Zn equivariant Virasoro algebra via alternative Sugawara construction\nسخنران:  آرمین قاضی (دانشگاه صنعتی شریف)\nزمان:  دوشنبه 25 آبان، ساعت ۱۳:۳۰\nمکان:  اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی\nمشاهده جزئیات و پوستر در تارنما\nاین پیام برای اعضای تأییدشده سمینارهای مرکز فیزیک انرژی بالا ارسال شده است.\nلغو دریافت پیامها (Unsubscribe)"
+    },
+    {
+      "account": "Gmail",
+      "index": 3,
+      "date": "2026-11-11T23:37:24-08:00",
+      "from": "RCHEP Center <r***@physics.sharif.ir>",
+      "to": "h***@gmail.com",
+      "subject": "[سمینار RCHEP] [image: ce37534f-94a6-4631-919c-2903e52301e6.jpg] — آرمین قاضی (25 آبان)",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "مرکز پژوهشی فیزیک انرژی بالا (RCHEP)\nدانشگاه صنعتی شریف\n[image: ce37534f-94a6-4631-919c-2903e52301e6.jpg]\nسخنران:  آرمین قاضی ([image: ce37534f-94a6-4631-919c-2903e52301e6.jpg])\nزمان:  دوشنبه 25 آبان، ساعت ۱۳:۳۰\nمکان:  اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی\nمشاهده جزئیات و پوستر در تارنما\nاین پیام برای اعضای تأییدشده سمینارهای مرکز فیزیک انرژی بالا ارسال شده است.\nلغو دریافت پیامها (Unsubscribe)"
+    },
+    {
+      "account": "Gmail",
+      "index": 4,
+      "date": "2026-11-11T23:37:19-08:00",
+      "from": "RCHEP Center <r***@physics.sharif.ir>",
+      "to": "a***@gmail.com",
+      "subject": "[سمینار RCHEP] [image: ce37534f-94a6-4631-919c-2903e52301e6.jpg] — آرمین قاضی (25 آبان)",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "مرکز پژوهشی فیزیک انرژی بالا (RCHEP)\nدانشگاه صنعتی شریف\n[image: ce37534f-94a6-4631-919c-2903e52301e6.jpg]\nسخنران:  آرمین قاضی ([image: ce37534f-94a6-4631-919c-2903e52301e6.jpg])\nزمان:  دوشنبه 25 آبان، ساعت ۱۳:۳۰\nمکان:  اتاق سمینار RCHEP (دانشکده فیزیک) + مجازی\nمشاهده جزئیات و پوستر در تارنما\nاین پیام برای اعضای تأییدشده سمینارهای مرکز فیزیک انرژی بالا ارسال شده است.\nلغو دریافت پیامها (Unsubscribe)"
+    },
+    {
+      "account": "Gmail",
+      "index": 5,
+      "date": "2026-11-12T10:19:10+03:30",
+      "from": "Pouya Si <p***@gmail.com>",
+      "to": "s***@sharif.ir, s***@gmail.com, \r\n\tAmin Faraji Astaneh <a***@gmail.com>, e***@physics.sharif.ir, \r\n\tNiloofar Vardian <n***@gmail.com>, a***@gmail.com, \r\n\tHessamaddin Arfaei <h***@gmail.com>, n***@gmai",
+      "subject": "Bi-Weekly AI Seminar Series in Physics - Sharif University of\r\n Technology - 14 Nov 2026 (23 Aban1405)",
+      "keyword_hit": true,
+      "attachments": [
+        {
+          "name": "AISeries_Amin_14050823.pdf",
+          "size": 199247,
+          "extension": ".pdf",
+          "sha1": "b0c57d79587e"
+        }
+      ],
+      "saved_files": [
+        "session-20261112-1.pdf"
+      ],
+      "body": "همکاران ارجمند،\nبا سلام و احترام،\nبدینوسیله از شما دعوت میشود در سمینارهای هوش مصنوعی دانشکده فیزیک،\nدانشگاه صنعتی شریف شرکت فرمایید. این مجموعه سمینار فرصتی برای آشنایی و\nگفتوگو درباره موضوعات و کاربردهای گوناگون هوش مصنوعی در پژوهشهای علمی\nفراهم میکند. حضور ارزشمند شما میتواند به پربارترشدن این نشستها و\nشکلگیری تبادلنظرهای سازنده میان همکاران کمک کند.\nاطلاعات مربوط به سمینار این هفته، در زیر درج شده است (*برای جزئیات بیشتر به\nفایل پیوست این رایانامه مراجعه کنید*) . *شایان ذکر است که در نیمسال جاری\nاین سمینارها هر دو هفته یک بار برگزار خواهد شد.*\n*عنوان سخنرانی:* پیشرفتهای اخیر هوش مصنوعی در اثباتهای ریاضی؛ آیا\nریاضیدانان قلمهای خود را زمین میگذارند؟\n*سخنران:* دکتر امین فرجی آستانه (استادیار دانشکده فیزیک و مرکز پژوهشی فیزیک\nانرژیهای بالا - دانشگاه صنعتی شریف)\n*زمان برگزاری:* شنبه 23 آبان 1405 – 12:30 الی 13:20\n*مکان:* سالن سمینار مرکز فیزیک انرژیهای بالا\n*آدرس برخط:* اتاق مجازی مرکز پژوهشی فیزیک انرژی بالا (\nhttps://vc.sharif.edu/ch/rchep)\nهمچنین برای دسترسی به خبر و اطلاعات تکمیلی، لینک مربوطه در گوگلشیت در\nاختیار همکاران قرار گرفته است؛ موجب امتنان خواهد بود چنانچه اخبار، رویدادها\nیا مقالات مرتبط و شاخصی مدنظر همکاران محترم قرار دارد، جهت بهرهمندی سایر\nاساتید در همین جدول به اشتراک گذاشته شود.\n*لینک گوگلشیت: *\nhttps://docs.google.com/spreadsheets/d/1OTOtX_uKN7YIedQddh3ofn9EEpY_HDmh3bgiHXK8HKA/edit?usp=sharing\nپیشاپیش از توجه و همراهی شما سپاسگزاریم.\n*با احترام و آرزوی توفیق*\n*تیم برگزاری سمینارهای هوش مصنوعی*\n--\nEbrahim Siri\nPostdoctoral Fellow\nResearch Center for HEP\nPhysics Department, Sharif University of Technology, Tehran, Iran\nInspire <https://inspirehep.net/authors/2800410?ui-citation-summary=true>\n|  ORCID <https://orcid.org/0009-0008-1021-3348>  |  Google Scholar\n<https://scholar.google.com/citations?user=87nefkcAAAAJ&hl=en>"
+    },
+    {
+      "account": "Gmail",
+      "index": 6,
+      "date": "2026-11-12T05:34:36+00:00",
+      "from": "\"DID INDO-EUROPEAN LANGUAGES STEM FROM...\" <u***@academia-mail.com>",
+      "to": "a***@gmail.com",
+      "subject": "Hessamaddin's full copy",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 7,
+      "date": "2026-11-12T08:27:16+03:30",
+      "from": "Niloofar Vardian <n***@gmail.com>",
+      "to": "t***@gmail.com, Jahed Abedi <a***@gmail.com>,  m***@gmail.com, Shant Baghram <s***@gmail.com>, v***@gmail.com,  s***@ut.ac.ir, Amin Faraji Astaneh <a***@gmail.com>, b***@gmail.com,  m***@gmail.com, r*",
+      "subject": "سمینار هفتگی مرکز فیزیک انرژی بالا-25 آبان ماه",
+      "keyword_hit": true,
+      "attachments": [
+        {
+          "name": "ce37534f-94a6-4631-919c-2903e52301e6.jpg",
+          "size": 45508,
+          "extension": ".jpg",
+          "sha1": "f45170c62e4e"
+        },
+        {
+          "name": "4photoshop-Sanati-sharif-vector-logo-لوگو-دانشگاه-صنعتی-شریف-وکتور.jpg",
+          "size": 63318,
+          "extension": ".jpg",
+          "sha1": "81cd2d5d8203"
+        },
+        {
+          "name": "25abanfa.pdf",
+          "size": 472099,
+          "extension": ".pdf",
+          "sha1": "64259aa0ae8d"
+        },
+        {
+          "name": "25 aban.pdf",
+          "size": 766121,
+          "extension": ".pdf",
+          "sha1": "c9f630707786"
+        }
+      ],
+      "saved_files": [
+        "seminar-20261112-1.jpg",
+        "seminar-20261112-2.jpg",
+        "seminar-20261112-3.pdf",
+        "seminar-20261112-4.pdf"
+      ],
+      "body": "*سمینارهای هفتگی مرکز پژوهشی فیزیک انرژی بالا*\n*دانشگاه صنعتی شریف*\n[image: ce37534f-94a6-4631-919c-2903e52301e6.jpg]\n[image:\n4photoshop-Sanati-sharif-vector-logo-لوگو-دانشگاه-صنعتی-شریف-وکتور.jpg]\nThe Zn equivariant Virasoro algebra via alternative Sugawara construction\n*ارائهدهنده :آرمین قاضی*\n*مرکز فیزیک انرژی بالا-دانشگاه صنعتی شریف*\n*زمان:*\n*ساعت 13:30*\n*تاریخ:*\n*دوشنبه، 25 آبان ماه 1405*\n*چکیده:*\nIn this talk, I’ll introduce the u(1)2 Kac–Moody algebra and generalize the\nstandard Sugawara construction of the Virasoro algebra to an infinite\nfamily of new realizations. I will show that these new realizations arise\nfrom a ZN -grading of the mode index n of the Virasoro generators Ln . For\nthe Z2 and Z3 cases, the space of all such constructions is topologically\nequivalent to a cylinder, while for Z4 it forms a non-compact real\nfour-dimensional manifold. Furthermore, I will reformulate the problem\nwithin an action principle framework by introducing ZN -equivariant maps,\nwhich provide a systematic method for constructing conformal field\ntheories endowed\nwith these generalized Virasoro symmetries\n*مکــان برگـزاری:* اتاق سمینار مرکز پژوهشی فیزیک انرژی بالا\n*لینک اتاق مجازی:*\nhttps://vc.sharif.edu/ch/rchep\n*سمینار به شکل ترکیبی (حضوری و مجازی) برگزار میشود.*"
+    },
+    {
+      "account": "Gmail",
+      "index": 8,
+      "date": "2026-11-12T04:53:03+00:00",
+      "from": "\"Academia.edu\" <u***@academia-mail.com>",
+      "to": "a***@gmail.com",
+      "subject": "Someone confirmed that your paper, \"Searches for new physics using thett¯invariant mass distribution inppcollisions ats=8  TeV\" mentions them.",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 9,
+      "date": "2026-11-12T07:54:09+03:30",
+      "from": "Shant Baghram <s***@gmail.com>",
+      "to": "Shant Baghram <s***@gmail.com>, \r\n\tAbdolali Banihashemi <a***@gmail.com>, Nima Khosravi <n***@gmail.com>, \r\n\tShant Baghram <b***@sharif.edu>",
+      "subject": "Sharif University of Technology - Weekly Cosmology Seminar -Hybrid\r\n Series - (Sunday - 15 Nov 2026 - 24 Aban 1405 - @ 18:15 Tehran Time) - List (III)",
+      "keyword_hit": true,
+      "attachments": [
+        {
+          "name": "سمینار  گروه کیهان شناسی 24 آبان 1405- SUT-Cosmology -15 November 2026.pdf",
+          "size": 728865,
+          "extension": ".pdf",
+          "sha1": "9fe4bd01fb54"
+        }
+      ],
+      "saved_files": [
+        "session-20261112-1.pdf"
+      ],
+      "body": "*Department of Physics*\n*Sharif University of Technology*\n*Cosmology Group Weekly Seminars*\nدانشکده فیزیک دانشگاه صنعتی شریف\nسمینارهای هفتگی گروه کیهان شناسی\n****لطفا  به * *زمان  * * و مکان**سمینار توجه فرمایید****\n*سمینار به صورت **ترکیبی (هیبرید) ** برگزار می شود*\n*Cosmological Signatures of Curvature-Coupled Dark Energy *\n*Abdolali Banihashemi *\n*Institute for theoretical Astrophysics, University of Oslo*\n*Abstract:*\n‫ In this talk, I will present a curvature-coupled dark energy model within\nthe framework of scalar tensor theories, where a quintessence field is\nnonminimally coupled to the Ricci scalar. The model is characterized by a\nshifted quartic coupling, f(φ) = α(φ² − φ²_today)², and an inverse\npower-law potential, V(φ) = Λφ⁻σ\nI will show how this specific coupling allows an effective crossing of the\nphantom divide at late times while satisfying local gravity constraints. At\nthe same time, the scalar field can modify the expansion history before\nrecombination, potentially alleviating the H₀ tension.\nUsing a modified version of hi_class, I will discuss the model's\npredictions for the cosmological background and linear perturbations,\nhighlighting its characteristic signatures in matter clustering, weak\nlensing, and the Integrated Sachs-Wolfe effect. Finally, I will discuss the\nprospects for further investigation, including a full parameter space\nanalysis and nonlinear N-body simulations.\n*یکشنبه **24** آبان* *1405**، ساعت **18:15*\n*Sunday **15 November** 2026 – **18:15 **Tehran Time*\n*Hybrid Seminar *\n*۱۸:۰۰ - ۱۸:۱۵ | پذیرایی ساده و گفتگو*\nhttps://vc.sharif.edu/ch/cosmology\n*دانشکده فیزیک –** طبقه 5 – اتاق 512*  */*  *Physics Department fifth floor\n–Room 512   *\nگزینه ورود به صورت مهمان – Enter as a Guest\nphysics.sharif.edu/~cosmology/"
+    },
+    {
+      "account": "Gmail",
+      "index": 10,
+      "date": "2026-11-12T07:53:51+03:30",
+      "from": "Shant Baghram <s***@gmail.com>",
+      "to": "Shant Baghram <s***@gmail.com>, \r\n\tAbdolali Banihashemi <a***@gmail.com>, Nima Khosravi <n***@gmail.com>, \r\n\tShant Baghram <b***@sharif.edu>",
+      "subject": "Sharif University of Technology - Weekly Cosmology Seminar -Hybrid\r\n Series - (Sunday - 15 Nov 2026 - 24 Aban 1405 - @ 18:15 Tehran Time) - List (I)",
+      "keyword_hit": true,
+      "attachments": [
+        {
+          "name": "سمینار  گروه کیهان شناسی 24 آبان 1405- SUT-Cosmology -15 November 2026.pdf",
+          "size": 728865,
+          "extension": ".pdf",
+          "sha1": "9fe4bd01fb54"
+        }
+      ],
+      "saved_files": [
+        "session-20261112-1.pdf"
+      ],
+      "body": "*Department of Physics*\n*Sharif University of Technology*\n*Cosmology Group Weekly Seminars*\nدانشکده فیزیک دانشگاه صنعتی شریف\nسمینارهای هفتگی گروه کیهان شناسی\n****لطفا  به * *زمان  * * و مکان**سمینار توجه فرمایید****\n*سمینار به صورت **ترکیبی (هیبرید) ** برگزار می شود*\n*Cosmological Signatures of Curvature-Coupled Dark Energy *\n*Abdolali Banihashemi *\n*Institute for theoretical Astrophysics, University of Oslo*\n*Abstract:*\n‫ In this talk, I will present a curvature-coupled dark energy model within\nthe framework of scalar tensor theories, where a quintessence field is\nnonminimally coupled to the Ricci scalar. The model is characterized by a\nshifted quartic coupling, f(φ) = α(φ² − φ²_today)², and an inverse\npower-law potential, V(φ) = Λφ⁻σ\nI will show how this specific coupling allows an effective crossing of the\nphantom divide at late times while satisfying local gravity constraints. At\nthe same time, the scalar field can modify the expansion history before\nrecombination, potentially alleviating the H₀ tension.\nUsing a modified version of hi_class, I will discuss the model's\npredictions for the cosmological background and linear perturbations,\nhighlighting its characteristic signatures in matter clustering, weak\nlensing, and the Integrated Sachs-Wolfe effect. Finally, I will discuss the\nprospects for further investigation, including a full parameter space\nanalysis and nonlinear N-body simulations.\n*یکشنبه **24** آبان* *1405**، ساعت **18:15*\n*Sunday **15 November** 2026 – **18:15 **Tehran Time*\n*Hybrid Seminar *\n*۱۸:۰۰ - ۱۸:۱۵ | پذیرایی ساده و گفتگو*\nhttps://vc.sharif.edu/ch/cosmology\n*دانشکده فیزیک –** طبقه 5 – اتاق 512*  */*  *Physics Department fifth floor\n–Room 512   *\nگزینه ورود به صورت مهمان – Enter as a Guest\nphysics.sharif.edu/~cosmology/"
+    },
+    {
+      "account": "Gmail",
+      "index": 11,
+      "date": "2026-11-11T20:20:05-05:00",
+      "from": "Newsletter Science X <n***@physorg.com>",
+      "to": "h***@gmail.com",
+      "subject": "Science X Newsletter Wed, Nov 11",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 12,
+      "date": "2026-11-11T19:02:46+00:00",
+      "from": "STAGE+ <n***@email.stage-plus.com>",
+      "to": "a***@gmail.com",
+      "subject": "PREMIERE: Marc-André Hamelin & Roberto Abbado in Seoul",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 13,
+      "date": "2026-11-11T06:18:39-08:00",
+      "from": "\"Facebook Friend Suggestions\" <f***@facebookmail.com>",
+      "to": "Hessamaddin Arfaei <h***@gmail.com>",
+      "subject": "👤 Zahra Ahmadi and Delshad Allamehzadeh are new friend suggestions for you",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 14,
+      "date": "2026-11-11T12:03:39+00:00",
+      "from": "TIME <T***@nl.time.com>",
+      "to": "\"h***@gmail.com\" <h***@gmail.com>",
+      "subject": "TeleICU's, Hegseth impeachment, Jim Jordan",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 15,
+      "date": "2026-11-11T15:17:56+03:30",
+      "from": "Ida Mehin Rasulian <i***@ipm.ir>",
+      "to": "h arfaei <h***@gmail.com>",
+      "subject": "Re: Reference letter",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 16,
+      "date": "2026-11-11T06:03:36-05:00",
+      "from": "Foreign Affairs <n***@foreignaffairs.com>",
+      "to": "a***@gmail.com",
+      "subject": "Iran’s Theory of Victory",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 17,
+      "date": "2026-11-11T14:19:35+03:30",
+      "from": "Yasaman Farzan <y***@theory.ipm.ac.ir>",
+      "to": "\"[announcement]\" <a***@theory.ipm.ac.ir>",
+      "subject": "ویدئوها ی جدید در کانال آپارات پژوهشکده فیزیک",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 18,
+      "date": "2026-11-11T05:34:34+00:00",
+      "from": "\"The Music of the Spheres:...\" <u***@academia-mail.com>",
+      "to": "a***@gmail.com",
+      "subject": "Hessamaddin's full copy",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 19,
+      "date": "2026-11-10T20:23:58-05:00",
+      "from": "Newsletter Science X <n***@physorg.com>",
+      "to": "h***@gmail.com",
+      "subject": "Science X Newsletter Tue, Nov 10",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 20,
+      "date": "2026-11-11T08:14:43+11:00",
+      "from": "\"Berliner Philharmoniker – Digital Concert Hall\" <n***@digitalconcerthall.com> ",
+      "to": "\"Hessamaddin Arfaei\" <h***@gmail.com>",
+      "subject": "Available now: our Christmas offer",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 21,
+      "date": "2026-11-10T19:23:38+00:00",
+      "from": "Academia Mentions <p***@academia-mail.com>",
+      "to": "h***@gmail.com",
+      "subject": "David Turbi Reyes cited your paper",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 22,
+      "date": "2026-11-10T18:18:35+00:00",
+      "from": "John Huehnergard via Academia <u***@academia-mail.com>",
+      "to": "h***@gmail.com",
+      "subject": "📄 Just uploaded",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 23,
+      "date": "2026-11-10T17:26:37+00:00",
+      "from": "\"Uber\" <u***@uber.com>",
+      "to": "<h***@gmail.com>",
+      "subject": "Want 60% off? 🥪",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 24,
+      "date": "2026-11-10T16:50:12+00:00",
+      "from": "Aura Frames <h***@auraframes.com>",
+      "to": "h***@gmail.com",
+      "subject": "New: Printed-photo look. Unplugged.",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 25,
+      "date": "2026-11-10T09:47:05-06:00",
+      "from": "\"Bank of America\" <b***@emcom.bankofamerica.com>",
+      "to": "<h***@gmail.com>",
+      "subject": "Join BofA Rewards™ today to access your benefits",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 26,
+      "date": "2026-11-10T14:31:26+00:00",
+      "from": "STAGE+ <n***@email.stage-plus.com>",
+      "to": "a***@gmail.com",
+      "subject": "Enjoy 60 % off STAGE+ now",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 27,
+      "date": "2026-11-10T13:06:22+00:00",
+      "from": "TIME <T***@nl.time.com>",
+      "to": "\"h***@gmail.com\" <h***@gmail.com>",
+      "subject": "How Trump got rich in the White House",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 28,
+      "date": "2026-11-10T12:35:34+00:00",
+      "from": "IDAGIO <e***@comm.idagio.com>",
+      "to": "h***@gmail.com",
+      "subject": "Black Friday early access 🖤",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 29,
+      "date": "2026-11-10T14:43:20+03:30",
+      "from": "Ida Mehin Rasulian <i***@ipm.ir>",
+      "to": "h arfaei <h***@gmail.com>",
+      "subject": "Re: Reference letter",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 30,
+      "date": "2026-11-09T20:16:04-08:00",
+      "from": "SUTA Board <b***@suta.org>",
+      "to": "",
+      "subject": "(ویرایش نو): دعوت به ششمين بخش از مجموعه‌ی تاریخ شفاهی دانشگاه صنعتی شریف (آریامهر)",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "History 06 (1x1) Farsi.jpeg",
+          "size": 261780,
+          "extension": ".jpeg",
+          "sha1": "bf82c129325d"
+        }
+      ]
+    },
+    {
+      "account": "Gmail",
+      "index": 31,
+      "date": "2026-11-10T00:25:02-08:00",
+      "from": "Google Maps <g***@google.com>",
+      "to": "a***@gmail.com",
+      "subject": "Your review reached a new milestone",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 32,
+      "date": "2026-11-10T05:34:36+00:00",
+      "from": "Iran's scientists condemn instances of... — new reader <u***@academia-mail.com>",
+      "to": "a***@gmail.com",
+      "subject": "Introducing keyvan",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 33,
+      "date": "2026-11-10T02:35:29+00:00",
+      "from": "Zocdoc <s***@mail5.zocdoc.com>",
+      "to": "a***@gmail.com",
+      "subject": "Used your FSA funds yet?",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 34,
+      "date": "2026-11-09T20:23:51-05:00",
+      "from": "Newsletter Science X <n***@physorg.com>",
+      "to": "h***@gmail.com",
+      "subject": "Science X Newsletter Mon, Nov 9",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "Science X Newsletter\n96\n/* Resets */\n/* default base font for most clients */\nhtml {\nfont-size: 16px;\n}\nhtml,\nbody {\nmargin: 0 !important;\npadding: 0 !important;\nheight: 100% !important;\nwidth: 100% !important;\n}\n* {\n-ms-text-size-adjust: 100%;\n-webkit-text-size-adjust: 100%;\n}\ntable,\ntd {\nmso-table-lspace: 0pt !important;\nmso-table-rspace: 0pt !important;\n}\ntable {\nborder-collapse: collapse !important;\n}\nimg {\n-ms-interpolation-mode: bicubic;\nborder: 0;\nheight: auto;\nline-height: 100%;\noutline: none;\ntext-decoration: none;\n}\na {\ntext-decoration: none;\n}\na[x-apple-data-detectors] {\ncolor: inherit !important;\ntext-decoration: none !important;\n}\n/* Base typography */\nbody,\ntable,\ntd,\np,\na,\nh1,\nh2,\nh3,\nh4 {\nfont-family: 'Open Sans', sans-serif;\n}\n/* Gmail iOS right gutter fix */\nu+#body a {\ncolor: inherit;\ntext-decoration: underline;\n}\n/* Headings */\nh2 {\nfont-size: 1.125em;\nline-height: 1.5;\nmargin: 1em 0 0.5em 0;\ncolor: #0b1a33;\nfont-weight: 700;\nborder-left: 4px solid #0b3d91;\npadding-left: 10px;\n}\nh3 {\nfont-size: 1em;\nline-height: 1.25;\nmargin: 0.5em 0 0.25em 0;\ncolor: #2d2d2d;\nfont-weight: 600;\n}\n/* Default: no underline for links in content */\n.email-container a {\ntext-decoration: none;\n}\n/* But keep footer links underlined */\n.footer a {\ntext-decoration: underline;\n}\n/* Preview text styling */\n.preview-text {\nfont-size: 0.875em;\nline-height: 1.4;\ncolor: #444444;\n}\n/* Container */\n.email-container {\nmax-width: 800px;\n}\n/* Desktop defaults */\n@media only screen and (max-width: 799px) {\n.email-container {\nwidth: 100% !important;\n}\n.sm-px {\npadding-left: 1em !important;\npadding-right: 1em !important;\n}\n.stack-column,\n.stack-column td {\ndisplay: block !important;\nwidth: 100% !important;\n}\n/* Hide thumbnail column on small screens */\n.thumb-col,\ntd.thumb-col,\ntd[width=\"22"
+    },
+    {
+      "account": "Gmail",
+      "index": 35,
+      "date": "2026-11-09T23:33:15+00:00",
+      "from": "\"Academia.edu\" <u***@academia-mail.com>",
+      "to": "a***@gmail.com",
+      "subject": "Your paper was recommended in Brazil last week",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 36,
+      "date": "2026-11-09T07:18:17-08:00",
+      "from": "SUTA Board <b***@suta.org>",
+      "to": "",
+      "subject": "دعوت به ششمين بخش از مجموعه‌ی تاریخ شفاهی دانشگاه صنعتی شریف (آریامهر)",
+      "keyword_hit": false,
+      "attachments": [
+        {
+          "name": "History 06 (1x1) Farsi.jpeg",
+          "size": 96967,
+          "extension": ".jpeg",
+          "sha1": "1f68024e6084"
+        }
+      ]
+    },
+    {
+      "account": "Gmail",
+      "index": 37,
+      "date": "2026-11-09T19:09:54+00:00",
+      "from": "ICTP-SAIFR <n***@news.ictp-saifr.org>",
+      "to": "h***@gmail.com",
+      "subject": "ICTP-SAIFR Scientific Bulletin #70, September-October 2026",
+      "keyword_hit": true,
+      "attachments": [],
+      "saved_files": [],
+      "body": "View online version http://xwtix.mjt.lu/nl3/bqY2AMJ-Yv1CqpZijGWxpQ?m=BAAACcSDWHMAAc8H_XoAAKi2fykAAAAAF7YAACVgAAyTJQBq8hqCwKFlKaS8ScOluLKsHkqLMAAMk_8&b=3f437add&e=0ef21988&x=9_P4w45CoPG4XPX2DVuD1YaRZaWWpP289S84k5gb1Hg\n[http://xwtix.mjt.lu/tplimg/xwtix/b/884p/06htu.png]\nICTP-SAIFR Scientific Bulletin #70, September-October 2026\n[https://xwtix.mjt.lu/img2/xwtix/d3c24273-7871-4833-9ecc-aab4496917cc/content]\nICTP-SAIFR Call for 2028 Activity Proposals [https://www.ictp-saifr.org/how-to-propose-2028-activities/]\nICTP-SAIFR invites proposals for 2028 scientific activities to be organized in São Paulo which will include schools and minicourses for Master's and PhD students, and short workshops and month-long programs for researchers. Proposals for 2028 activities will be discussed by the Scientific Council [https://www.ictp-saifr.org/scientific-council/] on February 15, 2027, and potential organizers need to submit proposals before January 15, 2027 using the online form available HERE [https://www.ictp-saifr.org/how-to-propose-2028-activities/]. Pre-proposals should be sent before December 20 to d***@ictp-saifr.org [d***@ictp-saifr.org].\n[http://xwtix.mjt.lu/img2/xwtix/ad3bdec4-7e06-41ba-94cb-fc995ec314df/content]\nICTP-SAIFR Simons-FAPESP Research Professor Positions in Theoretical Physics [https://www.ictp-saifr.org/simonsfapesp2026/]\nApplications are open HERE [https://www.ictp-saifr.org/simonsfapesp2026/] for a Simons–FAPESP Research Professor position at ICTP-SAIFR in cosmology/gravitational waves, although outstanding candidates from other areas of theoretical physics are also encouraged to apply. The professor will receive generous fellowships from the Simons Foundation and FAPESP, and the international search committee includes Z. Bern, S. Dodelson (chair), G. Gonzalez, "
+    },
+    {
+      "account": "Gmail",
+      "index": 38,
+      "date": "2026-11-09T18:30:15+00:00",
+      "from": "Scientific American <n***@scientificamerican.com>",
+      "to": "h***@gmail.com",
+      "subject": "Health & Medicine: Meet the doctors elected to Congress",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 39,
+      "date": "2026-11-09T18:19:02+00:00",
+      "from": "John  Huehnergard via Academia <u***@academia-mail.com>",
+      "to": "h***@gmail.com",
+      "subject": "📄 Just uploaded",
+      "keyword_hit": false,
+      "attachments": []
+    },
+    {
+      "account": "Gmail",
+      "index": 40,
+      "date": "2026-11-09T18:05:11+00:00",
+      "from": "\"Academia.edu\" <p***@academia-mail.com>",
+      "to": "h***@gmail.com",
+      "subject": "You have 2 new citations this week",
+      "keyword_hit": false,
+      "attachments": []
+    }
+  ]
+}
