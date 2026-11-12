@@ -124,9 +124,11 @@ def is_own_notice(subject):
 
 
 IMAGE_REF_PATTERN = re.compile(
-    r"\[\s*(?:image|cid|attachment)\s*:[^\]]*\]",
+    r"\[\s*(?:image|cid|attachment|inline)\s*:[^\]]*\]",
     re.IGNORECASE,
 )
+# \u0627\u0631\u062c\u0627\u0639 \u0628\u0631\u0686\u0633\u0628 \u062f\u0627\u062e\u0644 \u0645\u062a\u0646 (\u0645\u0627\u0646\u0646\u062f "Image: ce37534f-....jpg" \u06cc\u0627 "mage: ...jpg]") \u062a\u0627 \u062c\u0644\u0648\u06cc \u0646\u0627\u0645 \u0633\u062e\u0646\u0631\u0627\u0646 \u0631\u0627 \u0628\u06af\u06cc\u0631\u062f.
+LABEL_REF_PATTERN = re.compile(r"(?:i?mage|cid|attachment|inline)\s*:\s*\S*", re.IGNORECASE)
 STRAY_BRACKET_PATTERN = re.compile(
     r"\[\s*[^\]]{0,120}?\.(?:jpe?g|png|gif|bmp|webp|tiff?|svg|heic|pdf|docx?|pptx?|xlsx?|zip|rar|mp4|ai|psd|indd)\s*\]",
     re.IGNORECASE,
@@ -140,10 +142,18 @@ def sanitize_field(value):
         return value
     cleaned = IMAGE_REF_PATTERN.sub(" ", value)
     cleaned = STRAY_BRACKET_PATTERN.sub(" ", cleaned)
+    cleaned = LABEL_REF_PATTERN.sub(" ", cleaned)
     cleaned = BARE_FILENAME_PATTERN.sub(" ", cleaned)
     cleaned = re.sub(r"\s*\(\s*\)\s*", " ", cleaned)
+    cleaned = re.sub(r"\s*\]\s*", " ", cleaned)
     cleaned = re.sub(r"\s{2,}", " ", cleaned).strip(" \u060c,\u061b;|()[]")
-    return cleaned.strip()
+    cleaned = cleaned.strip()
+    # \u0627\u06af\u0631 \u0628\u0627\u0642\u06cc\u200c\u0645\u0627\u0646\u062f\u0647 \u0641\u0642\u0637 \u0646\u0634\u0627\u0646\u0647\u200c\u06af\u0630\u0627\u0631\u06cc \u06cc\u0627 \u062a\u06a9\u200c\u062a\u0648\u06a9\u0646 \u0628\u06cc\u200c\u0645\u0639\u0646\u0627 \u0628\u0627\u0634\u062f\uff0c \u062e\u0627\u0644\u06cc \u0628\u0631\u0645\u06cc\u200c\u06af\u0631\u062f\u0627\u0646\u06cc\u0645 \u062a\u0627 \u062f\u0631 \u0627\u06cc\u0645\u06cc\u0644 \u0648 \u06a9\u0627\u0631\u062a \u0631\u0648\u06cc\u062f\u0627\u062f \u0646\u062a\u0627\u0628\u062f.
+    if not re.search(r"[\w\u0600-\u06FF]", cleaned):
+        return ""
+    if len(cleaned) <= 3 and not re.search(r"[\u0600-\u06FF]", cleaned):
+        return ""
+    return cleaned
 
 
 def plausible_title(text):
@@ -557,7 +567,12 @@ def fetch_and_update():
                 #    (نشانه یکتا در data/sent_seminars.json از ارسال تکراری جلوگیری می‌کند)
                 try:
                     import newsletter_manager
-                    newsletter_manager.broadcast_seminar(parsed)
+                    chosen_poster = (
+                        (posters or {}).get("fa")
+                        or (posters or {}).get("en")
+                        or (posters or {}).get("unclassified")
+                    )
+                    newsletter_manager.broadcast_seminar(parsed, chosen_poster)
                 except Exception as ex:
                     print(f"Newsletter broadcast notice skipped: {ex}")
         except Exception as e:

@@ -22,7 +22,11 @@ on:
   workflow_dispatch:
     inputs:
       resend_dates:
-        description: 'تاریخ‌هایی که اطلاعیه‌شان باید دوباره فرستاده شود (مثال: 1405_آبان_25 یا با کاما جدا)'
+        description: 'تاریخهایی که اطلاعیهشان باید دوباره فرستاده شود (مثال: 1405_آبان_25 یا با کاما جدا)'
+        required: false
+        default: ''
+      probe_inbox:
+        description: 'پویش خواندنی صندوق پستی برای یافتن اطلاعیه/پوستر (1 = روشن)'
         required: false
         default: ''
 
@@ -57,7 +61,21 @@ jobs:
           chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py scripts/sync_sharif_cloud.py
           python scripts/newsletter_manager.py process
           python scripts/email_fetcher.py
+          python scripts/newsletter_manager.py send-notices
           python scripts/sync_sharif_cloud.py
+
+      # پویش خواندنی (بدون هیچ ارسال یا تغییر در صندوق پستی): فقط برای یافتن
+      # اطلاعیه و پوستر یک برنامه، مثلاً نشست هوشواره از ایمیل استاد سیری.
+      - name: Probe inboxes for announcements and posters (read-only)
+        if: ${{ inputs.probe_inbox == '1' }}
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SHARIF_MAIL_HOST: ${{ secrets.SHARIF_MAIL_HOST }}
+          SHARIF_MAIL_PORT: ${{ secrets.SHARIF_MAIL_PORT }}
+          SHARIF_MAIL_USER: ${{ secrets.SHARIF_MAIL_USER }}
+          SHARIF_MAIL_PASSWORD: ${{ secrets.SHARIF_MAIL_PASSWORD }}
+        run: python scripts/mail_probe.py
 
       - name: Commit and push changes
         run: |
