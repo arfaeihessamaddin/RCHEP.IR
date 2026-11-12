@@ -368,7 +368,7 @@ def update_seminar_in_site(details, posters):
     if title_pattern.search(block):
         def _rewrite_title(match):
             opening = re.sub(r"\s+data-(?:fa|en)=\"[^\"]*\"", "", match.group(1))
-            opening = re.sub(r">\s*$", ">", opening)
+            opening = re.sub(r">\s*$", "", opening)
             return (f'{opening} data-fa="{escaped_title}" data-en="{escaped_title}">'
                     f'{escaped_title}</h5>')
 
