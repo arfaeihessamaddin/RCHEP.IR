@@ -5,6 +5,7 @@ import os
 import re
 import html
 import email
+import email.utils
 import imaplib
 import hashlib
 from email.header import decode_header
@@ -290,6 +291,27 @@ def update_seminar_in_site(details, posters):
     return False
 
 
+def extract_contact_addresses(message):
+    """
+    نشانی‌های موجود در سرصفحه‌های گیرندگان (To / Cc) یک ایمیل اعلام سمینار را
+    استخراج می‌کند؛ بدون تکرار و بدون نشانی‌های داخلی خود مرکز.
+    """
+    found = []
+    for header in ("To", "Cc", "Resent-To", "Resent-Cc"):
+        for value in message.get_all(header, []):
+            for _name, addr in email.utils.getaddresses([decode_mime(value)]):
+                addr = (addr or "").strip().lower()
+                if "@" in addr:
+                    found.append(addr)
+
+    seen, unique = set(), []
+    for addr in found:
+        if addr not in seen:
+            seen.add(addr)
+            unique.append(addr)
+    return unique
+
+
 def fetch_and_update():
     sharif_host = os.environ.get("SHARIF_MAIL_HOST", "physics.sharif.ir")
     sharif_user = os.environ.get("SHARIF_MAIL_USER")
@@ -347,13 +369,34 @@ def fetch_and_update():
                     continue
 
                 posters = save_posters(message, parsed["day"], parsed["month"])
+
+                # ۱) فهرست مخاطبین برگزارکنندگان سمینار (استادان وردیان و سیری) را
+                #    بدون تکرار و با وضعیت «تأییدشده» به فهرست مشترکان تارنما می‌افزاید.
+                try:
+                    import newsletter_manager
+                    contacts = extract_contact_addresses(message)
+                    if contacts:
+                        added, promoted = newsletter_manager.add_confirmed_contacts(
+                            contacts, source=f"seminar-list:{sender}"
+                        )
+                        print(
+                            f"Contact list of {sender}: {len(contacts)} address(es) seen, "
+                            f"{len(added)} added as confirmed, {len(promoted)} promoted to confirmed."
+                        )
+                except Exception as ex:
+                    print(f"Contact list import skipped: {ex}")
+
+                # ۲) تارنما را به‌روزرسانی می‌کند
                 if update_seminar_in_site(parsed, posters):
                     updated = True
-                    try:
-                        import newsletter_manager
-                        newsletter_manager.broadcast_seminar(parsed)
-                    except Exception as ex:
-                        print(f"Newsletter broadcast notice skipped: {ex}")
+
+                # ۳) اطلاعیه هر سمینار را در یک ایمیل جداگانه به همه مخاطبین می‌فرستد
+                #    (نشانه یکتا در data/sent_seminars.json از ارسال تکراری جلوگیری می‌کند)
+                try:
+                    import newsletter_manager
+                    newsletter_manager.broadcast_seminar(parsed)
+                except Exception as ex:
+                    print(f"Newsletter broadcast notice skipped: {ex}")
         except Exception as e:
             print(f"Error checking {label} mail: {e}")
         finally:

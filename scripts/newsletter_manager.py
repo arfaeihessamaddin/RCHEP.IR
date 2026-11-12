@@ -28,6 +28,14 @@ MAIL_PORT = int(os.environ.get("SHARIF_MAIL_PORT", "587"))
 MAIL_USER = os.environ.get("SHARIF_MAIL_USER", "rchep@physics.sharif.ir")
 MAIL_PASSWORD = os.environ.get("SHARIF_MAIL_PASSWORD", "")
 
+# نشانی‌هایی که هرگز نباید به فهرست مشترکان افزوده شوند
+INTERNAL_ADDRESSES = {
+    MAIL_USER.lower(),
+    "rchep@physics.sharif.ir",
+    "rchep@sharif.edu",
+    "rchep.ir@gmail.com",
+}
+
 os.makedirs(DATA_DIR, exist_ok=True)
 
 def load_json(filepath, default):
@@ -283,6 +291,53 @@ def process_mailbox():
 
         mail.logout()
 
+def add_confirmed_contacts(addresses, source="seminar-contact-list"):
+    """
+    فهرست مخاطبین ارسالی از سوی برگزارکنندگان سمینار (استادان وردیان و سیری) را
+    بدون تکرار و با وضعیت «تأییدشده» به فهرست مشترکان تارنما می‌افزاید.
+    بازگشت: (افزوده‌شده‌ها، ارتقایافته‌ها)
+    """
+    subscribers = load_json(SUBSCRIBERS_FILE, {"list": []})
+    entries = subscribers.setdefault("list", [])
+    index = {}
+    for item in entries:
+        addr = (item.get("email") or "").strip().lower()
+        if addr:
+            index[addr] = item
+
+    added, promoted = [], []
+    for raw in addresses:
+        addr = (raw or "").strip().lower().strip(".,;<>")
+        if "@" not in addr or addr in INTERNAL_ADDRESSES:
+            continue
+        existing = index.get(addr)
+        if existing is not None:
+            # عضویت لغوشده هرگز بازگردانده نمی‌شود (احترام به انتخاب کاربر)
+            if existing.get("status") == "pending":
+                existing["status"] = "confirmed"
+                existing["confirmed_at"] = datetime.now(timezone.utc).isoformat()
+                promoted.append(addr)
+            continue
+        now = datetime.now(timezone.utc).isoformat()
+        entry = {
+            "email": addr,
+            "name": "",
+            "token": str(uuid.uuid4()),
+            "status": "confirmed",
+            "created_at": now,
+            "confirmed_at": now,
+            "source": source,
+        }
+        entries.append(entry)
+        index[addr] = entry
+        added.append(addr)
+
+    if added or promoted:
+        save_json(SUBSCRIBERS_FILE, subscribers)
+
+    return added, promoted
+
+
 def broadcast_seminar(seminar_details, poster_filename=None):
     """
     Broadcasts newly added seminar announcement to all confirmed subscribers.
@@ -294,10 +349,15 @@ def broadcast_seminar(seminar_details, poster_filename=None):
     day = seminar_details.get("day", "")
     month = seminar_details.get("month", "")
     year = seminar_details.get("year", "1405")
-    seminar_id = f"{year}_{month}_{day}"
+    title = seminar_details.get("title", "")
+    date_key = f"{year}_{month}_{day}"
+    # نشانه یکتای هر سمینار: تاریخ + عنوان، تا دو سمینار هم‌روز هم هر کدام ایمیل جدا بگیرند
+    slug = re.sub(r"[^\w\u0600-\u06FF]+", "-", title, flags=re.UNICODE).strip("-")[:40]
+    seminar_id = f"{date_key}_{slug}" if slug else date_key
 
     sent_data = load_json(SENT_SEMINARS_FILE, {"broadcasted": []})
-    if seminar_id and seminar_id in sent_data.get("broadcasted", []):
+    broadcasted = sent_data.get("broadcasted", [])
+    if seminar_id and (seminar_id in broadcasted or date_key in broadcasted):
         print(f"Seminar {seminar_id} already broadcasted. Skipping.")
         return False
 
@@ -307,7 +367,6 @@ def broadcast_seminar(seminar_details, poster_filename=None):
     if not confirmed_emails:
         print("No confirmed subscribers to notify.")
         return False
-    title = seminar_details.get("title", "")
     speaker = seminar_details.get("speaker", "")
     affiliation = seminar_details.get("affiliation", "")
     time_str = seminar_details.get("time", "۱۳:۳۰")

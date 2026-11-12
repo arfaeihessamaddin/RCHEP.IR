@@ -178,6 +178,22 @@ def build_subscribers_xlsx(output_path, subscribers_data):
         z.writestr("xl/styles.xml", styles)
         z.writestr("xl/worksheets/sheet1.xml", sheet)
 
+def _webdav_curl(user, password, *args):
+    import subprocess
+    cmd = ["curl", "--silent", "--show-error", "--user", f"{user}:{password}"] + list(args)
+    return subprocess.run(cmd, capture_output=True, text=True)
+
+
+def _remote_exists(remote_file_url, user, password):
+    """با درخواست PROPFIND بررسی می‌کند که فایل واقعاً روی ابر شریف ذخیره شده است."""
+    res = _webdav_curl(user, password, "--request", "PROPFIND", "--header", "Depth: 0", remote_file_url)
+    body = (res.stdout or "")
+    if "207" in body or "subscribers.xlsx" in body or "<d:response" in body:
+        return True
+    head = _webdav_curl(user, password, "--head", remote_file_url)
+    return "200" in head.stdout or "207" in head.stdout
+
+
 def upload_to_sharif_cloud(local_file):
     url = os.environ.get("SHARIF_WEBDAV_URL", "").strip().strip("<>\"'").rstrip("/")
     user = os.environ.get("SHARIF_WEBDAV_USER", "").strip()
@@ -187,23 +203,28 @@ def upload_to_sharif_cloud(local_file):
         print("Sharif Cloud WebDAV credentials not fully configured in environment. Skipping cloud upload.")
         return False
 
-    remote_file_url = f"{url}/rchep-website/subscribers.xlsx"
-    print(f"Uploading {local_file} -> {remote_file_url} ...")
-
-    import subprocess
-    cmd = [
-        "curl", "--fail", "--silent", "--show-error",
-        "--user", f"{user}:{password}",
-        "--upload-file", local_file,
-        remote_file_url
+    # هم در پوشه اختصاصی تارنما و هم در ریشه ابر شریف بارگذاری می‌شود
+    targets = [
+        f"{url}/rchep-website/subscribers.xlsx",
+        f"{url}/subscribers.xlsx",
     ]
-    res = subprocess.run(cmd, capture_output=True, text=True)
-    if res.returncode == 0:
-        print("Successfully uploaded subscribers.xlsx to Sharif Cloud!")
-        return True
-    else:
-        print(f"Failed to upload to Sharif Cloud: {res.stderr}")
-        return False
+
+    all_ok = True
+    for remote_file_url in targets:
+        print(f"Uploading {local_file} -> {remote_file_url} ...")
+        res = _webdav_curl(user, password, "--fail", "--upload-file", local_file, remote_file_url)
+        if res.returncode != 0:
+            print(f"Failed to upload to Sharif Cloud ({remote_file_url}): {res.stderr}")
+            all_ok = False
+            continue
+
+        if _remote_exists(remote_file_url, user, password):
+            print(f"Successfully uploaded and verified subscribers.xlsx at {remote_file_url}")
+        else:
+            print(f"Uploaded but could not verify subscribers.xlsx at {remote_file_url}")
+            all_ok = False
+
+    return all_ok
 
 def sync():
     if not os.path.exists(SUBSCRIBERS_JSON):
