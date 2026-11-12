@@ -318,6 +318,52 @@ def parse_seminar_text(body, subject):
     return details
 
 
+LOGO_HINTS = re.compile(
+    r"(?:^|[^a-z])(?:logo|icon|signature|banner|footer|header)(?:[^a-z]|$)|آرم|نشان|امضا",
+    re.I,
+)
+
+
+def image_dimensions(payload):
+    """ابعاد تصویر را بی‌وابستگی به کتابخانهٔ بیرونی از سرصفحهٔ PNG/JPEG می‌خواند."""
+    try:
+        if payload[:8] == b"\x89PNG\r\n\x1a\n":
+            return int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")
+        if payload[:2] == b"\xff\xd8":
+            index = 2
+            while index < len(payload) - 9:
+                if payload[index] != 0xFF:
+                    index += 1
+                    continue
+                marker = payload[index + 1]
+                if marker in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                    height = int.from_bytes(payload[index + 5:index + 7], "big")
+                    width = int.from_bytes(payload[index + 7:index + 9], "big")
+                    return width, height
+                segment = int.from_bytes(payload[index + 2:index + 4], "big")
+                if segment <= 0:
+                    break
+                index += 2 + segment
+    except Exception:
+        return None
+    return None
+
+
+def is_poster_like(filename, payload):
+    """آرم، نشان و امضای داخل ایمیل هرگز به‌جای پوستر ذخیره نشوند."""
+    if LOGO_HINTS.search(filename or ""):
+        return False
+    dims = image_dimensions(payload)
+    if not dims:
+        return True
+    width, height = dims
+    if max(width, height) < 700:                            # آرم‌ها کوچک‌اند و پوستر خوانا نیستند
+        return False
+    if width >= height and width / max(height, 1) > 1.9:     # نوار سرصفحه یا بنر
+        return False
+    return True
+
+
 def save_posters(message, day, month):
     saved = {}
     for part in message.walk():
@@ -326,6 +372,9 @@ def save_posters(message, day, month):
             continue
         payload = part.get_payload(decode=True)
         if not payload:
+            continue
+        if not is_poster_like(filename, payload):
+            print(f"Skipped non-poster attachment (logo/banner-like): {filename}")
             continue
 
         lower_name = normalize_text(filename).lower()
@@ -411,24 +460,24 @@ def update_seminar_in_site(details, posters):
 
     poster_links = []
     labels = {
-        "fa": ('پوستر فارسی', 'Persian poster'),
-        "en": ('پوستر انگلیسی', 'English poster'),
+        "fa": ("پوستر فارسی", "Persian Poster"),
+        "en": ("پوستر انگلیسی", "English Poster"),
+        "unclassified": ("پوستر", "Poster"),
     }
-    for language in ("fa", "en"):
+    modal_suffix = f" ({details['speaker']})" if details.get("speaker") else ""
+    modal_title = html.escape(details.get("title", "پوستر سمینار") + modal_suffix, quote=True)
+    for language in ("fa", "en", "unclassified"):
         filename = posters.get(language)
-        if filename:
-            href = "assets/images/events/" + filename
-            fa_label, en_label = labels[language]
-            poster_links.append(
-                f'<a class="seminar-poster-link" href="{href}" target="_blank" rel="noopener" '
-                f'download data-fa="{fa_label}" data-en="{en_label}">{fa_label} / {en_label}</a>'
-            )
-    if posters.get("unclassified"):
-        filename = posters["unclassified"]
+        if not filename:
+            continue
         href = "assets/images/events/" + filename
+        fa_label, en_label = labels[language]
+        # دکمهٔ تعاملی پوستر: خرامش ← پیش‌نمایش شناور، زنش ← مودال بزرگ‌نمایی
         poster_links.append(
-            f'<a class="seminar-poster-link" href="{href}" target="_blank" rel="noopener" download '
-            f'data-fa="پوستر" data-en="Poster">پوستر / Poster</a>'
+            f'<button class="poster-btn" data-poster="{href}" data-title="{modal_title}" '
+            f'data-fa="🖼️ {fa_label}" data-en="🖼️ {en_label}">'
+            f'<i data-lucide="image"></i>'
+            f'<span data-fa="{fa_label}" data-en="{en_label}">{fa_label}</span></button>'
         )
 
     # If event already has interactive poster-btn elements, do not insert duplicate plain links
