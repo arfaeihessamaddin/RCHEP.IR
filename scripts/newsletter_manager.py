@@ -674,7 +674,9 @@ def send_queued_notices():
         label = notice.get("key") or details.get("title", "")
         print(f"Queued notice: {label}")
         count = broadcast_notice(kinds, details, poster_name=notice.get("poster"))
-        if count:
+        if count and os.environ.get("RCHEP_DRY_RUN") == "1":
+            print(f"[dry-run] notice stays queued, not marked as sent: {label}")
+        elif count:
             notice["sent_at"] = datetime.now(timezone.utc).isoformat()
             notice["recipients"] = count
             sent_any = True
