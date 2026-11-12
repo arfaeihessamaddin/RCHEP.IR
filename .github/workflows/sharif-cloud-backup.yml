@@ -53,12 +53,17 @@ jobs:
           echo "WebDAV endpoint host: ${BASE#*://}" | cut -d/ -f1
           ROOT="${BASE}/rchep-website"
 
+          # پرچمهای پایداری: شبکهٔ ابر شریف گاهی پیوند TLS را گذرا ریست میکند
+          # (curl exit 35/52/56). بیاین پرچمها یک ریست گذرا تمام پشتیبانگیری را
+          # شکست میداد. --retry-all-errors دربرگیرندهٔ خطاهای TLS هم میشود.
+          CURL_RETRY=(--retry 5 --retry-all-errors --retry-delay 3 --retry-connrefused --connect-timeout 25 --max-time 300)
+
           mkdir_remote() {
             local url="$1"
             local code
-            code=$(curl --silent --show-error --output /dev/null --write-out "%{http_code}" \
+            code=$(curl "${CURL_RETRY[@]}" --silent --show-error --output /dev/null --write-out "%{http_code}" \
               --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
-              --request MKCOL "$url")
+              --request MKCOL "$url") || { echo "MKCOL failed (curl exit $?) : $url"; exit 1; }
             case "$code" in
               201|405) ;;
               *) echo "Could not create/check WebDAV folder (HTTP $code): $url"; exit 1 ;;
@@ -68,13 +73,25 @@ jobs:
           upload_file() {
             local local_file="$1"
             local remote_url="$2"
-            curl --fail --silent --show-error \
+            local attempt rc=1 code
+            for attempt in 1 2 3; do
+              set +e
+              curl "${CURL_RETRY[@]}" --fail --silent --show-error \
+                --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
+                --upload-file "$local_file" "$remote_url"
+              rc=$?
+              set -e
+              [ "$rc" -eq 0 ] && break
+              echo "Upload attempt $attempt failed (curl exit $rc): $remote_url"
+              sleep $((attempt * 4))
+            done
+            if [ "$rc" -ne 0 ]; then
+              echo "Giving up after 3 attempts (last curl exit $rc): $remote_url"
+              exit 1
+            fi
+            code=$(curl "${CURL_RETRY[@]}" --silent --show-error --output /dev/null --write-out "%{http_code}" \
               --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
-              --upload-file "$local_file" "$remote_url"
-            local code
-            code=$(curl --silent --show-error --output /dev/null --write-out "%{http_code}" \
-              --user "$SHARIF_WEBDAV_USER:$SHARIF_WEBDAV_PASSWORD" \
-              --request PROPFIND --header "Depth: 0" "$remote_url")
+              --request PROPFIND --header "Depth: 0" "$remote_url") || true
             test "$code" = "207" || { echo "Upload verification failed (HTTP $code): $remote_url"; exit 1; }
           }
 

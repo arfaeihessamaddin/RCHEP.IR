@@ -8,6 +8,7 @@ Zero external pip dependencies (built with standard library zipfile + XML).
 import os
 import sys
 import json
+import time
 import zipfile
 import urllib.request
 import urllib.error
@@ -179,8 +180,12 @@ def build_subscribers_xlsx(output_path, subscribers_data):
         z.writestr("xl/worksheets/sheet1.xml", sheet)
 
 def _webdav_curl(user, password, *args):
+    """curl با پرچمهای پایداری. شبکهٔ ابر شریف گاهی پیوند TLS را گذرا ریست میکند
+    (curl exit 35/52/56)؛ --retry-all-errors خطاهای TLS را هم دوباره میکوشد."""
     import subprocess
-    cmd = ["curl", "--silent", "--show-error", "--user", f"{user}:{password}"] + list(args)
+    retry = ["--retry", "5", "--retry-all-errors", "--retry-delay", "3",
+             "--retry-connrefused", "--connect-timeout", "25", "--max-time", "300"]
+    cmd = ["curl", "--silent", "--show-error"] + retry + ["--user", f"{user}:{password}"] + list(args)
     return subprocess.run(cmd, capture_output=True, text=True)
 
 
@@ -212,9 +217,16 @@ def upload_to_sharif_cloud(local_file):
     all_ok = True
     for remote_file_url in targets:
         print(f"Uploading {local_file} -> {remote_file_url} ...")
-        res = _webdav_curl(user, password, "--fail", "--upload-file", local_file, remote_file_url)
-        if res.returncode != 0:
-            print(f"Failed to upload to Sharif Cloud ({remote_file_url}): {res.stderr}")
+        res = None
+        for attempt in range(1, 4):
+            res = _webdav_curl(user, password, "--fail", "--upload-file", local_file, remote_file_url)
+            if res.returncode == 0:
+                break
+            print(f"Upload attempt {attempt} failed (curl exit {res.returncode}): {(res.stderr or '').strip()[:200]}")
+            time.sleep(attempt * 4)
+        if res is None or res.returncode != 0:
+            rc = res.returncode if res is not None else "?"
+            print(f"Failed to upload to Sharif Cloud after 3 attempts (curl exit {rc}): {remote_file_url}")
             all_ok = False
             continue
 
