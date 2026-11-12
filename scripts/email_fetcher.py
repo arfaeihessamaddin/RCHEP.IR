@@ -64,6 +64,26 @@ def extract_body(message):
             html_parts.append(re.sub(r"<[^>]+>", " ", text))
     return "\n".join(plain_parts or html_parts)
 
+ATTACHMENT_LINE = re.compile(
+    r"^\[?\s*(?:image|cid|attachment|inline)\s*[:\-]?[^\]]*\]?$"
+    r"|^[\w\-. ]+\.(?:jpe?g|png|gif|bmp|webp|tiff?|pdf|docx?|pptx?|xlsx?|zip|rar|mp4)\s*$",
+    re.I,
+)
+
+
+def is_noise_line(line):
+    """سطرهای شبه‌پیوست/نشانی را نادیده می‌گیرد تا عنوان سمینار ناخوانا نشود."""
+    compact = normalize_text(line).strip()
+    if not compact:
+        return True
+    if ATTACHMENT_LINE.match(compact):
+        return True
+    if re.match(r"^(?:https?://|www\.|mailto:)", compact, re.I):
+        return True
+    if re.match(r"^<[^>]+>$", compact) or re.match(r"^[^@\s]+@[^@\s]+$", compact):
+        return True
+    return False
+
 
 def parse_seminar_text(body, subject):
     raw_lines = [line.strip() for line in body.splitlines() if line.strip()]
@@ -97,8 +117,10 @@ def parse_seminar_text(body, subject):
     for line in lines:
         match = re.match(r"^(?:عنوان|موضوع|title)\s*[:：]\s*(.+)$", line, re.I)
         if match:
-            details["title"] = match.group(1).strip()
-            break
+            candidate = match.group(1).strip()
+            if candidate and not is_noise_line(candidate):
+                details["title"] = candidate
+                break
 
     # Otherwise, the title is normally the first substantive line after the seminar header.
     if not details["title"]:
@@ -106,7 +128,7 @@ def parse_seminar_text(body, subject):
             compact = normalize_text(line)
             if "سمینار" in compact and ("مرکز" in compact or "دانشگاه" in compact):
                 for candidate in lines[index + 1:index + 7]:
-                    if candidate and not re.search(
+                    if candidate and not is_noise_line(candidate) and not re.search(
                         r"ارائهدهنده|سخنران|زمان|تاریخ|مکان|چکیده|دانشگاه صنعتی شریف",
                         normalize_text(candidate), re.I
                     ):

@@ -193,7 +193,7 @@ def process_mailbox():
                     if s.get("token", "").lower() == token:
                         s["status"] = "confirmed"
                         s["confirmed_at"] = datetime.now(timezone.utc).isoformat()
-                        print(f"Confirmed subscription: {s['email']}")
+                        print(f"Confirmed subscription: {mask_email(s['email'])}")
                         # Send welcome confirmation
                         welcome_subject = "عضویت شما در فهرست سمینارهای RCHEP تأیید شد"
                         welcome_html = f"""
@@ -230,7 +230,7 @@ def process_mailbox():
                         s["status"] = "unsubscribed"
                         s["unsubscribed_at"] = datetime.now(timezone.utc).isoformat()
                         unsub_found = True
-                        print(f"Unsubscribed: {sender_email}")
+                        print(f"Unsubscribed: {mask_email(sender_email)}")
                         break
                 if unsub_found:
                     save_json(SUBSCRIBERS_FILE, subscribers)
@@ -245,9 +245,9 @@ def process_mailbox():
                     try:
                         send_smtp_email(sender_email, unsub_subject, unsub_html)
                     except Exception as e:
-                        print(f"Error sending unsub email to {sender_email}: {e}")
+                        print(f"Error sending unsub email to {mask_email(sender_email)}: {e}")
                 else:
-                    print(f"Unsubscribe requested for {sender_email}, but address not found in subscribers.")
+                    print(f"Unsubscribe requested for {mask_email(sender_email)}, but address not found in subscribers.")
                 continue
 
             # Case 2: New subscription request via email (subject contains subscribe or عضویت, or body contains it)
@@ -265,10 +265,10 @@ def process_mailbox():
             if is_sub_req:
                 if sender_email in email_map:
                     if email_map[sender_email].get("status") == "confirmed":
-                        print(f"Already confirmed: {sender_email}")
+                        print(f"Already confirmed: {mask_email(sender_email)}")
                         continue
                     if email_map[sender_email].get("status") == "pending":
-                        print(f"Already pending verification: {sender_email}")
+                        print(f"Already pending verification: {mask_email(sender_email)}")
                         continue
                 token = str(uuid.uuid4())
                 entry = {
@@ -283,11 +283,11 @@ def process_mailbox():
                 subscribers["list"].append(entry)
                 email_map[sender_email] = entry
                 save_json(SUBSCRIBERS_FILE, subscribers)
-                print(f"Registered pending subscription for: {sender_email}")
+                print(f"Registered pending subscription for: {mask_email(sender_email)}")
                 try:
                     send_verification_email(entry["name"], sender_email, token)
                 except Exception as e:
-                    print(f"Failed to send verification to {sender_email}: {e}")
+                    print(f"Failed to send verification to {mask_email(sender_email)}: {e}")
 
         mail.logout()
 
@@ -338,6 +338,15 @@ def add_confirmed_contacts(addresses, source="seminar-contact-list"):
     return added, promoted
 
 
+def mask_email(address):
+    """نشانی ایمیل را برای لاگ‌های عمومی گیت‌هاب پوشیده می‌کند (مخزن مرکز عمومی است)."""
+    address = (address or "").strip()
+    if "@" not in address:
+        return "***"
+    local, _, domain = address.partition("@")
+    return f"{(local[:1] if len(local) > 1 else '')}***@{domain}"
+
+
 def broadcast_seminar(seminar_details, poster_filename=None):
     """
     Broadcasts newly added seminar announcement to all confirmed subscribers.
@@ -357,7 +366,14 @@ def broadcast_seminar(seminar_details, poster_filename=None):
 
     sent_data = load_json(SENT_SEMINARS_FILE, {"broadcasted": []})
     broadcasted = sent_data.get("broadcasted", [])
-    if seminar_id and (seminar_id in broadcasted or date_key in broadcasted):
+    # نگهبان مهاجرت: نشانه‌های قدیمی که عنوانشان ناخوانا (نام پیوست) ثبت شده بود،
+    # کل آن تاریخ را ارسال‌شده تلقی می‌کنند تا اصلاح عنوان باعث ایمیل تکراری نشود.
+    legacy_covered_dates = set()
+    for key in broadcasted:
+        match = re.match(r"^(\d{4}_[^_]+_\d{1,2})_(.+)$", key or "")
+        if match and re.match(r"^(?:image|attachment|cid)[-_]", match.group(2)):
+            legacy_covered_dates.add(match.group(1))
+    if seminar_id and (seminar_id in broadcasted or date_key in broadcasted or date_key in legacy_covered_dates):
         print(f"Seminar {seminar_id} already broadcasted. Skipping.")
         return False
 
@@ -402,9 +418,9 @@ def broadcast_seminar(seminar_details, poster_filename=None):
     for recipient in confirmed_emails:
         try:
             send_smtp_email(recipient, subject, html_content)
-            print(f"Sent seminar notice to: {recipient}")
+            print(f"Sent seminar notice to: {mask_email(recipient)}")
         except Exception as e:
-            print(f"Failed to send to {recipient}: {e}")
+            print(f"Failed to send to {mask_email(recipient)}: {e}")
 
     if seminar_id:
         if "broadcasted" not in sent_data:
