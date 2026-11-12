@@ -666,21 +666,30 @@ def send_queued_notices():
         return False
 
     sent_any = False
+    dry_run = os.environ.get("RCHEP_DRY_RUN") == "1"
     for notice in notices:
         if notice.get("sent_at"):
+            print(f"Notice already sent at {notice['sent_at']}; skipping: {notice.get('key') or ''}")
             continue
         details = notice.get("details", {})
         kinds = notice.get("kind") or "meeting"
         label = notice.get("key") or details.get("title", "")
         print(f"Queued notice: {label}")
+        if dry_run:
+            count = broadcast_notice(kinds, details, poster_name=notice.get("poster"))
+            if count:
+                print(f"[dry-run] notice stays queued, not marked as sent: {label}")
+            continue
+        # ادعا پیش از ارسال: نشانهٔ «فرستاده‌شده» پیش از تماس با SMTP ثبت می‌شود تا
+        # اجرای ناتمام یا همزمان نتواند همان اطلاعیه را دوباره بفرستد.
+        notice["sent_at"] = datetime.now(timezone.utc).isoformat()
+        save_json(NOTICE_QUEUE_FILE, queue)
         count = broadcast_notice(kinds, details, poster_name=notice.get("poster"))
-        if count and os.environ.get("RCHEP_DRY_RUN") == "1":
-            print(f"[dry-run] notice stays queued, not marked as sent: {label}")
-        elif count:
-            notice["sent_at"] = datetime.now(timezone.utc).isoformat()
+        if count:
             notice["recipients"] = count
             sent_any = True
         else:
+            notice["sent_at"] = None  # چیزی بیرون نرفت: ادعا آزاد می‌شود
             print(f"Notice not sent (no recipients or unreadable fields): {label}")
     if sent_any:
         save_json(NOTICE_QUEUE_FILE, queue)

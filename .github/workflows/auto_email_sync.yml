@@ -33,6 +33,14 @@ on:
 permissions:
   contents: write
 
+# ─────────────── یکتایی اجرا (single-flight) ───────────────
+# تا زمانی که یک اجرا در جریان است اجرای دیگری آغاز نمی‌شود؛ در نتیجه نشانهٔ
+# «فرستاده‌شده»ی هر اطلاعیه پیش از اجرای بعدی روی شاخه دیده می‌شود و هیچ
+# اطلاعیه‌ای دو بار برای مخاطبان نمی‌رود.
+concurrency:
+  group: email-sync
+  cancel-in-progress: false
+
 jobs:
   sync-emails:
     runs-on: ubuntu-latest
