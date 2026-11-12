@@ -107,16 +107,54 @@ def build_email_message(to_email, subject, html_content, text_content=None, inli
     return root
 
 
-def send_smtp_email(to_email, subject, html_content, text_content=None, inline_images=None):
+def _load_send_guard():
+    """
+    گاردریل‌های ارسال را بار می‌کند. اگر ماژول در دسترس نباشد، با هشدار بلند
+    ادامه می‌دهد مگر RCHEP_GUARD_STRICT=1 که در آن صورت ارسال متوقف می‌شود.
+    """
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import send_guard  # noqa: E402  (کنار همین فایل زندگی می‌کند)
+        return send_guard
+    except Exception as exc:  # pragma: no cover - فقط در نبود ماژول
+        message = f"WARNING: send guardrails unavailable ({exc}); proceeding without them."
+        if os.environ.get("RCHEP_GUARD_STRICT") == "1":
+            raise RuntimeError(message)
+        print(message)
+        return None
+
+
+def send_smtp_email(to_email, subject, html_content, text_content=None, inline_images=None,
+                    kind="generic", key=None, force=False):
+    """
+    یک ایمیل می‌فرستد، اما پیش از تماس با SMTP یک «ادعا» در دفتر ارسال ثبت
+    می‌کند (گاردریل ادعا-پیش-از-ارسال). اگر همین پیام (نشانی + گونهٔ پیام +
+    نشانهٔ رویداد) در بازهٔ خنک‌شدن پیش‌تر رفته باشد، ارسال رد و False
+    برگردانده می‌شود. در صورت شکست SMTP ادعا آزاد می‌شود تا تلاش دوباره ممکن باشد.
+    """
     if not MAIL_PASSWORD:
         raise RuntimeError("SHARIF_MAIL_PASSWORD is not set.")
 
-    msg = build_email_message(to_email, subject, html_content, text_content, inline_images)
+    guard = _load_send_guard()
+    dry_run = os.environ.get("RCHEP_DRY_RUN") == "1"
+    if guard and not dry_run and not guard.reserve(to_email, kind, key, force=force):
+        print(f"Guardrail blocked duplicate: {kind} → {mask_email(to_email)}")
+        return False
 
-    with smtplib.SMTP(MAIL_HOST, MAIL_PORT, timeout=15) as server:
-        server.starttls()
-        server.login(MAIL_USER, MAIL_PASSWORD)
-        server.send_message(msg)
+    try:
+        msg = build_email_message(to_email, subject, html_content, text_content, inline_images)
+
+        with smtplib.SMTP(MAIL_HOST, MAIL_PORT, timeout=15) as server:
+            server.starttls()
+            server.login(MAIL_USER, MAIL_PASSWORD)
+            server.send_message(msg)
+    except Exception as exc:
+        if guard and not dry_run:
+            guard.release(to_email, kind, key, reason=str(exc))
+        raise
+    return True
 
 def send_verification_email(name, to_email, token):
     verify_email_addr = MAIL_USER
@@ -148,7 +186,8 @@ def send_verification_email(name, to_email, token):
       </p>
     </div>
     """
-    send_smtp_email(to_email, subject, html)
+    # گاردریل: ایمیل تأیید برای هر نشانی در بازهٔ خنک‌شدن فقط یک‌بار می‌رود.
+    send_smtp_email(to_email, subject, html, kind="verify", key="verify")
 
 PLACEHOLDER_PATTERN = re.compile(
     r"\[\s*(?:image|cid|attachment|inline)\s*:[^\]]*\]"
@@ -320,11 +359,23 @@ def process_mailbox():
                         if s.get("welcome_sent"):
                             print(f"Welcome email already sent earlier; not repeating for {mask_email(s['email'])}")
                         else:
+                            # ادعا پیش از ارسال: نشانهٔ «خوش‌آمد فرستاده شد» پیش از
+                            # تماس با SMTP ثبت و ذخیره می‌شود تا اجرای همزمان یا
+                            # ناتمام نتواند همان ایمیل را دوباره بفرستد.
+                            s["welcome_sent"] = True
+                            save_json(SUBSCRIBERS_FILE, subscribers)
                             try:
-                                send_smtp_email(s["email"], welcome_subject, welcome_html)
-                                s["welcome_sent"] = True
-                                print(f"Welcome email sent once to {mask_email(s['email'])}")
+                                sent_ok = send_smtp_email(
+                                    s["email"], welcome_subject, welcome_html,
+                                    kind="welcome", key="welcome",
+                                )
+                                if sent_ok:
+                                    print(f"Welcome email sent once to {mask_email(s['email'])}")
+                                else:
+                                    print(f"Welcome email already sent (guardrail); not repeating for {mask_email(s['email'])}")
                             except Exception as e:
+                                # ارسال نشد: ادعا آزاد می‌شود تا در اجرای بعدی تلاش دوباره شود.
+                                s["welcome_sent"] = False
                                 print(f"Error sending welcome email: {e}")
                         break
                 save_json(SUBSCRIBERS_FILE, subscribers)
@@ -364,7 +415,8 @@ def process_mailbox():
                     </div>
                     """
                     try:
-                        send_smtp_email(sender_email, unsub_subject, unsub_html)
+                        send_smtp_email(sender_email, unsub_subject, unsub_html,
+                                        kind="unsub-ack", key="unsub-ack")
                     except Exception as e:
                         print(f"Error sending unsub email to {mask_email(sender_email)}: {e}")
                 else:
@@ -533,7 +585,7 @@ def build_notice_html(kind, details, inline_poster=False):
     """
 
 
-def broadcast_notice(kind, details, poster_name=None, recipients=None):
+def broadcast_notice(kind, details, poster_name=None, recipients=None, notice_key=None, force=False):
     """\u06cc\u06a9 \u0627\u0637\u0644\u0627\u0639\u06cc\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0647\u0645\u0647\u0654 \u0645\u0634\u062a\u0631\u06a9\u0627\u0646 \u062a\u0623\u06cc\u06cc\u062f\u0634\u062f\u0647 \u0645\u06cc\u200c\u0641\u0631\u0633\u062a\u062f. \u0628\u0627\u0632\u06af\u0634\u062a: \u0634\u0645\u0627\u0631 \u06af\u06cc\u0631\u0646\u062f\u06af\u0627\u0646."""
     details = dict(details or {})
     for field in ("title", "speaker", "affiliation", "time", "month", "location"):
@@ -555,6 +607,17 @@ def broadcast_notice(kind, details, poster_name=None, recipients=None):
         subscribers = load_json(SUBSCRIBERS_FILE, {"list": []})
         recipients = [s["email"] for s in subscribers.get("list", []) if s.get("status") == "confirmed"]
     recipients = [r for r in recipients if r]
+
+    # گاردریل «یک رونوشت برای هر شخص»: نشانی‌های هم‌هویت پیش از ارسال یکی می‌شوند.
+    guard = _load_send_guard()
+    if guard:
+        unique, removed, groups = guard.collapse(recipients)
+        shared = {identity: members for identity, members in groups.items() if len(members) > 1}
+        if removed:
+            print(f"Identity guardrail: {removed} duplicate address(es) collapsed.")
+            for identity, members in shared.items():
+                print(f"  same-person group: {', '.join(mask_email(m) for m in members)}")
+        recipients = unique
     if not recipients:
         print("No confirmed subscribers to notify.")
         return 0
@@ -580,17 +643,36 @@ def broadcast_notice(kind, details, poster_name=None, recipients=None):
         print("No poster found for this notice; sending without image.")
     print(f"Subject: {subject}")
 
+    # نشانهٔ یکتای همین اطلاعیه؛ در دفتر ارسال با نشانی هر شخص سنجیده می‌شود
+    # تا حتی اگر اطلاعیه دوباره صف شود، به یک شخص دوباره نرود.
+    guard_kind = "notice"
+    if not notice_key:
+        notice_key = "_".join(
+            str(details.get(part, "") or "") for part in ("year", "month", "day")
+        ).strip("_")
+        notice_key = (notice_key + "_" + clean_field(details.get("title", ""))[:40]).strip("_")
+
     sent = 0
+    blocked = 0
     for recipient in recipients:
         if dry_run:
             sent += 1
             continue
         try:
-            send_smtp_email(recipient, subject, html_content, inline_images=inline_images)
-            print(f"Sent notice to: {mask_email(recipient)}")
-            sent += 1
+            delivered = send_smtp_email(
+                recipient, subject, html_content, inline_images=inline_images,
+                kind=guard_kind, key=notice_key, force=force,
+            )
+            if delivered:
+                print(f"Sent notice to: {mask_email(recipient)}")
+                sent += 1
+            else:
+                blocked += 1
         except Exception as e:
             print(f"Failed to send to {mask_email(recipient)}: {e}")
+
+    if blocked:
+        print(f"Guardrail blocked {blocked} duplicate notice send(s) to the same address.")
 
     if dry_run:
         preview_path = os.path.join(DATA_DIR, "notice_preview.html")
@@ -646,7 +728,8 @@ def broadcast_seminar(seminar_details, poster_filename=None):
         print("No confirmed subscribers to notify.")
         return False
 
-    sent = broadcast_notice("seminar", seminar_details, poster_name=poster_filename, recipients=confirmed_emails)
+    sent = broadcast_notice("seminar", seminar_details, poster_name=poster_filename,
+                            recipients=confirmed_emails, notice_key=seminar_id, force=force_resend)
     if not sent:
         return False
 
@@ -676,7 +759,8 @@ def send_queued_notices():
         label = notice.get("key") or details.get("title", "")
         print(f"Queued notice: {label}")
         if dry_run:
-            count = broadcast_notice(kinds, details, poster_name=notice.get("poster"))
+            count = broadcast_notice(kinds, details, poster_name=notice.get("poster"),
+                                     notice_key=notice.get("key") or label)
             if count:
                 print(f"[dry-run] notice stays queued, not marked as sent: {label}")
             continue
@@ -684,7 +768,8 @@ def send_queued_notices():
         # اجرای ناتمام یا همزمان نتواند همان اطلاعیه را دوباره بفرستد.
         notice["sent_at"] = datetime.now(timezone.utc).isoformat()
         save_json(NOTICE_QUEUE_FILE, queue)
-        count = broadcast_notice(kinds, details, poster_name=notice.get("poster"))
+        count = broadcast_notice(kinds, details, poster_name=notice.get("poster"),
+                                 notice_key=notice.get("key") or label)
         if count:
             notice["recipients"] = count
             sent_any = True
