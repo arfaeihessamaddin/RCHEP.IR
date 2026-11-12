@@ -65,24 +65,100 @@ def extract_body(message):
     return "\n".join(plain_parts or html_parts)
 
 ATTACHMENT_LINE = re.compile(
-    r"^\[?\s*(?:image|cid|attachment|inline)\s*[:\-]?[^\]]*\]?$"
-    r"|^[\w\-. ]+\.(?:jpe?g|png|gif|bmp|webp|tiff?|pdf|docx?|pptx?|xlsx?|zip|rar|mp4)\s*$",
+    r"^(?:\[|\()?\s*(?:image|cid|attachment|inline|پیوست|تصویر)\s*[:\-]",
+    re.I,
+)
+FILE_NAME_LINE = re.compile(
+    r"\.(?:jpe?g|png|gif|bmp|webp|tiff?|svg|heic|pdf|docx?|pptx?|xlsx?|zip|rar|mp4|ai|psd|indd)\b",
+    re.I,
+)
+FILE_JUNK_WORDS = re.compile(
+    r"photoshop|vector|logo|watermark|freepik|shutterstock|canva|banner|"
+    r"unsubscribe|لغو دریافت پیام|لغو اشتراک",
     re.I,
 )
 
 
 def is_noise_line(line):
-    """سطرهای شبه‌پیوست/نشانی را نادیده می‌گیرد تا عنوان سمینار ناخوانا نشود."""
-    compact = normalize_text(line).strip()
+    """سطرهای شبه‌پیوست/نام پرونده/نشانی را نادیده می‌گیرد تا عنوان سمینار ناخوانا نشود."""
+    compact = normalize_text(line).strip().strip("*• \t")
     if not compact:
         return True
+    if len(compact) > 200:
+        return True
     if ATTACHMENT_LINE.match(compact):
+        return True
+    if FILE_NAME_LINE.search(compact):
+        return True
+    if FILE_JUNK_WORDS.search(compact):
         return True
     if re.match(r"^(?:https?://|www\.|mailto:)", compact, re.I):
         return True
     if re.match(r"^<[^>]+>$", compact) or re.match(r"^[^@\s]+@[^@\s]+$", compact):
         return True
+    # سطر بی‌فاصلهٔ فنی (نام پرونده/شناسهٔ پیوست) عنوان سمینار نیست.
+    if (
+        " " not in compact
+        and len(compact) >= 12
+        and (re.search(r"[A-Za-z]", compact) or "-" in compact or "_" in compact or re.search(r"\d{2,}", compact))
+    ):
+        return True
     return False
+
+
+OWN_NOTICE_MARKERS = (
+    "\u005b\u0633\u0645\u06cc\u0646\u0627\u0631",              # [س م ی ن ا ر
+    "\u005b\u0647\u0648\u0634\u0648\u0627\u0631\u0647",       # [ه و ش و ا ر ه
+)
+
+
+def is_own_notice(subject):
+    """آیا این پیام، اطلاعیهٔ خودِ مرکز است که در صندوق پستی دور خورده است؟"""
+    cleaned = normalize_text(subject).lower()
+    if any(marker.lower() in cleaned for marker in OWN_NOTICE_MARKERS):
+        return True
+    return any(
+        token in cleaned
+        for token in ("\u0644\u063a\u0648 \u062f\u0631\u06cc\u0627\u0641\u062a \u067e\u06cc\u0627\u0645", "unsubscribe")
+    )
+
+
+IMAGE_REF_PATTERN = re.compile(
+    r"\[\s*(?:image|cid|attachment)\s*:[^\]]*\]",
+    re.IGNORECASE,
+)
+STRAY_BRACKET_PATTERN = re.compile(
+    r"\[\s*[^\]]{0,120}?\.(?:jpe?g|png|gif|bmp|webp|tiff?|svg|heic|pdf|docx?|pptx?|xlsx?|zip|rar|mp4|ai|psd|indd)\s*\]",
+    re.IGNORECASE,
+)
+BARE_FILENAME_PATTERN = re.compile(r"\b[\w\-]{6,}\.[a-z]{2,4}\b", re.IGNORECASE)
+
+
+def sanitize_field(value):
+    """پاک‌سازی رشته‌های استخراج‌شده از ارجاع تصویری و نام پرونده."""
+    if not value:
+        return value
+    cleaned = IMAGE_REF_PATTERN.sub(" ", value)
+    cleaned = STRAY_BRACKET_PATTERN.sub(" ", cleaned)
+    cleaned = BARE_FILENAME_PATTERN.sub(" ", cleaned)
+    cleaned = re.sub(r"\s*\(\s*\)\s*", " ", cleaned)
+    cleaned = re.sub(r"\s{2,}", " ", cleaned).strip(" \u060c,\u061b;|()[]")
+    return cleaned.strip()
+
+
+def plausible_title(text):
+    """آیا متن یافته‌شده شایستهٔ نشستن در جایگاه «عنوان سمینار» است؟"""
+    if not text:
+        return False
+    compact = normalize_text(text).strip()
+    if is_noise_line(compact):
+        return False
+    letters = re.findall(r"[^\W\d_]", compact, re.UNICODE)
+    if len(letters) < 6:
+        return False
+    if re.fullmatch(r"[\d\s،,:؛.()\-]+", compact):
+        return False
+    return True
 
 
 def parse_seminar_text(body, subject):
@@ -117,43 +193,80 @@ def parse_seminar_text(body, subject):
     for line in lines:
         match = re.match(r"^(?:عنوان|موضوع|title)\s*[:：]\s*(.+)$", line, re.I)
         if match:
-            candidate = match.group(1).strip()
-            if candidate and not is_noise_line(candidate):
+            candidate = sanitize_field(match.group(1).strip())
+            if plausible_title(candidate):
                 details["title"] = candidate
-                break
+            break
 
     # Otherwise, the title is normally the first substantive line after the seminar header.
     if not details["title"]:
         for index, line in enumerate(lines):
             compact = normalize_text(line)
             if "سمینار" in compact and ("مرکز" in compact or "دانشگاه" in compact):
-                for candidate in lines[index + 1:index + 7]:
-                    if candidate and not is_noise_line(candidate) and not re.search(
-                        r"ارائهدهنده|سخنران|زمان|تاریخ|مکان|چکیده|دانشگاه صنعتی شریف",
+                for raw_candidate in lines[index + 1:index + 9]:
+                    candidate = sanitize_field(raw_candidate)
+                    if re.search(
+                        r"\u0627\u0631\u0627\u0626\u0647\u200c?\u062f\u0647\u200c?\u0646\u062f\u0647|\u0633\u062e\u0646\u0631\u0627\u0646|\u0632\u0645\u0627\u0646|\u062a\u0627\u0631\u06cc\u062e|\u0645\u06a9\u0627\u0646|\u0686\u06a9\u06cc\u062f\u0647|\u062f\u0627\u0646\u0634\u06af\u0627\u0647 \u0635\u0646\u0639\u062a\u06cc \u0634\u0631\u06cc\u0641",
                         normalize_text(candidate), re.I
                     ):
+                        continue
+                    if plausible_title(candidate):
                         details["title"] = candidate
                         break
+                break
+
+    # اگر متن سمینار تنها تصویر پوستر باشد، عنوان از سرصفحهٔ ایمیل برداشته می‌شود.
+    if not details["title"]:
+        subject_clean = re.sub(
+            r"^(?:re|fwd|fw|\u067e\u0627\u0633\u062e|\u0628\u0627\u0632\u0627\u0631\u0633\u0627\u0644|\u0647\u0648\u0634\u0648\u0627\u0631\u0647)\s*[:\uff1a]\s*",
+            "", normalize_text(subject), flags=re.I,
+        )
+        for chunk in re.split(
+            r"[:\uff1a\u00bb\-\u2013\u2014]|\u0633\u0645\u06cc\u0646\u0627\u0631|\u0647\u0641\u062a\u06af\u06cc",
+            subject_clean,
+        ):
+            chunk = chunk.strip(" \u060c,\u061b;.|\u060c")
+            chunk = re.sub(r"\s*[\(\[]\s*\d{1,2}\s*[^\d\)\]]{2,14}\s*\d{4}\s*[\)\]]\s*$", "", chunk).strip()
+            chunk = sanitize_field(chunk)
+            if plausible_title(chunk):
+                details["title"] = chunk
                 break
 
     # Speaker labels tolerate joined, spaced, and half-spaced Persian forms.
     for index, line in enumerate(lines):
         compact = normalize_text(line)
         if re.search(r"(?:ارائهدهنده|سخنران|ارائهکننده)", compact):
-            value = re.split(r"[:：]", line, maxsplit=1)
-            if len(value) > 1 and value[1].strip():
-                details["speaker"] = value[1].strip()
-            elif index + 1 < len(lines):
-                details["speaker"] = lines[index + 1]
+            value = re.split(r"[\u003a\uff1a]", line, maxsplit=1)
+            candidate = value[1].strip() if len(value) > 1 and value[1].strip() else ""
+            if not candidate and index + 1 < len(lines):
+                candidate = lines[index + 1]
+            candidate = sanitize_field(candidate)
+            if candidate and not is_noise_line(candidate):
+                details["speaker"] = candidate
             break
 
     # Affiliation, when explicitly present.
     for index, line in enumerate(lines):
-        if re.search(r"وابستگی|دانشگاه|پژوهشگاه|affiliation", normalize_text(line), re.I):
-            if ":" in line or "：" in line:
-                details["affiliation"] = re.split(r"[:：]", line, maxsplit=1)[-1].strip()
-            elif index + 1 < len(lines) and not any(k in lines[index + 1] for k in ["چکیده", "ساعت", "مکان"]):
-                details["affiliation"] = lines[index + 1].strip()
+        if re.search(
+            r"\u0648\u0627\u0628\u0633\u062a\u06af\u06cc|\u062f\u0627\u0646\u0634\u06af\u0627\u0647|\u067e\u0698\u0648\u0647\u0634\u06af\u0627\u0647|affiliation",
+            normalize_text(line), re.I,
+        ):
+            keyword_only = re.fullmatch(
+                r"(?:\u0648\u0627\u0628\u0633\u062a\u06af\u06cc|\u062f\u0627\u0646\u0634\u06af\u0627\u0647|\u067e\u0698\u0648\u0647\u0634\u06af\u0627\u0647|affiliation)\s*[:\uff1a]?",
+                normalize_text(line), re.I,
+            )
+            if ":" in line or "\uff1a" in line:
+                candidate = re.split(r"[\u003a\uff1a]", line, maxsplit=1)[-1].strip()
+            elif keyword_only and index + 1 < len(lines):
+                candidate = lines[index + 1]
+            else:
+                candidate = line
+            candidate = sanitize_field((candidate or "").strip())
+            if candidate and not is_noise_line(candidate) and not re.search(
+                r"\u0686\u06a9\u06cc\u062f\u0647|\u0633\u0627\u0639\u062a|\u0645\u06a9\u0627\u0646|\u0627\u0631\u0627\u0626\u0647|\u0633\u062e\u0646\u0631\u0627\u0646",
+                candidate,
+            ):
+                details["affiliation"] = candidate
             break
 
     for index, line in enumerate(lines):
@@ -184,9 +297,15 @@ def parse_seminar_text(body, subject):
                 details["time"] = time_val
             break
 
-    if details["title"] and details["speaker"] and details["day"] and details["month"]:
-        return details
-    return None
+    for key in ("title", "speaker", "affiliation", "abstract", "location"):
+        if details.get(key):
+            details[key] = sanitize_field(details[key])
+
+    missing = [key for key in ("title", "speaker", "day", "month") if not details.get(key)]
+    if missing:
+        print("Seminar announcement incomplete; missing: " + ", ".join(missing))
+        return None
+    return details
 
 
 def save_posters(message, day, month):
@@ -245,15 +364,18 @@ def update_seminar_in_site(details, posters):
 
     block = page[start:end]
     escaped_title = html.escape(details["title"], quote=True)
-    title_pattern = re.compile(r'(<h5\b[^>]*>).*?(</h5>)', re.S)
+    title_pattern = re.compile(r'(<h5\b[^>]*>).*?</h5>', re.S)
     if title_pattern.search(block):
-        block = title_pattern.sub(
-            lambda match: re.sub(r">\s*$", ">", match.group(1)) +
-                          escaped_title + match.group(2),
-            block, count=1
-        )
+        def _rewrite_title(match):
+            opening = re.sub(r"\s+data-(?:fa|en)=\"[^\"]*\"", "", match.group(1))
+            opening = re.sub(r">\s*$", ">", opening)
+            return (f'{opening} data-fa="{escaped_title}" data-en="{escaped_title}">'
+                    f'{escaped_title}</h5>')
+
+        block = title_pattern.sub(_rewrite_title, block, count=1)
 
     if details.get("speaker"):
+        details["speaker"] = sanitize_field(details["speaker"])
         speaker_pattern = re.compile(r'(<span\b[^>]*data-fa=")[^"]*(".*?data-en=")[^"]*(".*?>).*?(</span>)', re.S)
         if speaker_pattern.search(block):
             block = speaker_pattern.sub(
@@ -385,6 +507,12 @@ def fetch_and_update():
                 if not any(term in normalize_text(subject) for term in ("سمینار", "هوشواره", "seminar")):
                     continue
 
+                # اطلاعیه‌های خودِ مرکز نباید دوباره به‌عنوان سمینار خوانده شوند
+                # (وگرنه کارت رویداد و فهرست مخاطبین آلوده می‌شود).
+                if is_own_notice(subject):
+                    print("Own seminar notice detected; skipping.")
+                    continue
+
                 body = extract_body(message)
                 parsed = parse_seminar_text(body, subject)
                 if not parsed:
@@ -407,6 +535,19 @@ def fetch_and_update():
                         )
                 except Exception as ex:
                     print(f"Contact list import skipped: {ex}")
+
+                # پیش از به‌روزرسانی تارنما و ارسال اطلاعیه، از خوانا بودن عنوان مطمئن می‌شویم
+                # تا کارت رویداد با نام پرونده یا سطر پیوست خراب نشود.
+                if not plausible_title(parsed.get("title", "")):
+                    print("Seminar title could not be recognized; site and recipients left untouched.")
+                    continue
+
+                print(
+                    "Recognized seminar:"
+                    f" title={parsed.get('title', '')!r}"
+                    f" speaker={parsed.get('speaker', '')!r}"
+                    f" date={parsed.get('day', '')} {parsed.get('month', '')}"
+                )
 
                 # ۲) تارنما را به‌روزرسانی می‌کند
                 if update_seminar_in_site(parsed, posters):

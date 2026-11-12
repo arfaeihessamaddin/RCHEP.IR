@@ -366,6 +366,14 @@ def broadcast_seminar(seminar_details, poster_filename=None):
 
     sent_data = load_json(SENT_SEMINARS_FILE, {"broadcasted": []})
     broadcasted = sent_data.get("broadcasted", [])
+    # امکان فرستادن دوبارهٔ اطلاعیهٔ یک تاریخ (وقتی متن پیشین ناخوانا بود) از راه
+    # متغیر محیطی RCHEP_RESEND_DATES — مثلاً "1405_آبان_25" یا چند تاریخ با کاما.
+    resend_dates = {d.strip() for d in os.environ.get("RCHEP_RESEND_DATES", "").split(",") if d.strip()}
+    force_resend = date_key in resend_dates
+    if force_resend:
+        print(f"Resend requested for {date_key}; previous send marker will be ignored.")
+        broadcasted = [k for k in broadcasted if k != date_key and not str(k).startswith(date_key + "_")]
+        sent_data["broadcasted"] = broadcasted
     # نگهبان مهاجرت: نشانه‌های قدیمی که عنوانشان ناخوانا (نام پیوست) ثبت شده بود،
     # کل آن تاریخ را ارسال‌شده تلقی می‌کنند تا اصلاح عنوان باعث ایمیل تکراری نشود.
     legacy_covered_dates = set()
@@ -373,7 +381,9 @@ def broadcast_seminar(seminar_details, poster_filename=None):
         match = re.match(r"^(\d{4}_[^_]+_\d{1,2})_(.+)$", key or "")
         if match and re.match(r"^(?:image|attachment|cid)[-_]", match.group(2)):
             legacy_covered_dates.add(match.group(1))
-    if seminar_id and (seminar_id in broadcasted or date_key in broadcasted or date_key in legacy_covered_dates):
+    if force_resend:
+        legacy_covered_dates.discard(date_key)
+    if not force_resend and (seminar_id and (seminar_id in broadcasted or date_key in broadcasted or date_key in legacy_covered_dates)):
         print(f"Seminar {seminar_id} already broadcasted. Skipping.")
         return False
 
