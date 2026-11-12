@@ -6,7 +6,7 @@
       "token": "1a00819d-c5cd-4fe0-9753-22d6d86316c4",
       "status": "confirmed",
       "created_at": "2026-11-08T09:59:28.180670+00:00",
-      "confirmed_at": "2026-11-12T01:37:44.022425+00:00"
+      "confirmed_at": "2026-11-12T07:34:36.523720+00:00"
     },
     {
       "email": "mohseni@sharif.edu",
@@ -22,7 +22,573 @@
       "token": "b77a747c-a111-465a-b3e6-4bbbfc2fb990",
       "status": "confirmed",
       "created_at": "2026-11-08T14:26:12.375454+00:00",
-      "confirmed_at": "2026-11-12T01:38:08.290810+00:00"
+      "confirmed_at": "2026-11-12T07:35:07.582409+00:00"
+    },
+    {
+      "email": "pouya.si74@gmail.com",
+      "name": "Pouya Si",
+      "token": "f0489321-a83e-4db6-b5c3-abefce0e398c",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:34:24.215749+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787747+00:00"
+    },
+    {
+      "email": "tahatahaes@gmail.com",
+      "name": "",
+      "token": "29dad6f6-1b2d-4c3e-8837-8c32df470fa9",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787622+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787622+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "a.m.rasulian@gmail.com",
+      "name": "",
+      "token": "b36f07a4-936b-4a7a-bc2e-0f33c129d596",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787654+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787654+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "muhammad.ebrahimi75@gmail.com",
+      "name": "",
+      "token": "1aa5caa9-2a4c-4b92-aec7-d2ff3d730fd5",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787665+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787665+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sh.baghram@gmail.com",
+      "name": "",
+      "token": "f96e39b4-aedf-4b66-8798-19c91214adbd",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787674+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787674+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "vaseghi817@gmail.com",
+      "name": "",
+      "token": "0c85e181-7b0e-4509-af64-4590ea51b81a",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787689+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787689+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "seyyedms.sajjadi@ut.ac.ir",
+      "name": "",
+      "token": "e754d0b5-f026-4ffc-94ee-66b66dc7a36b",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787697+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787697+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "aminfaraji65@gmail.com",
+      "name": "",
+      "token": "a0c99306-8675-4c10-8b77-86b25e8a17e8",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787704+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787704+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "borhani7711@gmail.com",
+      "name": "",
+      "token": "457c881e-45fb-4244-bfad-f844881d771d",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787710+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787710+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "masih.ansari79@gmail.com",
+      "name": "",
+      "token": "49978c1c-4e62-4f0c-8da8-cead908ed7ea",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787718+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787718+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "rasoulfeyzi74@gmail.com",
+      "name": "",
+      "token": "3ac3d8cd-8b33-476b-9d3b-1587230bede9",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787724+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787724+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "amin004578@gmail.com",
+      "name": "",
+      "token": "2a0f8f38-cd60-44a1-a54e-4a1c230d6e8b",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787730+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787730+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "arfaeihessam@gmail.com",
+      "name": "",
+      "token": "3788bb13-fa33-4dbd-a6d4-05576f7810c7",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787735+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787735+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "rj1154@nyu.edu",
+      "name": "",
+      "token": "c3b17adc-7422-44ab-807a-aa4d96400163",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787741+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787741+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "h.arfaei@gmail.com",
+      "name": "",
+      "token": "d90d9b21-2881-4d91-964d-9225e64d1b08",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787749+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787749+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "p.a.mohseni@gmail.com",
+      "name": "",
+      "token": "0999fdab-a74e-4802-b8be-8ca498a37f8e",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787755+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787755+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "a.a.ardehali@gmail.com",
+      "name": "",
+      "token": "86b2b6c6-bd1b-4d34-8ce0-b8069fe1bd9d",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787761+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787761+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ham.afshar@gmail.com",
+      "name": "",
+      "token": "cdfb5a1f-d194-4651-815f-e2b192779f0c",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787767+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787767+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "amin.aalipour@outlook.com",
+      "name": "",
+      "token": "8648f3dd-cf4a-463b-b3c8-7c841492e1b7",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787772+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787772+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sbehrangtafreshih@gmail.com",
+      "name": "",
+      "token": "8fd759e5-44f7-45c3-9511-f8c84f1fb791",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787778+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787778+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ahmadreza.moradpour@gmail.com",
+      "name": "",
+      "token": "6ab95e12-e664-4220-8f50-c84423a9abc9",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787783+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787783+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "pouria.dadras@gmail.com",
+      "name": "",
+      "token": "c6a60349-34a0-4d1b-b7d0-5fe81afe6cdf",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787788+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787788+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ali.mollabashi@gmail.com",
+      "name": "",
+      "token": "ca1e4263-5cda-415b-bdf0-b39eb88ca00f",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787794+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787794+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "najafykeyvan@gmail.com",
+      "name": "",
+      "token": "4751fdc2-b635-46cc-a57c-d23e37f2174e",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787799+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787799+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "kabiri.zahra98@gmail.com",
+      "name": "",
+      "token": "f09129db-4da6-4a0c-a49e-78d5be6eb6bd",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787804+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787804+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "a_shayeganshirazi@yahoo.com",
+      "name": "",
+      "token": "1d3a9762-d735-4560-83d3-444ad8c65e96",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787810+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787810+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "khashayarbahari@yahoo.com",
+      "name": "",
+      "token": "611293e1-0046-448a-b34b-fccc928b7b64",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787815+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787815+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ardalan.farhad@gmail.com",
+      "name": "",
+      "token": "8ecb1436-86a9-41d8-a608-8a0c8926e20b",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787820+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787820+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ghasemi.mg@ipm.ir",
+      "name": "",
+      "token": "52f0a7cf-8b51-439f-9cde-4db3857b3bf7",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787825+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787825+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sh.baghram2@gmail.com",
+      "name": "",
+      "token": "6f6eaf23-6531-4032-b2a2-16648b5eb038",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787831+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787831+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "kuroshallame@gmail.com",
+      "name": "",
+      "token": "c0070a63-6b98-4e13-9659-f9b57b822993",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787836+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787836+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "a.ashtari.esfahani@gmail.com",
+      "name": "",
+      "token": "580a979c-eef9-41bc-80c9-b7aad79b70d6",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787842+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787842+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "bonyadi.behrouz@physics.sharif.edu",
+      "name": "",
+      "token": "a979771c-5d0c-48e3-b065-2628410c6bbe",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787847+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787847+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "soheibshmn@gmail.com",
+      "name": "",
+      "token": "798f0a70-eeaa-4d79-adaf-e76b50802036",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787853+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787853+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "farhadyasharsh96@gmail.com",
+      "name": "",
+      "token": "28db58a5-4cde-4d5f-a4ec-44b1002d1bec",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787858+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787858+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "hossein.mohammadi.00427@gmail.com",
+      "name": "",
+      "token": "922abf87-d3a6-4db4-a9a0-14840d27c09e",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787886+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787886+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "arash.ap.shahmiry@gmail.com",
+      "name": "",
+      "token": "89f73795-7364-4960-8e90-14cd66dea627",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787892+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787892+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "f.darzi50@gmail.com",
+      "name": "",
+      "token": "e7f9b04e-c2ed-42db-9cd6-f8eb9ac7f8a8",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787898+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787898+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "marya.zeinali@gmail.com",
+      "name": "",
+      "token": "3cd44c64-64a2-4d55-b722-2195217bd733",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787903+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787903+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "marsharifian@gmail.com",
+      "name": "",
+      "token": "755c4212-2d3f-4457-a4ac-41b2c58064db",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787908+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787908+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "pilaram@sharif.edu",
+      "name": "",
+      "token": "95e93d1e-6f8a-498e-8df7-87c904169994",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787914+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787914+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sms_sajjadi@physics.sharif.edu",
+      "name": "",
+      "token": "0288cc43-9424-46b4-847a-ac3fa041b3ff",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787920+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787920+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "rezaghomi0124@gmail.com",
+      "name": "",
+      "token": "d019be64-b476-4321-8711-2d677337ff4e",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787925+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787925+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "farzad.omidi@gmail.com",
+      "name": "",
+      "token": "f5b5bde7-d3ca-4f86-be5e-fbbdce008f42",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787931+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787931+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "teghlidos@sharif.edu",
+      "name": "",
+      "token": "763f05d2-af68-4570-853a-b98d80c73c01",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787936+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787936+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "neda.sadooghi@gmail.com",
+      "name": "",
+      "token": "88e38753-4b33-470d-aa27-fb821b665193",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787941+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787941+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "alireza.kavei@physics.sharif.edu",
+      "name": "",
+      "token": "74edadce-0a30-4cbd-84a0-37fed254e05c",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787946+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787946+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "zeinab.kalantari70@gmail.com",
+      "name": "",
+      "token": "1aaac622-a6dd-46f0-afa8-3c8d4e3bcb93",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787951+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787951+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "naseh@ipm.ir",
+      "name": "",
+      "token": "3fc55dc5-3086-4eca-9cfb-689598432f8f",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787957+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787957+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "p.kafashi@gmail.com",
+      "name": "",
+      "token": "acbf77b6-7b1b-496b-aa91-a4ec0929a074",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787962+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787962+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ali.talashan.stu@gmail.com",
+      "name": "",
+      "token": "e2aa023d-27a3-4e5c-9264-e9d459031998",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787967+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787967+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "aalipour@ipm.ir",
+      "name": "",
+      "token": "d40824fe-1c53-4d67-a246-534b260e2342",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787973+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787973+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "taghavi.behrad@gmail.com",
+      "name": "",
+      "token": "75860a43-9752-49cc-beae-b5a2996baaf2",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787978+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787978+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "elham.davoudi481@gmail.com",
+      "name": "",
+      "token": "23b8aeb4-baa0-411a-b4c9-dad77956b22a",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787983+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787983+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "mahdi.torabian@gmail.com",
+      "name": "",
+      "token": "f5371d0f-b39c-4709-a8b1-c50aac8d7f30",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787988+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787988+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ali.abolhasani@sharif.edu",
+      "name": "",
+      "token": "2db51ae2-9086-4752-9455-efe4bc8be775",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787993+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787993+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sci.association.phys.sut@gmail.com",
+      "name": "",
+      "token": "ab0009a9-b262-41df-9be6-2b21ad49ef20",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.787998+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.787998+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sahelfallahdoostkachlami.uni@gmail.com",
+      "name": "",
+      "token": "68683c12-43e1-46b0-be61-157da059f4e7",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788004+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788004+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "ghodrati@umich.edu",
+      "name": "",
+      "token": "e60097e0-318f-44a5-b6bb-3f3c65142591",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788009+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788009+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "armin.gh.kh@gmail.com",
+      "name": "",
+      "token": "11f0f6b0-c656-466f-9c5c-0645b7b93b39",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788014+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788014+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "mmohammadi@guilan.ac.ir",
+      "name": "",
+      "token": "7bed1104-5274-4e86-b28d-395586c9a108",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788019+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788019+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "sajjadyami77@gmail.com",
+      "name": "",
+      "token": "418b6d7d-4f5e-41d0-8895-729daf594f78",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788025+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788025+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+    },
+    {
+      "email": "k1ehsani@gmail.com",
+      "name": "",
+      "token": "9b4196da-20b1-42a0-abac-f84305e66bca",
+      "status": "confirmed",
+      "created_at": "2026-11-12T07:36:21.788031+00:00",
+      "confirmed_at": "2026-11-12T07:36:21.788031+00:00",
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
     }
   ]
 }
