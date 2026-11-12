@@ -651,7 +651,8 @@
       "status": "confirmed",
       "created_at": "2026-11-12T16:08:15.866775+00:00",
       "confirmed_at": "2026-11-12T16:08:15.866775+00:00",
-      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>",
+      "welcome_sent": true
     },
     {
       "email": "h.arfaei@gmail.com",
@@ -660,7 +661,8 @@
       "status": "confirmed",
       "created_at": "2026-11-12T16:08:15.866807+00:00",
       "confirmed_at": "2026-11-12T16:08:15.866807+00:00",
-      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>"
+      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>",
+      "welcome_sent": true
     }
   ]
 }
