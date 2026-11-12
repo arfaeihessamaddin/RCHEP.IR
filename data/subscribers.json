@@ -1,13 +1,14 @@
 {
   "list": [
     {
-      "email": "h.arfaei@icloud.com",
+      "email": "arfaeihessamaddin@gmail.com",
       "name": "",
       "token": "1a00819d-c5cd-4fe0-9753-22d6d86316c4",
       "status": "confirmed",
       "created_at": "2026-11-08T09:59:28.180670+00:00",
-      "confirmed_at": "2026-11-12T09:27:54.828434+00:00",
-      "welcome_sent": true
+      "confirmed_at": "2026-11-12T07:36:21.787735+00:00",
+      "source": "identity-merge",
+      "welcome_sent": false
     },
     {
       "email": "mohseni@sharif.edu",
@@ -146,32 +147,12 @@
       "welcome_sent": true
     },
     {
-      "email": "arfaeihessam@gmail.com",
-      "name": "",
-      "token": "3788bb13-fa33-4dbd-a6d4-05576f7810c7",
-      "status": "confirmed",
-      "created_at": "2026-11-12T07:36:21.787735+00:00",
-      "confirmed_at": "2026-11-12T07:36:21.787735+00:00",
-      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>",
-      "welcome_sent": true
-    },
-    {
       "email": "rj1154@nyu.edu",
       "name": "",
       "token": "c3b17adc-7422-44ab-807a-aa4d96400163",
       "status": "confirmed",
       "created_at": "2026-11-12T07:36:21.787741+00:00",
       "confirmed_at": "2026-11-12T07:36:21.787741+00:00",
-      "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>",
-      "welcome_sent": true
-    },
-    {
-      "email": "h.arfaei@gmail.com",
-      "name": "",
-      "token": "d90d9b21-2881-4d91-964d-9225e64d1b08",
-      "status": "confirmed",
-      "created_at": "2026-11-12T07:36:21.787749+00:00",
-      "confirmed_at": "2026-11-12T07:36:21.787749+00:00",
       "source": "seminar-list:niloofar vardian <niloofarvardian@gmail.com>",
       "welcome_sent": true
     },
