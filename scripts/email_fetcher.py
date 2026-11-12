@@ -344,6 +344,20 @@ def save_posters(message, day, month):
         stem = f"{day}-{month_slug}-{language}"
         target_name = f"{stem}{extension}"
         target_path = os.path.join(EVENTS_IMG_DIR, target_name)
+        # هرگز پوستر تازهای پوستر پیشین همان روز را خاموشکرده بازنویسی نکند؛
+        # اگر محتوای نشسته تفاوت داشت، شناسهٔ درونداد به نام پرونده افزوده میشود.
+        if os.path.exists(target_path):
+            try:
+                with open(target_path, "rb") as existing_file:
+                    if existing_file.read() == payload:
+                        saved[language] = target_name
+                        print(f"Poster unchanged: {target_name}")
+                        continue
+            except OSError:
+                pass
+            digest = hashlib.sha1(payload).hexdigest()[:6]
+            target_name = f"{stem}-{digest}{extension}"
+            target_path = os.path.join(EVENTS_IMG_DIR, target_name)
         with open(target_path, "wb") as output:
             output.write(payload)
         saved[language] = target_name
