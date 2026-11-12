@@ -158,8 +158,13 @@ def save_attachment(payload, extension, subject, stamp, index):
         slug = "seminar"
     else:
         slug = "session"
-    target_name = f"{slug}-{stamp}-{index}{extension}"
+    digest = hashlib.sha1(payload).hexdigest()[:8]
+    target_name = f"{slug}-{stamp}-{index}-{digest}{extension}"
     target_path = os.path.join(EVENTS_IMG_DIR, target_name)
+    for existing in os.listdir(EVENTS_IMG_DIR):
+        if existing.endswith(f"-{digest}{extension}"):
+            print(f"Probe attachment already stored: {existing}")
+            return existing
     with open(target_path, "wb") as output:
         output.write(payload)
     print(f"Probe attachment saved: {target_name} ({len(payload)} bytes)")
