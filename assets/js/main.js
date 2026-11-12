@@ -160,6 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // متن تازه‌نوشته‌شده ممکن است نشانه‌گذاری ریاضی داشته باشد؛ دوباره آرایه‌بندی شود.
+    try { renderMathTypography(); } catch(e) {}
+
     // Search input placeholder
     if (pubSearchInput) {
       pubSearchInput.placeholder = isEn 
@@ -246,13 +249,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. Fast Mathematical Typography Formatter (LaTeX in titles & papers)
   function renderMathTypography() {
     const mathReplacements = [
+      // NOTE: patterns must match the real page text: $T\bar{T}$ (single backslash before bar).
       [/\$T\\bar\{T\}\$/g, '<span class="math-tex"><span class="math-var">T</span><span class="math-bar">T̄</span></span>'],
+      [/\$\\bar\{T\}T\$/g, '<span class="math-tex"><span class="math-bar">T̄</span><span class="math-var">T</span></span>'],
       [/T̄T̄/g, '<span class="math-tex"><span class="math-var">T</span><span class="math-bar">T̄</span></span>'],
       [/\$\\text\{AdS\}_3\/\\text\{CFT\}_2\$/g, '<span class="math-tex">AdS<sub>3</sub>/CFT<sub>2</sub></span>'],
       [/\$\\text\{AdS\}_3\$/g, '<span class="math-tex">AdS<sub>3</sub></span>'],
       [/\$\\text\{CFT\}_2\$/g, '<span class="math-tex">CFT<sub>2</sub></span>'],
-      [/\$\\sqrt\{s\}\s*=\s*13\s*\\text\{ TeV\}\$/g, '<span class="math-tex">&radic;s = 13 TeV</span>'],
-      [/\$\\sqrt\{s\}\s*=\s*13\.6\s*\\text\{ TeV\}\$/g, '<span class="math-tex">&radic;s = 13.6 TeV</span>'],
+      [/\$\\sqrt\{s\}\s*=\s*13\.6\s*\\text\{\s*TeV\}\$/g, '<span class="math-tex">&radic;s = 13.6 TeV</span>'],
+      [/\$\\sqrt\{s\}\s*=\s*13\s*\\text\{\s*TeV\}\$/g, '<span class="math-tex">&radic;s = 13 TeV</span>'],
       [/\$\\sqrt\{s\}\s*=\s*13\s*TeV\$/g, '<span class="math-tex">&radic;s = 13 TeV</span>']
     ];
 

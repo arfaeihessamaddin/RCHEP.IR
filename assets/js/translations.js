@@ -469,7 +469,7 @@ window.RCHEP_TRANSLATIONS = {
   "توسعه نرم‌افزارهای پردازش داده‌های توزیع‌شده (WLCG) و روش‌های یادگیری ماشین در بازسازی ذرات": "Distributed computing software (WLCG) and machine learning methods in particle reconstruction",
   "تحقیق و توسعه در سخت‌افزار آشکارسازها و ارتقای فاز ۲ (High-Luminosity LHC)": "Detector instrumentation R&D and Phase-2 upgrades for the High-Luminosity LHC (HL-LHC)",
   "فیزیک ذرات نظری به مطالعه ساختارهای بنیادین، قوانین بنیادین طبیعت و ارتباط بین مکانیک کوانتومی و گرانش می‌پردازد:": "Theoretical High Energy Physics investigates fundamental structures, physical laws of nature, and the synthesis of quantum mechanics with gravitation:",
-  "نظریه میدان‌های کوانتومی تطبیقی (CFT) و تغییر شکل‌های حل‌پذیر مانند \bar{T}hBcdeformation": "Conformal Field Theory (CFT) and solvable deformations including TTbar deformation",
+  "نظریه میدان‌های کوانتومی همدیس (CFT) و تغییر شکل‌های حل‌پذیر مانند $T\\bar{T}$-deformation": "Conformal Field Theory (CFT) and solvable deformations including TTbar deformation",
   "دوگانگی‌های هولوگرافی (AdS/CFT) و اتصال نظریه ریسمان به فیزیک پدیده‌های قوی‌جفت": "Holographic dualities (AdS/CFT) and string theory connections to strongly coupled phenomena",
   "اطلاعات کوانتومی و ساختار فضازمان (درهم‌تنیدگی هولوگرافیک، پارادوکس اطلاعات سیاهچاله و Petz Map)": "Quantum information and spacetime structure (holographic entanglement, black hole information paradox, Petz Map)",
   "نظریه میدان در فضازمان‌های خمیده و فضازمان دی‌سیتر (de Sitter spacetimes)": "Field theory in curved spacetimes and de Sitter spacetime quantum fields",
