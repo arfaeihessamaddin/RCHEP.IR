@@ -5,8 +5,9 @@ name: site inspector
 # و کار شکست می‌خورد تا در فهرست Actions هم سرخ دیده شود.
 
 on:
+  # پس از هر انتشار واقعی گیت‌هاب پیجز (هر push به main) بازرسی می‌شود
   workflow_run:
-    workflows: ["auto email sync"]
+    workflows: ["pages build and deployment"]
     types: [completed]
   schedule:
     - cron: '17 6 * * *'        # هر روز ساعت ۶:۱۷ UTC ≈ ۹:۴۷ تهران
@@ -40,6 +41,8 @@ jobs:
           python3 scripts/site_inspector.py \
             --base https://rchep.ir \
             --attempts 6 \
+            --deploy-wait 4 \
+            --deploy-sleep 30 \
             --report inspector-report.txt
 
       - name: نگه‌داشتن گزارش
@@ -54,8 +57,8 @@ jobs:
         if: steps.inspect.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
+          TITLE: 'بازرس خودکار: ایراد در rchep.ir'
         run: |
-          TITLE="بازرس خودکار: ایراد در rchep.ir"
           {
             echo "بازرسی بیرونی در $(TZ=Asia/Tehran date '+%Y-%m-%d %H:%M') به وقت تهران ایراد یافت."
             echo
@@ -63,12 +66,15 @@ jobs:
             tail -c 4000 inspector-report.txt 2>/dev/null || echo '(گزارش نوشته نشد)'
             echo '```'
             echo
-            echo "اجرا: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "اجرا: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           } > body.md
-          NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number' 2>/dev/null || true)
-          if [ -n "$NUM" ] && [ "$NUM" != "null" ]; then
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                  --jq '.[] | select(.title == env.TITLE) | .number' | head -1)
+          if [ -n "$NUM" ]; then
+            echo "افزودن یادداشت به مسألهٔ #$NUM"
             gh issue comment "$NUM" --body-file body.md
           else
+            echo 'مسألهٔ تازه باز می‌شود'
             gh issue create --title "$TITLE" --body-file body.md
           fi
 

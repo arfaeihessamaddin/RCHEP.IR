@@ -147,6 +147,10 @@ def main() -> int:
                         help='مقایسهٔ زنده با پرونده‌های همین مخزن را انجام نده')
     parser.add_argument('--report', default=None, help='نوشتن گزارش در این پرونده')
     parser.add_argument('--attempts', type=int, default=4)
+    parser.add_argument('--deploy-wait', type=int, default=3,
+                        help='چند بار برای رسیدن انتشار تازه به سایت صبر شود')
+    parser.add_argument('--deploy-sleep', type=float, default=25.0,
+                        help='فاصلهٔ صبر میان بازخوانی‌های انتشار (ثانیه)')
     args = parser.parse_args()
 
     ROOT = os.path.abspath(args.repo)
@@ -177,9 +181,27 @@ def main() -> int:
         rep.ok()
         if not args.no_compare and os.path.isfile(local(page)):
             want = open(local(page), 'rb').read()
-            if md5(body) != md5(want):
-                extra = f' (زنده {len(body)} بایت / مخزن {len(want)} بایت)'
-                if len(body) < len(want):
+            # انتشار تازه چند لحظه تا رسیدن به لبه‌های گیت‌هاب پیجز فاصله دارد؛
+            # برای پرهیز از هشدار کاذب، چند بار بازخوانی می‌کنیم.
+            for wait_no in range(max(1, args.deploy_wait)):
+                if md5(text.encode('utf-8')) == md5(want):
+                    break
+                if wait_no == max(1, args.deploy_wait) - 1:
+                    break
+                print(f'   ... {page}: نسخهٔ زنده هنوز تازه نیست؛ '
+                      f'{args.deploy_sleep:g} ثانیه صبر و بازخوانی')
+                time.sleep(args.deploy_sleep)
+                try:
+                    st2, _h2, b2 = net.get(url)
+                except RuntimeError as exc:
+                    net.log.append(f'{url} — بازخوانی انتشار: {exc}')
+                    continue
+                if st2 == 200:
+                    body, text = b2, b2.decode('utf-8', 'replace')
+                    live_html[page] = text
+            if md5(text.encode('utf-8')) != md5(want):
+                extra = f' (زنده {len(text.encode("utf-8"))} بایت / مخزن {len(want)} بایت)'
+                if len(text.encode('utf-8')) < len(want):
                     extra += ' — احتمالاً بدنهٔ صفحه بریده یا انتشار عقب است'
                 rep.fail(f'!! {page}: نسخهٔ منتشرشده با مخزن یکی نیست{extra}')
             else:
