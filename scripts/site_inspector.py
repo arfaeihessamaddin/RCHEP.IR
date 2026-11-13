@@ -242,6 +242,21 @@ def main() -> int:
         else:
             rep.ok()
 
+        # کنترل‌های حیاتی باید در خود HTML حاضر باشند، چون درخواست فایل‌های JS
+        # بیرونی روی میزبان فعلی ممکن است بیش از یک دقیقه گیر کند.
+        critical_markers = (
+            ('window.__rchepCriticalControls', 'پشتیبان درون‌صفحه‌ای کنترل‌ها'),
+            ('localStorage.setItem(key, value)', 'ماندگاری انتخاب زبان/نمایش'),
+            ("languageButton.addEventListener('click'", 'شنوندهٔ دکمهٔ زبان'),
+            ("themeButton.addEventListener('click'", 'شنوندهٔ دکمهٔ شب/روز'),
+        )
+        missing = [description for marker, description in critical_markers if marker not in text]
+        if missing:
+            rep.fail(f'!! {page}: منطق حیاتی زبان/شب‌وروز در خود صفحه ناقص است — '
+                     + '، '.join(missing))
+        else:
+            rep.ok()
+
         # شناسه‌های تکراری
         ids = re.findall(r'\sid="([^"]+)"', text)
         dupes = sorted({i for i in ids if ids.count(i) > 1})
@@ -392,7 +407,7 @@ def main() -> int:
         lines.append(f'یافته‌ها ({len(rep.problems)}):')
         lines.extend(rep.problems)
     else:
-        lines.append('همه‌چیز سالم است: کارت‌ها، پوسترها، پیش‌نمایش‌ها، ترتیب اسکریپت‌ها')
+        lines.append('همه‌چیز سالم است: کارت‌ها، پوسترها، پیش‌نمایش‌ها، ترتیب اسکریپت‌ها و کنترل‌های حیاتی')
     if net.log:
         lines.append('یادداشت شبکه:')
         lines.extend(f'  - {entry}' for entry in net.log[-6:])

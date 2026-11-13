@@ -31,6 +31,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: آماده‌کردن بازرس مرورگری
+        run: pip install --disable-pip-version-check websocket-client==1.8.0
+
       - name: مهلت به گیت‌هاب پیجز برای انتشار
         run: sleep 60
 
@@ -45,16 +48,25 @@ jobs:
             --deploy-sleep 30 \
             --report inspector-report.txt
 
+      - name: آزمون رفتاری زبان و شب/روز
+        id: interactions
+        continue-on-error: true
+        run: |
+          python3 scripts/interaction_inspector.py --base https://rchep.ir \
+            2>&1 | tee interaction-report.txt
+
       - name: نگه‌داشتن گزارش
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: inspector-report
-          path: inspector-report.txt
+          path: |
+            inspector-report.txt
+            interaction-report.txt
           if-no-files-found: ignore
 
       - name: هشدار — باز کردن یا به‌روزرسانی مسأله
-        if: steps.inspect.outcome == 'failure'
+        if: steps.inspect.outcome == 'failure' || steps.interactions.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
           TITLE: 'بازرس خودکار: ایراد در rchep.ir'
@@ -64,6 +76,8 @@ jobs:
             echo
             echo '```'
             tail -c 4000 inspector-report.txt 2>/dev/null || echo '(گزارش نوشته نشد)'
+            echo
+            tail -c 2000 interaction-report.txt 2>/dev/null || echo '(گزارش رفتاری نوشته نشد)'
             echo '```'
             echo
             echo "اجرا: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
@@ -79,5 +93,5 @@ jobs:
           fi
 
       - name: شکست کار تا ایراد دیده شود
-        if: steps.inspect.outcome == 'failure'
+        if: steps.inspect.outcome == 'failure' || steps.interactions.outcome == 'failure'
         run: exit 1

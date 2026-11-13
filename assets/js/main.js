@@ -17,7 +17,7 @@ function bootRchep() {
   }
   document.documentElement.setAttribute('data-theme', currentTheme);
 
-  if (themeToggle) {
+  if (themeToggle && !window.__rchepCriticalControls) {
     updateThemeIcon(currentTheme);
     themeToggle.addEventListener('click', () => {
       const activeTheme = document.documentElement.getAttribute('data-theme');
@@ -222,8 +222,9 @@ function bootRchep() {
     applyLanguage('en');
   }
 
-  // Toggle button click listener
-  if (langToggle) {
+  // Toggle button click listener. The inline critical fallback owns this listener
+  // when present, so a late external script cannot attach a second toggle.
+  if (langToggle && !window.__rchepCriticalControls) {
     langToggle.addEventListener('click', (e) => {
       e.preventDefault();
       const current = document.documentElement.getAttribute('lang') || 'fa';
