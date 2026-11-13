@@ -5,10 +5,10 @@ name: site inspector
 # و کار شکست می‌خورد تا در فهرست Actions هم سرخ دیده شود.
 
 on:
-  # پس از هر انتشار واقعی گیت‌هاب پیجز (هر push به main) بازرسی می‌شود
-  workflow_run:
-    workflows: ["pages build and deployment"]
-    types: [completed]
+  # هر انتشار (push به main) — انتشار گیت‌هاب پیجز چند لحظه بعد می‌رسد و
+  # --deploy-wait همان عقب‌افتادگی را تحمل می‌کند
+  push:
+    branches: [main]
   schedule:
     - cron: '17 6 * * *'        # هر روز ساعت ۶:۱۷ UTC ≈ ۹:۴۷ تهران
   workflow_dispatch:
