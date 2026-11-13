@@ -445,9 +445,11 @@ function initPosterInteractions() {
     });
   });
 
-  // Warm the preview files while the page sits idle, so hover is instant
+  // Warm the *preview* files while the page sits idle, so hover is instant.
+  // Warming the full-size posters here would tie up the connection for minutes
+  // on a slow link: those are the 2164x2800 originals, ~10x the preview bytes.
   const warmPosters = () => document.querySelectorAll('[data-poster]')
-    .forEach(b => preloadPoster(b.getAttribute('data-preview') || b.getAttribute('data-poster')));
+    .forEach(b => preloadPoster(previewPath(b.getAttribute('data-preview') || b.getAttribute('data-poster'))));
   if ('requestIdleCallback' in window) {
     requestIdleCallback(warmPosters, { timeout: 3000 });
   } else {

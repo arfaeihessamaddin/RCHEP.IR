@@ -16,6 +16,10 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATTERN = re.compile(r'data-poster="([^"]+)"')
 HTML = [f for f in sorted(os.listdir(ROOT)) if f.endswith('.html')]
+# A hover preview that has to be downloaded first is only useful if it is small:
+# on a slow link a 1 MB poster means the preview shows up a minute later.
+MAX_PREVIEW_BYTES = 160 * 1024
+MIN_SHRINK = 1.5  # the preview must be at least 1.5x smaller than the original
 
 
 def referenced_posters():
@@ -51,11 +55,18 @@ def main():
                             '(اجرا کنید: python3 scripts/make_poster_previews.py)')
             continue
         if os.path.getsize(prev_abs) >= os.path.getsize(src_abs):
-            problems.append(f'!! پیش‌نمایش سبک‌تر از اصل نیست: {prev}')
+            problems.append(f'!! پیشنمایش سبکتر از اصل نیست: {prev}')
+        elif os.path.getsize(prev_abs) > MAX_PREVIEW_BYTES:
+            kb = os.path.getsize(prev_abs) / 1024
+            problems.append(f'!! پیشنمایش سنگین است ({kb:.0f} KB > {MAX_PREVIEW_BYTES // 1024} KB): {prev} '
+                            '— روی پیوند کند، خرامش دیر ظاهر میشود')
+        if os.path.getsize(prev_abs) * MIN_SHRINK > os.path.getsize(src_abs):
+            problems.append(f'!! پیشنمایش بهقدر کافی سبک نشده: {prev}')
 
     with open(os.path.join(ROOT, 'assets', 'js', 'main.js'), encoding='utf-8') as fh:
         js = fh.read()
-    for needle in ("const previewPath", "poster-floating-preview", "mouseenter"):
+    for needle in ("const previewPath", "poster-floating-preview", "mouseenter",
+                   "preloadPoster(previewPath("):
         if needle not in js:
             problems.append(f'!! منطق خرامش پوستر در main.js ناقص است (نیافت: {needle})')
 

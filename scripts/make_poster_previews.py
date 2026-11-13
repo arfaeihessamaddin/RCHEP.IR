@@ -16,8 +16,8 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MAX_DIM = 1200
-QUALITY = 80
+MAX_DIM = 900
+QUALITY = 72
 PATTERN = re.compile(r'data-poster="([^"]+)"')
 
 
