@@ -333,53 +333,95 @@ function initPosterInteractions() {
     }
   });
 
+  // Cache so a hover never waits on the network twice
+  const posterPreloaded = [];
+  const preloadPoster = (src) => {
+    if (!src || posterPreloaded.includes(src)) return;
+    posterPreloaded.push(src);
+    const im = new Image();
+    im.decoding = 'async';
+    im.src = src;
+  };
+
+  // Preview files are lighter twins of the posters (see scripts/make_poster_previews.py)
+  const previewPath = (src) => /\.(jpe?g|png)$/i.test(src)
+    ? src.replace(/\.[a-z]+$/i, '-preview.jpg')
+    : src;
+
   document.querySelectorAll('[data-poster]').forEach(btn => {
     const posterSrc = btn.getAttribute('data-poster');
+    const previewSrc = previewPath(btn.getAttribute('data-preview') || posterSrc);
     const title = btn.getAttribute('data-title') || 'پوستر سمینار';
 
-    // Hover (خرامش)
-    btn.addEventListener('mouseenter', () => {
-      previewImg.src = posterSrc;
-      const rect = btn.getBoundingClientRect();
-      const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
-      
-      const prevW = 440;
-      const prevH = 560;
+    const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
+    const GAP = 20;
+    let lastX = 0, lastY = 0;
 
-      let left;
-      if (isRtl) {
-        left = rect.left - prevW - 16;
-        if (left < 16) left = rect.right + 16;
-      } else {
-        left = rect.right + 16;
-        if (left + prevW > window.innerWidth - 16) left = rect.left - prevW - 16;
+    // Place the floating poster beside the pointer, always fully on screen
+    const placePreview = (cx, cy) => {
+      const w = previewEl.offsetWidth || 440;
+      const h = previewEl.offsetHeight || 560;
+      let left = isRtl ? cx - w - GAP : cx + GAP;
+      if (left < 16 || left + w > window.innerWidth - 16) {
+        left = isRtl ? cx + GAP : cx - w - GAP;
       }
-      left = Math.max(16, Math.min(window.innerWidth - prevW - 16, left));
-
-      let top = rect.top + (rect.height / 2) - (prevH / 2);
-      top = Math.max(16, Math.min(window.innerHeight - prevH - 16, top));
-
+      left = Math.max(16, Math.min(window.innerWidth - w - 16, left));
+      let top = cy - h / 2;
+      top = Math.max(16, Math.min(window.innerHeight - h - 16, top));
       previewEl.style.left = `${left}px`;
       previewEl.style.top = `${top}px`;
-      previewEl.classList.add('visible');
-    });
+    };
 
-    btn.addEventListener('mouseleave', () => {
-      previewEl.classList.remove('visible');
+    const showPreview = (cx, cy) => {
+      lastX = cx; lastY = cy;
+      preloadPoster(previewSrc);
+      // If the light preview is missing, fall back to the full poster file
+      previewImg.onerror = () => {
+        if (previewImg.getAttribute('src') !== posterSrc) previewImg.src = posterSrc;
+      };
+      if (previewImg.getAttribute('src') !== previewSrc) previewImg.src = previewSrc;
+      previewEl.classList.add('visible');
+      placePreview(cx, cy);
+      // Re-place with the real size: on load, or right away when it is cached
+      previewImg.onload = () => placePreview(lastX, lastY);
+      if (previewImg.complete) requestAnimationFrame(() => placePreview(lastX, lastY));
+    };
+
+    // Hover (خرامش)
+    btn.addEventListener('mouseenter', (e) => showPreview(e.clientX, e.clientY));
+    btn.addEventListener('mousemove', (e) => {
+      lastX = e.clientX; lastY = e.clientY;
+      if (previewEl.classList.contains('visible')) placePreview(e.clientX, e.clientY);
     });
+    btn.addEventListener('mouseleave', () => previewEl.classList.remove('visible'));
+    // Keyboard (دسترس‌پذیری)
+    btn.addEventListener('focus', () => {
+      const r = btn.getBoundingClientRect();
+      showPreview(r.left + r.width / 2, r.top + r.height / 2);
+    });
+    btn.addEventListener('blur', () => previewEl.classList.remove('visible'));
 
     // Click (زنش)
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       previewEl.classList.remove('visible');
-      modalImg.src = posterSrc;
+      modalImg.src = previewSrc;
       modalTitle.textContent = title;
       modalDownload.setAttribute('href', posterSrc);
       modalEl.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
   });
+
+  // Warm the preview files while the page sits idle, so hover is instant
+  const warmPosters = () => document.querySelectorAll('[data-poster]')
+    .forEach(b => preloadPoster(b.getAttribute('data-preview') || b.getAttribute('data-poster')));
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(warmPosters, { timeout: 3000 });
+  } else {
+    setTimeout(warmPosters, 1200);
+  }
 
   // 8. Program Navigation Tabs & Smooth Scroll Highlighting
   document.querySelectorAll('.tab-link').forEach(link => {
