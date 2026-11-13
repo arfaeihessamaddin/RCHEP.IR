@@ -1,0 +1,77 @@
+name: site inspector
+
+# بازرس خودکار بیرونی: پس از هر انتشار به rchep.ir سایت را از بیرون می‌سنجد.
+# در حالت سالم هیچ اعلانی ساخته نمی‌شود؛ فقط در صورت ایراد، مسأله (issue) باز/به‌روز می‌شود
+# و کار شکست می‌خورد تا در فهرست Actions هم سرخ دیده شود.
+
+on:
+  workflow_run:
+    workflows: ["auto email sync"]
+    types: [completed]
+  schedule:
+    - cron: '17 6 * * *'        # هر روز ساعت ۶:۱۷ UTC ≈ ۹:۴۷ تهران
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: site-inspector
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: مهلت به گیت‌هاب پیجز برای انتشار
+        run: sleep 60
+
+      - name: بازرسی زندهٔ سایت
+        id: inspect
+        continue-on-error: true
+        run: |
+          python3 scripts/site_inspector.py \
+            --base https://rchep.ir \
+            --attempts 6 \
+            --report inspector-report.txt
+
+      - name: نگه‌داشتن گزارش
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inspector-report
+          path: inspector-report.txt
+          if-no-files-found: ignore
+
+      - name: هشدار — باز کردن یا به‌روزرسانی مسأله
+        if: steps.inspect.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="بازرس خودکار: ایراد در rchep.ir"
+          {
+            echo "بازرسی بیرونی در $(TZ=Asia/Tehran date '+%Y-%m-%d %H:%M') به وقت تهران ایراد یافت."
+            echo
+            echo '```'
+            tail -c 4000 inspector-report.txt 2>/dev/null || echo '(گزارش نوشته نشد)'
+            echo '```'
+            echo
+            echo "اجرا: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > body.md
+          NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$NUM" ] && [ "$NUM" != "null" ]; then
+            gh issue comment "$NUM" --body-file body.md
+          else
+            gh issue create --title "$TITLE" --body-file body.md
+          fi
+
+      - name: شکست کار تا ایراد دیده شود
+        if: steps.inspect.outcome == 'failure'
+        run: exit 1
