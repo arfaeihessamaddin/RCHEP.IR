@@ -1713,6 +1713,32 @@ body[dir="ltr"] .cal-tooltip {
   border-top: 1px solid var(--border-color);
 }
 
+/* JS-free fallback preview (خرامش بیجاوااسکریپت):
+   renders from the button's own --poster variable, so the preview still appears on a
+   slow connection where main.js has not executed yet. Disabled once JS is live. */
+.poster-btn[style*="--poster"]:hover::after {
+  content: '';
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  width: min(300px, 34vw);
+  aspect-ratio: 27 / 35;
+  background-color: var(--bg-surface);
+  background-image: var(--poster);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
+  z-index: 99998;
+  pointer-events: none;
+}
+
+html.js-posters .poster-btn:hover::after {
+  content: none;
+}
+
 /* Fullscreen Lightbox Modal (زنش) */
 .poster-modal {
   position: fixed;

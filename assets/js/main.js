@@ -1,6 +1,12 @@
 // RCHEP Main Interactive Scripts (High-Performance & Instant Navigation)
 
-document.addEventListener('DOMContentLoaded', () => {
+// Boot immediately when the DOM is already parsed. On slow links main.js can arrive
+// after DOMContentLoaded has fired; without this guard every listener below (theme,
+// menu, poster hover preview, lightbox) would silently never attach.
+function bootRchep() {
+  if (document.documentElement.dataset.rchepBooted === '1') return;
+  document.documentElement.dataset.rchepBooted = '1';
+
   // 1. Theme Toggle
   const themeToggle = document.getElementById('theme-toggle');
   let currentTheme = 'dark';
@@ -278,12 +284,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderMathTypography();
   initPosterInteractions();
-  if (window.lucide) {
-    try {
-      window.lucide.createIcons();
-    } catch(e) {}
+  applyLucideIcons();
+}
+
+// Execute as soon as possible: with defer the document may still be parsing, and on a
+// slow link the script can arrive after DOMContentLoaded has already fired.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootRchep);
+} else {
+  bootRchep();
+}
+
+// Icons are decorative: the 450 KB lucide bundle must never delay interactivity.
+function applyLucideIcons() {
+  const ready = () => window.lucide && typeof window.lucide.createIcons === 'function';
+  if (ready()) {
+    try { window.lucide.createIcons(); } catch (e) {}
+    return;
   }
-});
+  let tries = 0;
+  const timer = setInterval(() => {
+    tries += 1;
+    if (ready()) {
+      clearInterval(timer);
+      try { window.lucide.createIcons(); } catch (e) {}
+    } else if (tries > 60) {
+      clearInterval(timer);
+    }
+  }, 500);
+}
 
 // 7. Interactive Poster Hover Preview & Lightbox Modal (خرامش و زنش پوستر)
 function initPosterInteractions() {
@@ -294,6 +323,8 @@ function initPosterInteractions() {
     <div class="preview-hint" data-fa="برای بزرگ‌نمایی کلیک کنید" data-en="Click to enlarge">برای بزرگ‌نمایی کلیک کنید</div>
   `;
   document.body.appendChild(previewEl);
+  // Signals the CSS-only fallback preview (style.css) that the JS preview is live.
+  document.documentElement.classList.add('js-posters');
   const previewImg = previewEl.querySelector('img');
 
   const modalEl = document.createElement('div');

@@ -94,6 +94,7 @@ jobs:
           python3 scripts/send_guard_e2e_test.py
           python3 scripts/poster_guard_selftest.py
           python3 scripts/poster_preview_selftest.py
+          python3 scripts/load_order_selftest.py
 
       - name: Run Email Fetcher and Newsletter Processor
         if: ${{ inputs.welcome_once != '1' }}
