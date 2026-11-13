@@ -37,11 +37,37 @@ def preview_path(src):
     return f'{base}-preview.jpg'
 
 
+def expected_preload(html):
+    """The preview a page should preload: the upcoming seminar's first poster,
+    else the first poster the page references."""
+    upcoming = re.search(r'id="hep-upcoming"(.*?)(?:</section>|$)', html, re.S)
+    scope = upcoming.group(1) if upcoming else html
+    match = PATTERN.search(scope) or PATTERN.search(html)
+    if not match:
+        return None
+    return preview_path(match.group(1))
+
+
 def main():
     problems = []
     refs = referenced_posters()
     if not refs:
-        problems.append('!! هیچ پوستری در صفحات ارجاع نشده است (انتظار می‌رفت حداقل یکی باشد)')
+        problems.append('!! هیچ پوستری در صفحات ارجاع نشده است (انتظار میرفت حداقل یکی باشد)')
+
+    for page in HTML:
+        with open(os.path.join(ROOT, page), encoding='utf-8') as fh:
+            html = fh.read()
+        want = expected_preload(html)
+        if not want:
+            continue
+        href = f'/{want}'
+        if f'<link rel="preload" as="image" href="{href}">' not in html:
+            problems.append(f'!! {page} پیشنمایش پوستر را از پیش بارگذاری نمیکند '
+                            f'(باید باشد: <link rel="preload" as="image" href="{href}">) — '
+                            'روی پیوند کند خرامش بدون این، دیر یا هرگز ظاهر میشود')
+            continue
+        if not os.path.isfile(os.path.join(ROOT, want)):
+            problems.append(f'!! پیشنمایش preloadشده وجود ندارد: {want}')
 
     for page, src in refs:
         src_abs = os.path.join(ROOT, src)
