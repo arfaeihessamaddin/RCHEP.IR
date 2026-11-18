@@ -896,6 +896,15 @@ img {
   box-shadow: 0 0 6px #c084fc;
 }
 
+.cal-day-cell.today {
+  border-color: rgba(16, 185, 129, 0.55);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.cal-day-cell.today .cal-shamsi-date {
+  color: #10b981;
+}
+
 .cal-day-cell.weekend {
   opacity: 0.65;
 }
