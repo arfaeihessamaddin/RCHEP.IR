@@ -95,3 +95,30 @@ jobs:
       - name: شکست کار تا ایراد دیده شود
         if: steps.inspect.outcome == 'failure' || steps.interactions.outcome == 'failure'
         run: exit 1
+
+      # بستن خودکار مسأله: به‌محض سبز شدن بازرسی، مسألهٔ بازِ بازرس خودش بسته
+      # می‌شود تا هیچ مسألهٔ کهنه‌ای نماند و کسی مجبور نباشد دستی پیگیری کند.
+      - name: مسألهٔ رفع‌شده خودکار بسته می‌شود
+        if: steps.inspect.outcome == 'success' && steps.interactions.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: 'بازرس خودکار: ایراد در rchep.ir'
+        run: |
+          NUM=$(gh issue list --state open --limit 100 --json number,title \
+                  --jq '.[] | select(.title == env.TITLE) | .number' | head -1)
+          if [ -z "$NUM" ]; then
+            echo 'مسألهٔ بازی از سوی بازرس نیست؛ کاری لازم نیست.'
+            exit 0
+          fi
+          {
+            echo "بازرسی بیرونی در $(TZ=Asia/Tehran date '+%Y-%m-%d %H:%M') به وقت تهران بی‌ایراد گذشت؛ مسأله خودکار بسته می‌شود."
+            echo
+            echo '```'
+            tail -c 1500 inspector-report.txt 2>/dev/null || echo '(گزارش نوشته نشد)'
+            echo '```'
+            echo
+            echo "اجرا: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          } > closed.md
+          gh issue comment "$NUM" --body-file closed.md
+          gh issue close "$NUM"
+          echo "مسألهٔ #$NUM بسته شد."

@@ -444,6 +444,55 @@ def pdf_first_page_image(payload, max_side=PDF_RENDER_MAX_SIDE):
     return rendered if image_dimensions(rendered) else None
 
 
+def _jpeg_via_pillow(payload):
+    """تبدیل به JPEG با Pillow (در CI نصب است)؛ None اگر نشد."""
+    try:
+        from PIL import Image  # noqa: WPS433 (اختیاری)
+    except ImportError:
+        return None
+    import io
+    try:
+        with Image.open(io.BytesIO(payload)) as img:
+            rgb = img.convert("RGB")
+            output = io.BytesIO()
+            rgb.save(output, "JPEG", quality=90, optimize=True)
+        return output.getvalue()
+    except Exception:
+        return None
+
+
+def _jpeg_via_sips(payload):
+    """تبدیل به JPEG با sips (مک)؛ None اگر نشد."""
+    if not shutil.which("sips"):
+        return None
+    with tempfile.TemporaryDirectory() as workdir:
+        source = os.path.join(workdir, "poster")
+        target = os.path.join(workdir, "poster.jpg")
+        with open(source, "wb") as handle:
+            handle.write(payload)
+        subprocess.run(
+            ["sips", "-s", "format", "jpeg", "-s", "formatOptions", "90",
+             source, "--out", target],
+            check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if not os.path.exists(target):
+            return None
+        with open(target, "rb") as handle:
+            converted = handle.read()
+    return converted if image_dimensions(converted) else None
+
+
+def to_jpeg(payload):
+    """هر تصویر را به JPEG برمی‌گرداند (None اگر ابزاری نبود).
+
+    همهٔ پوسترهای سایت باید JPEG باشند تا مرورگرها بی‌درنگ نشانشان دهند و
+    حجم صفحه سبک بماند. اگر نشد، پوستر با قالب اصلی خودش ذخیره می‌شود تا
+    از دست نرود و «Review required» در گزارش می‌آید.
+    """
+    if payload[:2] == b"\xff\xd8":     # از پیش JPEG است
+        return payload
+    return _jpeg_via_pillow(payload) or _jpeg_via_sips(payload)
+
+
 def save_posters(message, day, month):
     saved = {}
     for part in message.walk():
@@ -462,6 +511,16 @@ def save_posters(message, day, month):
             print(f"PDF poster rendered to image: {filename} ({len(rendered)} bytes)")
             payload = rendered
             extension = ".jpg"
+        if extension in IMAGE_EXTENSIONS and extension not in (".jpg", ".jpeg"):
+            # تضمین JPEG: پوسترهای PNG/WebP همیشه به JPEG تبدیل می‌شوند.
+            converted = to_jpeg(payload)
+            if converted:
+                payload = converted
+                extension = ".jpg"
+                print(f"Poster converted to JPEG: {filename} ({len(payload)} bytes)")
+            else:
+                print(f"Review required: {filename} could not be converted to JPEG "
+                      f"on this machine; saved in its original format.")
         if not is_poster_like(filename, payload):
             reason = "center/university logo" if is_brand_asset(payload) else "logo/banner-like"
             print(f"Skipped non-poster attachment ({reason}): {filename}")

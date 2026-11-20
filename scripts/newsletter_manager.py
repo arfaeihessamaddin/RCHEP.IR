@@ -495,7 +495,25 @@ def mask_email(address):
     return f"{(local[:1] if len(local) > 1 else '')}***@{domain}"
 
 
-def build_notice_html(kind, details, inline_poster=False):
+# متن یادداشت/عذرخواهی برای بازفرست عمدی (اصلاح پوستر یا تأخیر).
+APOLOGY_NOTE_FA = (
+    "با پوزش از شما: "
+    "پیام پیشین این رویداد با پوستر نادرست "
+    "یا بدون پوستر فرستاده شده بود؛ "
+    "این نسخه با پوستر درست ارسال می‌شود. "
+    "دوباره‌فرست دیگری در کار نخواهد بود."
+)
+
+
+def notice_note(default=None):
+    """متن یادداشت بالای اطلاعیه: از RCHEP_NOTICE_NOTE، یا عذرخواهی استاندارد."""
+    text = (os.environ.get("RCHEP_NOTICE_NOTE") or "").strip()
+    if text:
+        return text
+    return default
+
+
+def build_notice_html(kind, details, inline_poster=False, note=None):
     """\u0642\u0627\u0644\u0628 \u0622\u0631\u0627\u0633\u062a\u0647\u060c \u0631\u0627\u0633\u062a\u200c\u0686\u06cc\u0646 \u0648 \u0628\u06cc\u200c\u062d\u0627\u0634\u06cc\u0647\u0654 \u0627\u0637\u0644\u0627\u0639\u06cc\u0647 (\u0633\u0645\u06cc\u0646\u0627\u0631 \u06cc\u0627 \u0646\u0634\u0633\u062a)."""
     title = clean_field(details.get("title", ""))
     speaker = clean_field(details.get("speaker", ""))
@@ -531,6 +549,13 @@ def build_notice_html(kind, details, inline_poster=False):
         for label, value in rows
     )
 
+    note_text = clean_field(note or "") if note else ""
+    note_html = (
+        '<div style="background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; '
+        'border-radius: 10px; padding: 10px 14px; margin: 14px 0 0; font-size: 0.9rem; '
+        'line-height: 1.8;">' + note_text + "</div>"
+    ) if note_text else ""
+
     poster_html = ""
     if inline_poster:
         poster_html = (
@@ -546,6 +571,7 @@ def build_notice_html(kind, details, inline_poster=False):
       </div>
       <span style="display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; padding: 3px 12px; border-radius: 999px; margin-bottom: 12px;">{pill}</span>
       <h3 style="color: #0f172a; margin: 6px 0 0; font-size: 1.15rem; line-height: 1.7;">{title}</h3>
+      {note_html}
       <table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95rem;">{rows_html}</table>
       {poster_html}
       <div style="text-align: center; margin: 24px 0 6px;">
@@ -559,7 +585,7 @@ def build_notice_html(kind, details, inline_poster=False):
     """
 
 
-def broadcast_notice(kind, details, poster_name=None, recipients=None, notice_key=None, force=False):
+def broadcast_notice(kind, details, poster_name=None, recipients=None, notice_key=None, force=False, note=None):
     """\u06cc\u06a9 \u0627\u0637\u0644\u0627\u0639\u06cc\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0647\u0645\u0647\u0654 \u0645\u0634\u062a\u0631\u06a9\u0627\u0646 \u062a\u0623\u06cc\u06cc\u062f\u0634\u062f\u0647 \u0645\u06cc\u200c\u0641\u0631\u0633\u062a\u062f. \u0628\u0627\u0632\u06af\u0634\u062a: \u0634\u0645\u0627\u0631 \u06af\u06cc\u0631\u0646\u062f\u06af\u0627\u0646."""
     details = dict(details or {})
     for field in ("title", "speaker", "affiliation", "time", "month", "location"):
@@ -575,7 +601,10 @@ def broadcast_notice(kind, details, poster_name=None, recipients=None, notice_ke
 
     poster_path = resolve_poster_path(poster_name or details.get("poster"))
     inline_images = [(NOTICE_POSTER_CID, poster_path)] if poster_path else []
-    html_content = build_notice_html(kind, details, inline_poster=bool(poster_path))
+    if note is None:
+        # بازفرست عمدی همیشه با یادداشت/عذرخواهی همراه است.
+        note = notice_note(APOLOGY_NOTE_FA if force else None)
+    html_content = build_notice_html(kind, details, inline_poster=bool(poster_path), note=note)
 
     if recipients is None:
         subscribers = load_json(SUBSCRIBERS_FILE, {"list": []})
@@ -703,7 +732,8 @@ def broadcast_seminar(seminar_details, poster_filename=None):
         return False
 
     sent = broadcast_notice("seminar", seminar_details, poster_name=poster_filename,
-                            recipients=confirmed_emails, notice_key=seminar_id, force=force_resend)
+                            recipients=confirmed_emails, notice_key=seminar_id, force=force_resend,
+                            note=APOLOGY_NOTE_FA if force_resend else None)
     if not sent:
         return False
 
@@ -724,17 +754,30 @@ def send_queued_notices():
 
     sent_any = False
     dry_run = os.environ.get("RCHEP_DRY_RUN") == "1"
+    resend_dates = {d.strip() for d in os.environ.get("RCHEP_RESEND_DATES", "").split(",") if d.strip()}
     for notice in notices:
-        if notice.get("sent_at"):
-            print(f"Notice already sent at {notice['sent_at']}; skipping: {notice.get('key') or ''}")
+        queued_details = notice.get("details", {}) or {}
+        queued_date = "_".join(
+            str(queued_details.get(part, "") or "").strip() for part in ("year", "month", "day")
+        ).strip("_")
+        notice_label = notice.get("key") or ""
+        force_this = bool(resend_dates) and (
+            (queued_date and queued_date in resend_dates)
+            or any(d in notice_label for d in resend_dates)
+        )
+        if notice.get("sent_at") and not force_this:
+            print(f"Notice already sent at {notice['sent_at']}; skipping: {notice_label}")
             continue
+        if force_this and notice.get("sent_at"):
+            print(f"Resend requested for {notice_label}; previous send marker is ignored.")
         details = notice.get("details", {})
         kinds = notice.get("kind") or "meeting"
         label = notice.get("key") or details.get("title", "")
         print(f"Queued notice: {label}")
         if dry_run:
             count = broadcast_notice(kinds, details, poster_name=notice.get("poster"),
-                                     notice_key=notice.get("key") or label)
+                                     notice_key=notice.get("key") or label,
+                                     force=force_this, note=APOLOGY_NOTE_FA if force_this else None)
             if count:
                 print(f"[dry-run] notice stays queued, not marked as sent: {label}")
             continue
@@ -743,7 +786,8 @@ def send_queued_notices():
         notice["sent_at"] = datetime.now(timezone.utc).isoformat()
         save_json(NOTICE_QUEUE_FILE, queue)
         count = broadcast_notice(kinds, details, poster_name=notice.get("poster"),
-                                 notice_key=notice.get("key") or label)
+                                 notice_key=notice.get("key") or label,
+                                 force=force_this, note=APOLOGY_NOTE_FA if force_this else None)
         if count:
             notice["recipients"] = count
             sent_any = True
