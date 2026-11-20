@@ -83,8 +83,24 @@ jobs:
         with:
           python-version: '3.11'
 
-      # آزمون‌های گاردریل پیش از هر ارسال، بدون هیچ تماس شبکه‌ای. اگر گاردریل‌ها
-      # خراب باشند اجرا همین‌جا می‌ایستد و هیچ نامه‌ای نمی‌رود.
+      # ابزارهای رسانه: poppler برای تبدیل پوسترهای PDF به تصویر (پوستر سمینار
+      # معمولاً PDF میرسد) و Pillow برای ساخت پیشنمایش سبک پوسترها. نبودشان
+      # اجرای روزانه را نمیایستاند؛ در آن حالت پیوست PDF با پیام
+      # «Review required» رها میشود تا دستی بررسی شود.
+      - name: Install media tools (PDF posters + light previews)
+        run: |
+          python -m pip install --quiet --disable-pip-version-check Pillow || true
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils || true
+
+      # پیشنمایش سبک پوسترها پیش از نگهبانها تازه میشود. اگر این گام بعد از
+      # نگهبانها بیاید، پوستر تازهای که در اجرای پیشین افزوده شده نگهبانِ
+      # پیشنمایش را میاندازد و اجرای بعدی پیش از هر کاری میایستد (چرخهٔ باطل).
+      # این گام پوستر اصلی را دست نمیزند و برای پیشنمایشهای تازه کاری نمیکند.
+      - name: Refresh poster previews (before guardrails)
+        run: python3 scripts/make_poster_previews.py
+
+      # آزمونهای گاردریل پیش از هر ارسال، بدون هیچ تماس شبکهای. اگر گاردریلها
+      # خراب باشند اجرا همینجا میایستد و هیچ نامهای نمیرود.
       #   ۱. آزمون واحد ماژول گاردریل (یکسان‌سازی هویت، ادعا/آزادسازی، سقف، حریم خصوصی)
       #   ۲. آزمون سرتاسری روی کد واقعی: یک ایمیل خوش‌آمد در هفت پیمایش پیاپی،
       #      بازفرست اطلاعیه مسدود، شکست SMTP جبران، یک‌رونوشت‌سازی پیش از ارسال
@@ -114,6 +130,9 @@ jobs:
           chmod +x scripts/email_fetcher.py scripts/newsletter_manager.py scripts/sync_sharif_cloud.py
           python scripts/newsletter_manager.py process
           python scripts/email_fetcher.py
+          # پس از افزودن پوستر تازه، نسخهٔ سبکش ساخته میشود تا نگهبان پیشنمایش
+          # در اجرای بعدی نیفتد و خرامش پوستر کند نشود.
+          python3 scripts/make_poster_previews.py
           python scripts/newsletter_manager.py send-notices
           python scripts/sync_sharif_cloud.py
 

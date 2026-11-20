@@ -3,8 +3,8 @@
 
 هر پوستری که در صفحه‌ای با `data-poster="..."` ارجاع شده باشد باید
 ۱) خودش روی دیسک باشد،
-۲) نسخهٔ سبک `*-preview.jpg` داشته باشد (وگرنه خرامش پوستر سنگین و کند می‌شود)،
-۳) نسخهٔ سبک کوچک‌تر از اصل باشد.
+۲) نسخهٔ سبک `*-preview.jpg` داشته باشد (وگرنه خرامش پوستر سنگین و کند میشود)،
+۳) اگر اصل از سقف پیشنمایش سنگینتر است، نسخهٔ سبک کوچکتر از اصل باشد.
 همچنین مطمئن می‌شود `assets/js/main.js` مسیر پیش‌نمایش را می‌سازد.
 
 بازگشت ۰ یعنی سالم. هر پیام `!!` یک ایراد است.
@@ -80,14 +80,18 @@ def main():
             problems.append(f'!! پیش‌نمایش سبک ساخته نشده: {prev} '
                             '(اجرا کنید: python3 scripts/make_poster_previews.py)')
             continue
-        if os.path.getsize(prev_abs) >= os.path.getsize(src_abs):
-            problems.append(f'!! پیشنمایش سبکتر از اصل نیست: {prev}')
-        elif os.path.getsize(prev_abs) > MAX_PREVIEW_BYTES:
-            kb = os.path.getsize(prev_abs) / 1024
-            problems.append(f'!! پیشنمایش سنگین است ({kb:.0f} KB > {MAX_PREVIEW_BYTES // 1024} KB): {prev} '
-                            '— روی پیوند کند، خرامش دیر ظاهر میشود')
-        if os.path.getsize(prev_abs) * MIN_SHRINK > os.path.getsize(src_abs):
-            problems.append(f'!! پیشنمایش بهقدر کافی سبک نشده: {prev}')
+        # سبکسازی فقط وقتی معنا دارد که اصل از سقف پیشنمایش سنگینتر باشد؛
+        # پوستر کوچک (مثلاً نشان ۴۵ کیلوبایتی) خودش سبک است و «سبکتر نبودن»
+        # پیشنمایشش ایراد نیست — وگرنه هر پوستر کوچکی اجرای روزانه را میایستاند.
+        if os.path.getsize(src_abs) > MAX_PREVIEW_BYTES:
+            if os.path.getsize(prev_abs) >= os.path.getsize(src_abs):
+                problems.append(f'!! پیشنمایش سبکتر از اصل نیست: {prev}')
+            elif os.path.getsize(prev_abs) > MAX_PREVIEW_BYTES:
+                kb = os.path.getsize(prev_abs) / 1024
+                problems.append(f'!! پیشنمایش سنگین است ({kb:.0f} KB > {MAX_PREVIEW_BYTES // 1024} KB): {prev} '
+                                '— روی پیوند کند، خرامش دیر ظاهر میشود')
+            if os.path.getsize(prev_abs) * MIN_SHRINK > os.path.getsize(src_abs):
+                problems.append(f'!! پیشنمایش بهقدر کافی سبک نشده: {prev}')
 
     with open(os.path.join(ROOT, 'assets', 'js', 'main.js'), encoding='utf-8') as fh:
         js = fh.read()

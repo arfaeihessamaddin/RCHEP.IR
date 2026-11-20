@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fetch approved RCHEP seminar announcements and update their event cards."""
 
+import glob
 import os
 import re
 import html
@@ -8,6 +9,9 @@ import email
 import email.utils
 import imaplib
 import hashlib
+import shutil
+import subprocess
+import tempfile
 from email.header import decode_header
 from datetime import datetime, timezone
 
@@ -18,6 +22,8 @@ os.makedirs(EVENTS_IMG_DIR, exist_ok=True)
 
 APPROVED_SENDERS = ("niloofarvardian@gmail.com", "pouya.si74@gmail.com")
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
+PDF_EXTENSIONS = (".pdf",)             # پوستر سمینار معمولاً PDF میرسد
+PDF_RENDER_MAX_SIDE = 2200             # درازترین ضلع تصویرِ ساختهشده از PDF
 PERSIAN_MONTHS = "فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند"
 
 
@@ -349,32 +355,116 @@ def image_dimensions(payload):
     return None
 
 
+# داراییهای نشان/آرم خودِ مرکز و دانشگاه: اگر بایتهای یک پیوست با آنها یکی باشد،
+# آن پیوست «نشان» است — هر نام و هر ابعادی که داشته باشد. نشان مرکز ۱۰۸۰×۶۷۵ است و
+# با آستانههای هندسی بهراحتی از گاردریل رد میشد.
+BRAND_ASSET_PATHS = (
+    os.path.join(REPO_ROOT, "assets", "images", "rchep-logo.jpg"),
+    os.path.join(REPO_ROOT, "assets", "images", "rchep-logo.png"),
+    os.path.join(REPO_ROOT, "assets", "images", "sharif-logo.png"),
+)
+MIN_POSTER_SIDE = 1000          # پوستر خوانا از این کوچکتر نیست (آرم ۱۰۸۰×۶۷۵ رد میشود)
+MIN_LANDSCAPE_LONG_SIDE = 1400  # تصویر افقی کوچکتر از این، سرصفحه/نشان است نه پوستر
+
+_BRAND_DIGESTS = None
+
+
+def brand_digests():
+    """چکیدههای SHA-1 داراییهای نشان مرکز/دانشگاه (یکبار خوانده و نگه داشته میشود)."""
+    global _BRAND_DIGESTS
+    if _BRAND_DIGESTS is None:
+        digests = set()
+        for path in BRAND_ASSET_PATHS:
+            try:
+                with open(path, "rb") as asset:
+                    digests.add(hashlib.sha1(asset.read()).digest())
+            except OSError:
+                continue
+        _BRAND_DIGESTS = digests
+    return _BRAND_DIGESTS
+
+
+def is_brand_asset(payload):
+    """آیا این تصویر همان نشان شناختهشدهٔ مرکز یا دانشگاه است؟"""
+    try:
+        return hashlib.sha1(payload).digest() in brand_digests()
+    except Exception:
+        return False
+
+
 def is_poster_like(filename, payload):
-    """آرم، نشان و امضای داخل ایمیل هرگز به‌جای پوستر ذخیره نشوند."""
+    """آرم، نشان و امضای داخل ایمیل هرگز بهجای پوستر ذخیره نشوند."""
     if LOGO_HINTS.search(filename or ""):
+        return False
+    if is_brand_asset(payload):      # نشان خودِ مرکز/دانشگاه، هر نامی که داشته باشد
         return False
     dims = image_dimensions(payload)
     if not dims:
         return True
     width, height = dims
-    if max(width, height) < 700:                            # آرم‌ها کوچک‌اند و پوستر خوانا نیستند
+    if max(width, height) < MIN_POSTER_SIDE:                            # آرمها کوچکاند
         return False
-    if width >= height and width / max(height, 1) > 1.9:     # نوار سرصفحه یا بنر
+    if width > height and max(width, height) < MIN_LANDSCAPE_LONG_SIDE:  # نشان/سرصفحهٔ افقی
+        return False
+    if width >= height and width / max(height, 1) > 1.9:                # نوار بنر پهن
         return False
     return True
+
+
+def pdf_first_page_image(payload, max_side=PDF_RENDER_MAX_SIDE):
+    """نخستین صفحهٔ پوستر PDF را به JPEG برمیگرداند (None اگر ابزاری نبود).
+
+    پوسترهای سمینار معمولاً PDF میرسند. تا پیش از این وصله، پیوست PDF یکسره
+    نادیده گرفته میشد و اگر آرم مرکز هم در پیکرهٔ ایمیل بود، همان بهجای پوستر
+    ذخیره و ارسال میشد. ترتیب ابزارها: pdftoppm (لینوکس/CI) → sips (مک).
+    """
+    with tempfile.TemporaryDirectory() as workdir:
+        source = os.path.join(workdir, "poster.pdf")
+        with open(source, "wb") as handle:
+            handle.write(payload)
+        stem = os.path.join(workdir, "page")
+        if shutil.which("pdftoppm"):
+            subprocess.run(
+                ["pdftoppm", "-f", "1", "-l", "1", "-jpeg", "-jpegopt", "quality=88",
+                 "-scale-to", str(max_side), source, stem],
+                check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        elif shutil.which("sips"):
+            subprocess.run(
+                ["sips", "-s", "format", "jpeg", "-Z", str(max_side), source,
+                 "--out", stem + ".jpg"],
+                check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            print("Review required: no PDF renderer (pdftoppm/sips) on this machine.")
+            return None
+        rendered_files = sorted(glob.glob(stem + "*.jpg") + glob.glob(stem + "*.jpeg"))
+        if not rendered_files:
+            return None
+        with open(rendered_files[0], "rb") as handle:
+            rendered = handle.read()
+    return rendered if image_dimensions(rendered) else None
 
 
 def save_posters(message, day, month):
     saved = {}
     for part in message.walk():
         filename = decode_mime(part.get_filename())
-        if not filename or not filename.lower().endswith(IMAGE_EXTENSIONS):
+        if not filename or not filename.lower().endswith(IMAGE_EXTENSIONS + PDF_EXTENSIONS):
             continue
         payload = part.get_payload(decode=True)
         if not payload:
             continue
+        extension = os.path.splitext(filename)[1].lower()
+        if extension in PDF_EXTENSIONS:
+            rendered = pdf_first_page_image(payload)
+            if not rendered:
+                print(f"Review required: PDF poster could not be rendered: {filename}")
+                continue
+            print(f"PDF poster rendered to image: {filename} ({len(rendered)} bytes)")
+            payload = rendered
+            extension = ".jpg"
         if not is_poster_like(filename, payload):
-            print(f"Skipped non-poster attachment (logo/banner-like): {filename}")
+            reason = "center/university logo" if is_brand_asset(payload) else "logo/banner-like"
+            print(f"Skipped non-poster attachment ({reason}): {filename}")
             continue
 
         lower_name = normalize_text(filename).lower()
@@ -386,8 +476,7 @@ def save_posters(message, day, month):
             # Do not guess a language when the attachment name gives no clue.
             language = "unclassified"
 
-        extension = os.path.splitext(filename)[1].lower()
-        if extension not in IMAGE_EXTENSIONS:
+        if extension not in IMAGE_EXTENSIONS:   # پوستر PDF بالاتر به .jpg تبدیل شده است
             continue
         month_slug = {"فروردین": "farvardin", "اردیبهشت": "ordibehesht", "خرداد": "khordad", "تیر": "tir", "مرداد": "mordad", "شهریور": "shahrivar", "مهر": "mehr", "آبان": "aban", "آذر": "azar", "دی": "dey", "بهمن": "bahman", "اسفند": "esfand"}.get(month, safe_filename(month))
         stem = f"{day}-{month_slug}-{language}"
@@ -472,18 +561,34 @@ def update_seminar_in_site(details, posters):
             continue
         href = "assets/images/events/" + filename
         fa_label, en_label = labels[language]
-        # دکمهٔ تعاملی پوستر: خرامش ← پیش‌نمایش شناور، زنش ← مودال بزرگ‌نمایی
+        # پیشنمایش سبک پوستر: نگهبان بارگذاری (load_order_selftest) برای هر دکمهٔ
+        # پوستر یک fallback ریشهنسبی `--poster:url(...)` میخواهد و نگهبان
+        # پیشنمایش وجود فایل `*-preview.jpg` را؛ بدون این، کارتِ تازهساختهٔ همان
+        # اجرا، اجرای بعدی را پیش از هر کاری میایستاند.
+        preview_href = "/" + os.path.splitext(href)[0] + "-preview.jpg"
+        # دکمهٔ تعاملی پوستر: خرامش ← پیشنمایش شناور، زنش ← مودال بزرگنمایی
         poster_links.append(
             f'<button class="poster-btn" data-poster="{href}" data-title="{modal_title}" '
-            f'data-fa="🖼️ {fa_label}" data-en="🖼️ {en_label}">'
+            f'data-fa="🖼️ {fa_label}" data-en="🖼️ {en_label}" '
+            f'style="--poster:url(\'{preview_href}\')">'
             f'<i data-lucide="image"></i>'
             f'<span data-fa="{fa_label}" data-en="{en_label}">{fa_label}</span></button>'
         )
 
     # If event already has interactive poster-btn elements, do not insert duplicate plain links
-    if 'class="poster-btn"' in block:
+    if 'class="poster-btn"' in block and poster_links:
         print("Interactive poster buttons already present, skipping duplicate links.")
         return False
+
+    # پوسترِ برداشتهشده باید از کارت هم زدوده شود: اگر پوستری در دست نیست،
+    # دکمهٔ پوستر پیشین (مثلاً نشانی که بهاشتباه پوستر شمرده شده بود) پاک میشود.
+    if not poster_links and 'class="poster-btn"' in block:
+        cleaned = re.sub(r'\s*<div class="seminar-posters"[^>]*>.*?</div>', "", block, flags=re.S)
+        if cleaned == block:
+            print("Review required: stale poster buttons could not be removed from the event card.")
+            return False
+        print(f"Stale poster buttons removed from event card: {details['day']} {details['month']} {details['year']}")
+        block = cleaned
 
     # Replace the poster links on repeat runs instead of duplicating them.
     block = re.sub(r'\s*<div class="seminar-posters"[^>]*>.*?</div>', "", block, flags=re.S)
