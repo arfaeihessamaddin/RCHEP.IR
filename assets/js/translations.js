@@ -502,7 +502,7 @@ window.RCHEP_TRANSLATIONS = {
   "فیزیک ذرات تجربی، تحلیل داده‌های برخورددهنده و آشکارساز CMS سرن": "Experimental particle physics, collider data analysis, and CERN CMS detector",
   "نظریه میدان‌های کوانتومی، تقارن‌های هولوگرافی و نظریه ریسمان": "Quantum field theory, holographic dualities, and string theory",
   "کیهان‌شناسی کیهان اولیه، ماده و انرژی تاریک و اخترفیزیک ذرات": "Early universe cosmology, dark matter, dark energy, and astroparticle physics",
-  "داوطلبان می‌توانند رزومه علمی کامل (CV)، شرح علایق پژوهشی و اسامی دو معرف علمی خود را به رایانامه مرکز به نشانی rchep@sharif.ir ارسال فرمایند.": "Interested candidates should submit their curriculum vitae (CV), research statement, and two reference contacts to rchep@sharif.ir.",
+  "داوطلبان می‌توانند رزومه علمی کامل (CV)، شرح علایق پژوهشی و اسامی دو معرف علمی خود را به رایانامه مرکز به نشانی rchep@physics.sharif.edu ارسال فرمایند.": "Interested candidates should submit their curriculum vitae (CV), research statement, and two reference contacts to rchep@physics.sharif.edu.",
   "فیزیک انرژی بالا، نظریه میدان همدیس (CFT)، سیستم‌های پیچیده": "High Energy Physics, Conformal Field Theory (CFT), Complex Systems",
   "فیزیک انرژی بالا، نظریه ریسمان، فیزیک ذرات بنیادی": "High Energy Physics, String Theory, Elementary Particles",
   "کیهان‌شناسی، همگرایی گرانشی، سیارات فراخورشیدی، نجوم رصدی، زیست فرازمینی": "Cosmology, Gravitational Lensing, Exoplanets, Observational Astronomy, SETI",
