@@ -7,11 +7,11 @@ sent by dr. Siri) whose poster has to be embedded in the outgoing notice,
 and copy the image attachments of keyword-matched messages into
 assets/images/events/.
 
-Nothing is sent, no message is modified or marked read.  Only image
-attachments of keyword-matched messages are copied into the repository and
-a masked digest (data/inbox_probe.json) is written for the operator.  All
-e-mail addresses are masked so that a public workflow log / repository
-never carries personal contact data.
+Nothing is sent, no message is modified or marked read. Only image attachments
+from approved seminar senders are copied into the repository. A masked,
+metadata-only diagnostic digest is written to the runner temporary directory,
+never to the public repository. Message bodies and unrelated correspondence
+are excluded.
 """
 
 import email
@@ -32,7 +32,6 @@ os.makedirs(EVENTS_IMG_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
 
 SCAN_LIMIT = int(os.environ.get("RCHEP_PROBE_LIMIT", "40"))
-BODY_LIMIT = int(os.environ.get("RCHEP_PROBE_BODY_LIMIT", "1800"))
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".pdf")
 
 # \u06a9\u0644\u0645\u0627\u062a\u06cc \u06a9\u0647 \u0628\u0627\u06cc\u062f \u0628\u0631\u0627\u06cc \u062c\u0633\u062a\u200c\u0648\u062c\u0648 \u062f\u0631 \u0635\u0646\u062f\u0648\u0642 \u067e\u0633\u062a\u06cc \u0645\u0648\u0631\u062f \u062a\u0648\u062c\u0647 \u0642\u0631\u0627\u0631 \u0628\u06af\u06cc\u0631\u0646\u062f.
