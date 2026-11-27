@@ -7,11 +7,11 @@ sent by dr. Siri) whose poster has to be embedded in the outgoing notice,
 and copy the image attachments of keyword-matched messages into
 assets/images/events/.
 
-Nothing is sent, no message is modified or marked read.  Only image
-attachments of keyword-matched messages are copied into the repository and
-a masked digest (data/inbox_probe.json) is written for the operator.  All
-e-mail addresses are masked so that a public workflow log / repository
-never carries personal contact data.
+Nothing is sent, no message is modified or marked read. Only image attachments
+from approved seminar senders are copied into the repository. A masked,
+metadata-only diagnostic digest is written to the runner temporary directory,
+never to the public repository. Message bodies and unrelated correspondence
+are excluded.
 """
 
 import email
@@ -26,15 +26,17 @@ from email.header import decode_header
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(REPO_ROOT, "data")
 EVENTS_IMG_DIR = os.path.join(REPO_ROOT, "assets", "images", "events")
-DIGEST_FILE = os.path.join(DATA_DIR, "inbox_probe.json")
+RUNNER_TEMP = os.environ.get("RUNNER_TEMP", "/tmp")
+DIGEST_FILE = os.path.join(RUNNER_TEMP, "rchep-inbox-probe.json")
 os.makedirs(EVENTS_IMG_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
 
 SCAN_LIMIT = int(os.environ.get("RCHEP_PROBE_LIMIT", "40"))
-BODY_LIMIT = int(os.environ.get("RCHEP_PROBE_BODY_LIMIT", "1800"))
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".pdf")
 
 # \u06a9\u0644\u0645\u0627\u062a\u06cc \u06a9\u0647 \u0628\u0627\u06cc\u062f \u0628\u0631\u0627\u06cc \u062c\u0633\u062a\u200c\u0648\u062c\u0648 \u062f\u0631 \u0635\u0646\u062f\u0648\u0642 \u067e\u0633\u062a\u06cc \u0645\u0648\u0631\u062f \u062a\u0648\u062c\u0647 \u0642\u0631\u0627\u0631 \u0628\u06af\u06cc\u0631\u0646\u062f.
+APPROVED_SENDERS = {"niloofarvardian@gmail.com", "pouya.si74@gmail.com"}
+
 KEYWORDS = (
     "\u0647\u0648\u0634\u0648\u0627\u0631\u0647",   # ه و ش و ا ر ه
     "\u0646\u0634\u0633\u062a",                    # ن ش س ت
@@ -189,6 +191,13 @@ def digest_account(label, host, port, user, password):
             if status != "OK" or not data or not isinstance(data[0], tuple):
                 continue
             message = email.message_from_bytes(data[0][1])
+            sender_addresses = {
+                address.lower()
+                for _name, address in email.utils.getaddresses([message.get("From", "")])
+                if address
+            }
+            if not sender_addresses.intersection(APPROVED_SENDERS):
+                continue
             when = message_date(message)
             subject = decode_mime(message.get("Subject"))
             flat_subject = normalize_text(subject)
@@ -218,7 +227,6 @@ def digest_account(label, host, port, user, password):
                     if name:
                         saved.append(name)
                 entry["saved_files"] = saved
-                entry["body"] = mask_text(body)[:BODY_LIMIT]
             entries.append(entry)
     except Exception as ex:
         print(f"{label} probe failed: {ex}")
@@ -254,7 +262,7 @@ def main():
     with open(DIGEST_FILE, "w", encoding="utf-8") as output:
         json.dump(digest, output, ensure_ascii=False, indent=2)
     hits = sum(1 for item in digest["messages"] if item.get("keyword_hit"))
-    print(f"Probe digest written: {DIGEST_FILE} ({len(digest['messages'])} messages, {hits} keyword hit(s))")
+    print(f"Private probe digest written outside repository: {DIGEST_FILE} ({len(digest['messages'])} messages, {hits} keyword hit(s))")
     return True
 
 

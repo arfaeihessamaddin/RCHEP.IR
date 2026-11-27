@@ -1,7 +1,7 @@
 name: Daily Email Seminar Sync
 
 # ─────────────── دستور همیشگی (Standing instruction) ───────────────
-# در هر اجرا (هر روز یک‌بار، ساعت ۱۶:۰۰ به وقت تهران) اگر از برگزارکنندگان سمینار
+# در هر اجرا (روزانه ساعت ۱۱:۰۰ و ۲۳:۰۰ به وقت تهران) اگر از برگزارکنندگان سمینار
 # (نشانی‌های فهرست APPROVED_SENDERS در scripts/email_fetcher.py) ایمیل اعلام
 # سمینار رسیده باشد، این گام‌ها به‌ترتیب انجام می‌شود:
 #   ۱. نشانی گیرندگان آن ایمیل (To/Cc) بدون تکرار و با وضعیت «تأییدشده» به
@@ -34,9 +34,9 @@ name: Daily Email Seminar Sync
 
 on:
   schedule:
-    # Tehran time (UTC+3:30): once a day at 16:00
-    # GitHub Actions cron uses UTC: 12:30
-    - cron: '30 12 * * *'
+    # Tehran time (UTC+3:30): 11:00 and 23:00
+    # GitHub Actions cron uses UTC: 07:30 and 19:30
+    - cron: '30 7,19 * * *'
   workflow_dispatch:
     inputs:
       resend_dates:
