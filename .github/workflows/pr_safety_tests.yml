@@ -1,0 +1,36 @@
+name: PR Safety Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/**"
+      - "data/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-safety-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out proposed changes
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Python scripts
+        run: |
+          python3 -m py_compile scripts/mail_probe.py scripts/email_fetcher.py scripts/newsletter_manager.py
+          python3 -m py_compile scripts/send_guard.py scripts/send_guard_selftest.py scripts/send_guard_e2e_test.py
+          python3 -m py_compile scripts/poster_guard_selftest.py scripts/poster_preview_selftest.py scripts/load_order_selftest.py
+      - name: Run offline guardrail tests
+        run: |
+          python3 scripts/send_guard_selftest.py
+          python3 scripts/send_guard_e2e_test.py
+          python3 scripts/poster_guard_selftest.py
+          python3 scripts/poster_preview_selftest.py
+          python3 scripts/load_order_selftest.py
